@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SideMenu
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
@@ -15,11 +16,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
-        self.window = UIWindow(windowScene: windowScene)
+        window = UIWindow(windowScene: windowScene)
         
-        self.window?.rootViewController = UINavigationController(rootViewController: ViewController())
+        // SideMenu 초기 설정 호출
+        SideMenuSetup.setupSideMenu()
         
-        self.window?.makeKeyAndVisible()
+        let mainViewController = HomeViewController(viewModel: HomeViewModel())
+        let navigationController = UINavigationController(rootViewController: mainViewController)
+        
+        window?.rootViewController = navigationController
+        window?.makeKeyAndVisible()
     }
     
     func sceneDidDisconnect(_ scene: UIScene) {
