@@ -7,11 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9E4A572B2D9E98E700A538E3 /* MenuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4A572A2D9E98E700A538E3 /* MenuTableViewCell.swift */; };
+		9E4A572E2D9EA47300A538E3 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4A572D2D9EA47300A538E3 /* HomeViewModel.swift */; };
 		9E6F7D7B2D96D70B009F24FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9E6F7D722D96D70B009F24FC /* Assets.xcassets */; };
 		9E6F7D7D2D96D70B009F24FC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9E6F7D752D96D70B009F24FC /* LaunchScreen.storyboard */; };
 		9E6F7D7F2D96D70B009F24FC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E6F7D712D96D70B009F24FC /* AppDelegate.swift */; };
 		9E6F7D802D96D70B009F24FC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E6F7D782D96D70B009F24FC /* SceneDelegate.swift */; };
-		9E6F7D812D96D70B009F24FC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E6F7D792D96D70B009F24FC /* ViewController.swift */; };
+		9E6F7D812D96D70B009F24FC /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E6F7D792D96D70B009F24FC /* HomeViewController.swift */; };
 		9E6F7D852D96D7A6009F24FC /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E6F7D842D96D7A6009F24FC /* Config.swift */; };
 		9E6F7D872D96D7D0009F24FC /* Secret.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 9E6F7D862D96D7D0009F24FC /* Secret.xcconfig */; };
 		9E6F7D902D96D8CB009F24FC /* ConstantLiterals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E6F7D8D2D96D8CB009F24FC /* ConstantLiterals.swift */; };
@@ -43,6 +45,10 @@
 		9E6F7E212D97A04F009F24FC /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E6F7E202D97A04F009F24FC /* BaseViewController.swift */; };
 		9E6F7E222D97A04F009F24FC /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E6F7E1E2D97A04F009F24FC /* BaseTableViewCell.swift */; };
 		9E6F7E242D97A04F009F24FC /* BaseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E6F7E1D2D97A04F009F24FC /* BaseCollectionViewCell.swift */; };
+		9EBD54D92D9DEE62005F4B8A /* SideMenu in Frameworks */ = {isa = PBXBuildFile; productRef = 9EBD54D82D9DEE62005F4B8A /* SideMenu */; };
+		9EBD54FE2D9E769D005F4B8A /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EBD54FD2D9E769D005F4B8A /* MenuViewController.swift */; };
+		9EBD55022D9E7951005F4B8A /* MenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EBD55012D9E7951005F4B8A /* MenuViewModel.swift */; };
+		9EBD55042D9E7A5D005F4B8A /* UILabel+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EBD55032D9E7A5D005F4B8A /* UILabel+.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -60,13 +66,15 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		9E4A572A2D9E98E700A538E3 /* MenuTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTableViewCell.swift; sourceTree = "<group>"; };
+		9E4A572D2D9EA47300A538E3 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		9E6F7CEA2D96D258009F24FC /* SeongjiChelin-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SeongjiChelin-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E6F7D712D96D70B009F24FC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9E6F7D722D96D70B009F24FC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9E6F7D732D96D70B009F24FC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9E6F7D742D96D70B009F24FC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9E6F7D782D96D70B009F24FC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		9E6F7D792D96D70B009F24FC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		9E6F7D792D96D70B009F24FC /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		9E6F7D842D96D7A6009F24FC /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		9E6F7D862D96D7D0009F24FC /* Secret.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secret.xcconfig; sourceTree = "<group>"; };
 		9E6F7D8D2D96D8CB009F24FC /* ConstantLiterals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstantLiterals.swift; sourceTree = "<group>"; };
@@ -88,6 +96,9 @@
 		9E6F7E1D2D97A04F009F24FC /* BaseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewCell.swift; sourceTree = "<group>"; };
 		9E6F7E1E2D97A04F009F24FC /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
 		9E6F7E202D97A04F009F24FC /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		9EBD54FD2D9E769D005F4B8A /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
+		9EBD55012D9E7951005F4B8A /* MenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewModel.swift; sourceTree = "<group>"; };
+		9EBD55032D9E7A5D005F4B8A /* UILabel+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +114,7 @@
 				9E6F7DDD2D9780A5009F24FC /* RxCocoa in Frameworks */,
 				9E6F7DF02D97828F009F24FC /* RxDataSources in Frameworks */,
 				9E6F7DDA2D97808E009F24FC /* SnapKit in Frameworks */,
+				9EBD54D92D9DEE62005F4B8A /* SideMenu in Frameworks */,
 				9E6F7DE22D9780AD009F24FC /* Then in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -110,6 +122,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9E4A572C2D9EA18B00A538E3 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				9E4A572D2D9EA47300A538E3 /* HomeViewModel.swift */,
+				9E6F7D792D96D70B009F24FC /* HomeViewController.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
 		9E6F7CE12D96D258009F24FC = {
 			isa = PBXGroup;
 			children = (
@@ -167,6 +188,7 @@
 				9E6F7D942D96D9C1009F24FC /* UIImageView+.swift */,
 				9E6F7D952D96D9C1009F24FC /* UIStackView+.swift */,
 				9E6F7D962D96D9C1009F24FC /* UIView+.swift */,
+				9EBD55032D9E7A5D005F4B8A /* UILabel+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -289,7 +311,8 @@
 		9E6F7E172D979FC7009F24FC /* Scene */ = {
 			isa = PBXGroup;
 			children = (
-				9E6F7D792D96D70B009F24FC /* ViewController.swift */,
+				9EBD54FC2D9E7692005F4B8A /* Menu */,
+				9E4A572C2D9EA18B00A538E3 /* Home */,
 			);
 			path = Scene;
 			sourceTree = "<group>";
@@ -320,6 +343,16 @@
 			path = Protocol;
 			sourceTree = "<group>";
 		};
+		9EBD54FC2D9E7692005F4B8A /* Menu */ = {
+			isa = PBXGroup;
+			children = (
+				9EBD55012D9E7951005F4B8A /* MenuViewModel.swift */,
+				9EBD54FD2D9E769D005F4B8A /* MenuViewController.swift */,
+				9E4A572A2D9E98E700A538E3 /* MenuTableViewCell.swift */,
+			);
+			path = Menu;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -347,6 +380,7 @@
 				9E6F7DEA2D978150009F24FC /* Realm */,
 				9E6F7DED2D97828F009F24FC /* Differentiator */,
 				9E6F7DEF2D97828F009F24FC /* RxDataSources */,
+				9EBD54D82D9DEE62005F4B8A /* SideMenu */,
 			);
 			productName = "SeongjiChelin-iOS";
 			productReference = 9E6F7CEA2D96D258009F24FC /* SeongjiChelin-iOS.app */;
@@ -384,6 +418,7 @@
 				9E6F7DE62D9780E9009F24FC /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				9E6F7DE92D978150009F24FC /* XCRemoteSwiftPackageReference "realm-swift" */,
 				9E6F7DEC2D97828F009F24FC /* XCRemoteSwiftPackageReference "RxDataSources" */,
+				9EBD54D72D9DEE62005F4B8A /* XCRemoteSwiftPackageReference "SideMenu" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 9E6F7CEB2D96D258009F24FC /* Products */;
@@ -413,6 +448,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9EBD55042D9E7A5D005F4B8A /* UILabel+.swift in Sources */,
 				9E6F7D7F2D96D70B009F24FC /* AppDelegate.swift in Sources */,
 				9E6F7D852D96D7A6009F24FC /* Config.swift in Sources */,
 				9E6F7D9E2D96DA72009F24FC /* Log.swift in Sources */,
@@ -420,11 +456,13 @@
 				9E6F7E222D97A04F009F24FC /* BaseTableViewCell.swift in Sources */,
 				9E6F7E242D97A04F009F24FC /* BaseCollectionViewCell.swift in Sources */,
 				9E6F7D9F2D96DA72009F24FC /* CustomFormaterManager.swift in Sources */,
+				9EBD54FE2D9E769D005F4B8A /* MenuViewController.swift in Sources */,
 				9E6F7D802D96D70B009F24FC /* SceneDelegate.swift in Sources */,
 				9E6F7D902D96D8CB009F24FC /* ConstantLiterals.swift in Sources */,
 				9E6F7E152D979E31009F24FC /* DTO.swift in Sources */,
 				9E6F7D912D96D8CB009F24FC /* StringLiterals.swift in Sources */,
-				9E6F7D812D96D70B009F24FC /* ViewController.swift in Sources */,
+				9E6F7D812D96D70B009F24FC /* HomeViewController.swift in Sources */,
+				9E4A572B2D9E98E700A538E3 /* MenuTableViewCell.swift in Sources */,
 				9E6F7D972D96D9C1009F24FC /* UIStackView+.swift in Sources */,
 				9E6F7D982D96D9C1009F24FC /* UIView+.swift in Sources */,
 				9E6F7D992D96D9C1009F24FC /* UIImage+.swift in Sources */,
@@ -433,8 +471,10 @@
 				9E6F7DD42D96DD7B009F24FC /* NetworkService.swift in Sources */,
 				9E6F7DD52D96DD7B009F24FC /* TargetTypeProtocol.swift in Sources */,
 				9E6F7E1C2D97A00C009F24FC /* ViewModelProtocol.swift in Sources */,
+				9E4A572E2D9EA47300A538E3 /* HomeViewModel.swift in Sources */,
 				9E6F7DC82D96DB3D009F24FC /* ReusableProtocol.swift in Sources */,
 				9E6F7DD72D971B00009F24FC /* BaseAPIError.swift in Sources */,
+				9EBD55022D9E7951005F4B8A /* MenuViewModel.swift in Sources */,
 				9E6F7DCF2D96DB3D009F24FC /* NetworkServiceProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -463,7 +503,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = A95XXD5WT7;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "SeongjiChelin-iOS/Info.plist";
+				INFOPLIST_FILE = "SeongjiChelin-iOS/App/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "성지슐랭";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -496,7 +536,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = A95XXD5WT7;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "SeongjiChelin-iOS/Info.plist";
+				INFOPLIST_FILE = "SeongjiChelin-iOS/App/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "성지슐랭";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -718,6 +758,14 @@
 				minimumVersion = 5.0.2;
 			};
 		};
+		9EBD54D72D9DEE62005F4B8A /* XCRemoteSwiftPackageReference "SideMenu" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jonkykong/SideMenu.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.5.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -765,6 +813,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9E6F7DEC2D97828F009F24FC /* XCRemoteSwiftPackageReference "RxDataSources" */;
 			productName = RxDataSources;
+		};
+		9EBD54D82D9DEE62005F4B8A /* SideMenu */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9EBD54D72D9DEE62005F4B8A /* XCRemoteSwiftPackageReference "SideMenu" */;
+			productName = SideMenu;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
