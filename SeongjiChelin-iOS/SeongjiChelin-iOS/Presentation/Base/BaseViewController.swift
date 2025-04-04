@@ -9,6 +9,7 @@ import UIKit
 
 import SnapKit
 import Then
+import Toast
 
 class BaseViewController: UIViewController {
     
@@ -29,6 +30,18 @@ class BaseViewController: UIViewController {
     func setLayout() {}
     
     func setStyle() {}
+    
+    ///normal Toast
+    func showToast(message: String, isNetworkToast: Bool = false) {
+        var style = ToastStyle()
+        style.messageFont = .seongiFont(.body_bold_13)
+        style.backgroundColor = .accentBeige
+        style.messageColor = .text100
+        style.cornerRadius = 10
+        
+        let duration: Double = isNetworkToast ? 1 : 2.5
+        view.makeToast(message, duration: duration, position: .bottom, style: style)
+    }
     
     @available(*, unavailable)
     required init?(coder: NSCoder) {
