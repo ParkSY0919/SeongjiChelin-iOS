@@ -12,6 +12,9 @@
 		9E4A57312D9EB1B000A538E3 /* GoogleMaps in Frameworks */ = {isa = PBXBuildFile; productRef = 9E4A57302D9EB1B000A538E3 /* GoogleMaps */; };
 		9E4A57342D9EB73E00A538E3 /* GooglePlaces in Frameworks */ = {isa = PBXBuildFile; productRef = 9E4A57332D9EB73E00A538E3 /* GooglePlaces */; };
 		9E4A57362D9F8DDB00A538E3 /* RestaurantLiterals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4A57352D9F8DDB00A538E3 /* RestaurantLiterals.swift */; };
+		9E4A57382D9F988000A538E3 /* SJStoreFilterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4A57372D9F988000A538E3 /* SJStoreFilterButton.swift */; };
+		9E4A573A2D9FAD6D00A538E3 /* SJFavoriteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4A57392D9FAD6D00A538E3 /* SJFavoriteButton.swift */; };
+		9E4A573D2D9FB97100A538E3 /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = 9E4A573C2D9FB97100A538E3 /* Toast */; };
 		9E6F7D7B2D96D70B009F24FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9E6F7D722D96D70B009F24FC /* Assets.xcassets */; };
 		9E6F7D7D2D96D70B009F24FC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9E6F7D752D96D70B009F24FC /* LaunchScreen.storyboard */; };
 		9E6F7D7F2D96D70B009F24FC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E6F7D712D96D70B009F24FC /* AppDelegate.swift */; };
@@ -72,6 +75,8 @@
 		9E4A572A2D9E98E700A538E3 /* MenuTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTableViewCell.swift; sourceTree = "<group>"; };
 		9E4A572D2D9EA47300A538E3 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		9E4A57352D9F8DDB00A538E3 /* RestaurantLiterals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantLiterals.swift; sourceTree = "<group>"; };
+		9E4A57372D9F988000A538E3 /* SJStoreFilterButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SJStoreFilterButton.swift; sourceTree = "<group>"; };
+		9E4A57392D9FAD6D00A538E3 /* SJFavoriteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SJFavoriteButton.swift; sourceTree = "<group>"; };
 		9E6F7CEA2D96D258009F24FC /* SeongjiChelin-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SeongjiChelin-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E6F7D712D96D70B009F24FC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9E6F7D722D96D70B009F24FC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -112,6 +117,7 @@
 			files = (
 				9E6F7DEB2D978150009F24FC /* Realm in Frameworks */,
 				9E6F7DE82D9780E9009F24FC /* Kingfisher in Frameworks */,
+				9E4A573D2D9FB97100A538E3 /* Toast in Frameworks */,
 				9E6F7DE52D9780B9009F24FC /* Alamofire in Frameworks */,
 				9E6F7DDF2D9780A5009F24FC /* RxSwift in Frameworks */,
 				9E6F7DEE2D97828F009F24FC /* Differentiator in Frameworks */,
@@ -337,6 +343,8 @@
 		9E6F7E192D979FD7009F24FC /* UIComponent */ = {
 			isa = PBXGroup;
 			children = (
+				9E4A57372D9F988000A538E3 /* SJStoreFilterButton.swift */,
+				9E4A57392D9FAD6D00A538E3 /* SJFavoriteButton.swift */,
 			);
 			path = UIComponent;
 			sourceTree = "<group>";
@@ -390,6 +398,7 @@
 				9EBD54D82D9DEE62005F4B8A /* SideMenu */,
 				9E4A57302D9EB1B000A538E3 /* GoogleMaps */,
 				9E4A57332D9EB73E00A538E3 /* GooglePlaces */,
+				9E4A573C2D9FB97100A538E3 /* Toast */,
 			);
 			productName = "SeongjiChelin-iOS";
 			productReference = 9E6F7CEA2D96D258009F24FC /* SeongjiChelin-iOS.app */;
@@ -430,6 +439,7 @@
 				9EBD54D72D9DEE62005F4B8A /* XCRemoteSwiftPackageReference "SideMenu" */,
 				9E4A572F2D9EB1B000A538E3 /* XCRemoteSwiftPackageReference "ios-maps-sdk" */,
 				9E4A57322D9EB73E00A538E3 /* XCRemoteSwiftPackageReference "ios-places-sdk" */,
+				9E4A573B2D9FB97100A538E3 /* XCRemoteSwiftPackageReference "Toast-Swift" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 9E6F7CEB2D96D258009F24FC /* Products */;
@@ -467,6 +477,7 @@
 				9E6F7E222D97A04F009F24FC /* BaseTableViewCell.swift in Sources */,
 				9E6F7E242D97A04F009F24FC /* BaseCollectionViewCell.swift in Sources */,
 				9E6F7D9F2D96DA72009F24FC /* CustomFormaterManager.swift in Sources */,
+				9E4A57382D9F988000A538E3 /* SJStoreFilterButton.swift in Sources */,
 				9EBD54FE2D9E769D005F4B8A /* MenuViewController.swift in Sources */,
 				9E6F7D802D96D70B009F24FC /* SceneDelegate.swift in Sources */,
 				9E6F7D902D96D8CB009F24FC /* ConstantLiterals.swift in Sources */,
@@ -475,6 +486,7 @@
 				9E6F7D812D96D70B009F24FC /* HomeViewController.swift in Sources */,
 				9E4A572B2D9E98E700A538E3 /* MenuTableViewCell.swift in Sources */,
 				9E6F7D972D96D9C1009F24FC /* UIStackView+.swift in Sources */,
+				9E4A573A2D9FAD6D00A538E3 /* SJFavoriteButton.swift in Sources */,
 				9E6F7D982D96D9C1009F24FC /* UIView+.swift in Sources */,
 				9E6F7D992D96D9C1009F24FC /* UIImage+.swift in Sources */,
 				9E6F7D9A2D96D9C1009F24FC /* UIImageView+.swift in Sources */,
@@ -732,6 +744,14 @@
 				minimumVersion = 9.4.1;
 			};
 		};
+		9E4A573B2D9FB97100A538E3 /* XCRemoteSwiftPackageReference "Toast-Swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/scalessec/Toast-Swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.1.1;
+			};
+		};
 		9E6F7DD82D97808E009F24FC /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
@@ -808,6 +828,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9E4A57322D9EB73E00A538E3 /* XCRemoteSwiftPackageReference "ios-places-sdk" */;
 			productName = GooglePlaces;
+		};
+		9E4A573C2D9FB97100A538E3 /* Toast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9E4A573B2D9FB97100A538E3 /* XCRemoteSwiftPackageReference "Toast-Swift" */;
+			productName = Toast;
 		};
 		9E6F7DD92D97808E009F24FC /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
