@@ -7,12 +7,12 @@
 
 import UIKit
 
+import GoogleMaps
 import RxCocoa
 import RxSwift
 import SideMenu
 import SnapKit
 import Then
-import GoogleMaps
 
 final class HomeViewController: BaseViewController {
     
@@ -23,10 +23,16 @@ final class HomeViewController: BaseViewController {
     private let menuButton = UIButton()
     private let micButton = UIButton()
     private let searchTextField: UITextField = UITextField()
-    
     private let favoriteListButton = SJFavoriteButton(isHomeFavorite: true)
+    
+    private let scrollView = UIScrollView()
+    private let restaurantStackView = UIStackView()
+    private let psyThemeButton = SJStoreFilterButton(image: .riceImage(), theme: .psyTheme)
     private let sungSiKyungThemeButton = SJStoreFilterButton(image: .eyeglassesImage(), theme: .sungSiKyungTheme)
     private let ttoGanJibThemeButton = SJStoreFilterButton(image: .walkImage(), theme: .ttoGanJibTheme)
+    private let hongSeokCheonThemeButton = SJStoreFilterButton(image: .person2Image(), theme: .hongSeokCheonTheme)
+    private let baekJongWonThemeButton = SJStoreFilterButton(image: .cartImage(), theme: .baekJongWonTheme)
+    
     let camera = GMSCameraPosition.camera(withLatitude: -33.86, longitude: 151.20, zoom: 6.0)
     lazy var mapView = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
     
@@ -49,14 +55,23 @@ final class HomeViewController: BaseViewController {
         mapView.addSubviews(
             customNavBar,
             favoriteListButton,
-            sungSiKyungThemeButton,
-            ttoGanJibThemeButton
+            scrollView
         )
         
         customNavBar.addSubviews(
             menuButton,
             searchTextField,
             micButton
+        )
+        
+        scrollView.addSubview(restaurantStackView)
+        
+        restaurantStackView.addArrangedSubviews(
+            psyThemeButton,
+            sungSiKyungThemeButton,
+            ttoGanJibThemeButton,
+            hongSeokCheonThemeButton,
+            baekJongWonThemeButton
         )
     }
     
@@ -79,15 +94,15 @@ final class HomeViewController: BaseViewController {
             $0.width.equalToSuperview().multipliedBy(0.14)
         }
         
-        sungSiKyungThemeButton.snp.makeConstraints {
+        scrollView.snp.makeConstraints {
             $0.top.equalTo(customNavBar.snp.bottom).offset(10)
-            $0.leading.equalTo(customNavBar.snp.leading)
-            
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(hongSeokCheonThemeButton.snp.height)
         }
         
-        ttoGanJibThemeButton.snp.makeConstraints {
-            $0.top.equalTo(sungSiKyungThemeButton.snp.top)
-            $0.leading.equalTo(sungSiKyungThemeButton.snp.trailing).offset(4)
+        restaurantStackView.snp.makeConstraints {
+            $0.horizontalEdges.equalToSuperview().inset(15)
+            $0.height.equalToSuperview()
         }
         
         menuButton.snp.makeConstraints {
@@ -119,6 +134,17 @@ final class HomeViewController: BaseViewController {
         marker.map = mapView
         
         customNavBar.backgroundColor = .accentBeige
+        
+        scrollView.do {
+            $0.showsHorizontalScrollIndicator = false
+        }
+        
+        restaurantStackView.do {
+            $0.axis = .horizontal
+            $0.alignment = .leading
+            $0.spacing = 8
+            $0.distribution = .fillProportionally
+        }
     }
     
 }

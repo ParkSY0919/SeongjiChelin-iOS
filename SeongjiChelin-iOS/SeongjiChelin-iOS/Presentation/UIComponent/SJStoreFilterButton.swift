@@ -15,6 +15,7 @@ import Then
 final class SJStoreFilterButton: UIButton {
     
     enum RestaurantTheme: String {
+        case psyTheme = "주인장's Pick"
         case sungSiKyungTheme = "성시경의 먹을텐데"
         case ttoGanJibTheme = "풍자의 또간집"
         case hongSeokCheonTheme = "홍석천과 이원일"
