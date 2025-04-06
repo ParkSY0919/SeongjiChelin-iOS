@@ -36,8 +36,8 @@ final class HomeViewController: BaseViewController {
     private let hongSeokCheonThemeButton = SJStoreFilterButton(theme: .hongSeokCheonTheme)
     private let baekJongWonThemeButton = SJStoreFilterButton(theme: .baekJongWonTheme)
     
-    let camera = GMSCameraPosition.camera(withLatitude: -33.86, longitude: 151.20, zoom: 6.0)
-    lazy var mapView = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
+    private let camera = GMSCameraPosition.camera(withLatitude: -33.86, longitude: 151.20, zoom: 6.0)
+    private lazy var mapView = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
     
     init(viewModel: HomeViewModel) {
         self.viewModel = viewModel
@@ -131,12 +131,6 @@ final class HomeViewController: BaseViewController {
     override func setStyle() {
         view.backgroundColor = .white
         
-        let marker = GMSMarker()
-        marker.position = CLLocationCoordinate2D(latitude: -33.86, longitude: 151.20)
-        marker.title = "Sydney"
-        marker.snippet = "Australia"
-        marker.map = mapView
-        
         customNavBar.backgroundColor = .accentBeige
         
         scrollView.do {
@@ -160,6 +154,8 @@ private extension HomeViewController {
         if let sideMenuNav = navigationController as? SideMenuNavigationController {
             sideMenuNav.sideMenuDelegate = self
         }
+        
+        mapView.delegate = self
         
         customNavBar.do {
             $0.backgroundColor = .bg100
@@ -303,6 +299,58 @@ private extension HomeViewController {
         mapView.animate(with: update)
     }
     
+}
+
+@available(iOS 16.0, *)
+extension HomeViewController: GMSMapViewDelegate {
+    
+    func showCustomHeightSheet(for restaurant: Restaurant) {
+        let vc = UIViewController()
+        vc.view.backgroundColor = .systemTeal // 다른 색으로 구분
+        vc.modalPresentationStyle = .pageSheet
+        
+        if let sheet = vc.sheetPresentationController {
+            let smallDetent = UISheetPresentationController.Detent.custom(identifier: .customSmall) { context in
+                return context.maximumDetentValue * 0.45
+            }
+            
+            sheet.detents = [smallDetent, .large()]
+            
+            sheet.delegate = self
+            sheet.prefersGrabberVisible = true
+            sheet.selectedDetentIdentifier = .customSmall
+        }
+        
+        present(vc, animated: true, completion: nil)
+    }
+    
+    func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
+        if let userData = marker.userData as? [String: Any],
+           let restaurant = userData["restaurant"] as? Restaurant {
+            // 커스텀 높이 시트 함수
+            showCustomHeightSheet(for: restaurant)
+            
+            // 카메라 줌 업데이트
+//            let update = GMSCameraUpdate.setTarget(marker.position, zoom: 15)
+//            mapView.animate(with: update)
+        }
+        // 기본 동작 작동
+        return false
+    }
+    
+}
+
+extension HomeViewController: UISheetPresentationControllerDelegate {
+    
+    func sheetPresentationControllerDidChangeSelectedDetentIdentifier(_ sheetPresentationController: UISheetPresentationController) {
+            //크기 변경 됐을 경우
+            print(sheetPresentationController.selectedDetentIdentifier == .large ? "large" : "medium")
+        }
+}
+
+extension UISheetPresentationController.Detent.Identifier {
+    static let customSmall = UISheetPresentationController.Detent.Identifier("customSmall")
+    static let customFixed = UISheetPresentationController.Detent.Identifier("customFixed")
 }
 
 extension HomeViewController: SideMenuNavigationControllerDelegate {
