@@ -10,6 +10,7 @@ import Foundation
 enum Config {
     enum Keys {
         static let baseURL = "BASE_URL"
+        static let googleAPIKey = "GOOGLE_API_KEY"
     }
     
     private static let infoDictionary: [String: Any] = {
@@ -26,6 +27,13 @@ extension Config {
     static let baseURL: String = {
         guard let key = Config.infoDictionary[Keys.baseURL] as? String else {
             fatalError("BASE_URL is not set in plist for this configuration")
+        }
+        return key
+    }()
+    
+    static let googleAPIKey: String = {
+        guard let key = Config.infoDictionary[Keys.googleAPIKey] as? String else {
+            fatalError("GOOGLE_API_KEY is not set in plist for this configuration")
         }
         return key
     }()

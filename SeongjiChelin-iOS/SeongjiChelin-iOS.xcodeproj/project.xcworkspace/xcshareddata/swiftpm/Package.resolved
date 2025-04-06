@@ -1,5 +1,5 @@
 {
-  "originHash" : "805fcc48d8b2d89eba973684159d3ddd5fd662ad8a469401c36509c5b86942db",
+  "originHash" : "2a3158a9b6d6171b3578a3edaa8635eadb07f7fd70d45b8bd14b5084385f747c",
   "pins" : [
     {
       "identity" : "alamofire",
@@ -8,6 +8,24 @@
       "state" : {
         "revision" : "513364f870f6bfc468f9d2ff0a95caccc10044c5",
         "version" : "5.10.2"
+      }
+    },
+    {
+      "identity" : "ios-maps-sdk",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/googlemaps/ios-maps-sdk.git",
+      "state" : {
+        "revision" : "02f8f144ef266da44d50a68d1562ca051bac27cc",
+        "version" : "9.4.0"
+      }
+    },
+    {
+      "identity" : "ios-places-sdk",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/googlemaps/ios-places-sdk",
+      "state" : {
+        "revision" : "f18c63a43ed8399a81e539525983377d63b7b003",
+        "version" : "9.4.1"
       }
     },
     {
@@ -80,6 +98,15 @@
       "state" : {
         "revision" : "d41ef523faef0f911369f79c0b96815d9dbb6d7a",
         "version" : "3.0.0"
+      }
+    },
+    {
+      "identity" : "toast-swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/scalessec/Toast-Swift.git",
+      "state" : {
+        "revision" : "ddccd20d6fb718448d9b179c454c561653fda7d5",
+        "version" : "5.1.1"
       }
     }
   ],
