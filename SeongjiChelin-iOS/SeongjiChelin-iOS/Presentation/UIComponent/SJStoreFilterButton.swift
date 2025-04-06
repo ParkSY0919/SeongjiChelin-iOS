@@ -14,21 +14,13 @@ import Then
 
 final class SJStoreFilterButton: UIButton {
     
-    enum RestaurantTheme: String {
-        case psyTheme = "주인장's Pick"
-        case sungSiKyungTheme = "성시경의 먹을텐데"
-        case ttoGanJibTheme = "풍자의 또간집"
-        case hongSeokCheonTheme = "홍석천과 이원일"
-        case baekJongWonTheme = "백종원의 님아 그 시장을 가오"
-    }
-    
     private let image: UIImage
-    private let theme: RestaurantTheme
-    let tapSubject = PublishSubject<SJStoreFilterButton>()
+    let themeType: RestaurantThemeType
+    let tapSubject = PublishSubject<RestaurantThemeType?>()
     
-    init(image: UIImage, theme: RestaurantTheme) {
-        self.image = image
-        self.theme = theme
+    init(theme: RestaurantThemeType) {
+        self.image = theme.image
+        self.themeType = theme
         
         super.init(frame: .zero)
         setSJStoreFilterButton()
@@ -40,7 +32,7 @@ final class SJStoreFilterButton: UIButton {
     
     func setSJStoreFilterButton() {
         var config = UIButton.Configuration.plain()
-        config.title = theme.rawValue
+        config.title = themeType.rawValue
         config.image = self.image
         config.imagePadding = 4
         config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
@@ -54,7 +46,7 @@ final class SJStoreFilterButton: UIButton {
         let buttonStateHandler: UIButton.ConfigurationUpdateHandler = { button in
             switch button.state {
             case .normal:
-                button.configuration?.baseForegroundColor = .text100
+                button.configuration?.baseForegroundColor = .text100.withAlphaComponent(0.6)
                 button.configuration?.background.backgroundColor = .bg300
             case .selected:
                 button.configuration?.baseForegroundColor = .bg100
@@ -73,17 +65,15 @@ final class SJStoreFilterButton: UIButton {
     }
     
     @objc
-    func SJStoreFilterButtonTapped() {
+    private func SJStoreFilterButtonTapped() {
         self.isUserInteractionEnabled = false
-        
         self.isSelected.toggle()
-        switch self.isSelected {
-        case true:
-            tapSubject.onNext(self)
-        case false:
-            print(#function, "\(self.theme) 선택 취소")
-        }
         
+        if self.isSelected {
+            tapSubject.onNext(self.themeType) // 선택되면 해당 themeType 방출
+        } else {
+            tapSubject.onNext(nil) // 선택 해제되면 nil 방출
+        }
         self.isUserInteractionEnabled = true
     }
     

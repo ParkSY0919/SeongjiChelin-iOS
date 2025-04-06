@@ -18,6 +18,8 @@ final class HomeViewController: BaseViewController {
     
     private let disposeBag = DisposeBag()
     private let viewModel: HomeViewModel
+    private let selectedFilterSubject = PublishSubject<RestaurantThemeType?>()
+    private var currentMarkers: [GMSMarker] = []
     
     private let customNavBar = UIView()
     private let menuButton = UIButton()
@@ -27,11 +29,12 @@ final class HomeViewController: BaseViewController {
     
     private let scrollView = UIScrollView()
     private let restaurantStackView = UIStackView()
-    private let psyThemeButton = SJStoreFilterButton(image: .riceImage(), theme: .psyTheme)
-    private let sungSiKyungThemeButton = SJStoreFilterButton(image: .eyeglassesImage(), theme: .sungSiKyungTheme)
-    private let ttoGanJibThemeButton = SJStoreFilterButton(image: .walkImage(), theme: .ttoGanJibTheme)
-    private let hongSeokCheonThemeButton = SJStoreFilterButton(image: .person2Image(), theme: .hongSeokCheonTheme)
-    private let baekJongWonThemeButton = SJStoreFilterButton(image: .cartImage(), theme: .baekJongWonTheme)
+    private let psyThemeButton = SJStoreFilterButton(theme: .psyTheme)
+    private let sungSiKyungThemeButton = SJStoreFilterButton(theme: .sungSiKyungTheme)
+    private let ttoGanJibThemeButton = SJStoreFilterButton(theme: .ttoGanJibTheme)
+    private let choizaLoadThemeButton = SJStoreFilterButton(theme: .choizaLoadTheme)
+    private let hongSeokCheonThemeButton = SJStoreFilterButton(theme: .hongSeokCheonTheme)
+    private let baekJongWonThemeButton = SJStoreFilterButton(theme: .baekJongWonTheme)
     
     let camera = GMSCameraPosition.camera(withLatitude: -33.86, longitude: 151.20, zoom: 6.0)
     lazy var mapView = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
@@ -70,6 +73,7 @@ final class HomeViewController: BaseViewController {
             psyThemeButton,
             sungSiKyungThemeButton,
             ttoGanJibThemeButton,
+            choizaLoadThemeButton,
             hongSeokCheonThemeButton,
             baekJongWonThemeButton
         )
@@ -183,18 +187,37 @@ private extension HomeViewController {
     }
     
     func bind() {
-        let input = HomeViewModel.Input(
-            menuTapped: menuButton.rx.tap,
-            micTapped: micButton.rx.tap
+        // 모든 필터 버튼의 tapSubject를 하나로 합칩니다.
+        let allFilterButtonTaps = Observable.merge(
+            psyThemeButton.tapSubject,
+            sungSiKyungThemeButton.tapSubject,
+            ttoGanJibThemeButton.tapSubject,
+            choizaLoadThemeButton.tapSubject,
+            hongSeokCheonThemeButton.tapSubject,
+            baekJongWonThemeButton.tapSubject
         )
+        
+        // ViewModel의 Input 준비
+        let input = HomeViewModel.Input(
+            menuTapped: menuButton.rx.tap.asControlEvent(),
+            micTapped: micButton.rx.tap.asControlEvent(),
+            selectedFilterTheme: selectedFilterSubject.asObservable()
+        )
+        
+        allFilterButtonTaps
+            .subscribe(with: self, onNext: { owner, tappedThemeType in
+                owner.updateStoreFilterButtonUI(selectedThemeType: tappedThemeType)
+                owner.selectedFilterSubject.onNext(tappedThemeType)
+            })
+            .disposed(by: disposeBag)
+        
+        
+        // --- Output 바인딩 ---
         let output = viewModel.transform(input: input)
         
         output.menuTrigger
             .drive(with: self, onNext: { owner, _ in
-                guard let menu = SideMenuManager.default.leftMenuNavigationController else {
-                    print("SideMenu가 설정되지 않았습니다.")
-                    return
-                }
+                guard let menu = SideMenuManager.default.leftMenuNavigationController else { return }
                 owner.present(menu, animated: true, completion: nil)
             })
             .disposed(by: disposeBag)
@@ -204,6 +227,80 @@ private extension HomeViewController {
                 owner.showToast(message: "음성 검색 기능은 아직 준비 중입니다.")
             })
             .disposed(by: disposeBag)
+        
+        output.filteredList
+            .drive(with: self, onNext: { owner, themes in
+                owner.updateMarkers(themes: themes)
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    func updateStoreFilterButtonUI(selectedThemeType: RestaurantThemeType?) {
+        let allButtons = [psyThemeButton, sungSiKyungThemeButton, ttoGanJibThemeButton,
+                          choizaLoadThemeButton, hongSeokCheonThemeButton, baekJongWonThemeButton]
+        
+        for button in allButtons {
+            if button.themeType == selectedThemeType {
+                button.isSelected = true
+            } else {
+                button.isSelected = false
+            }
+        }
+    }
+    
+    /// 지도 마커 업데이트 함수
+    func updateMarkers(themes: [RestaurantTheme]) {
+        // 1. 기존 마커 제거
+        self.currentMarkers.forEach { i in
+            i.map = nil
+        }
+        
+        var newMarkers: [GMSMarker] = []
+        
+        // 2. 마커 추가
+        for theme in themes {
+            for restaurant in theme.restaurants {
+                let position = CLLocationCoordinate2D(latitude: restaurant.latitude, longitude: restaurant.longitude)
+                let marker = GMSMarker(position: position)
+                marker.title = restaurant.name
+                marker.snippet = "\(restaurant.category) | \(restaurant.address)"
+                
+                let customMarkerView = CustomMarkerView(themeType: theme.themeType)
+                marker.iconView = customMarkerView
+                marker.groundAnchor = CGPoint(x: 0.5, y: 1.0)
+                
+                marker.userData = ["themeType": theme.themeType, "restaurant": restaurant] // 예시 데이터
+                
+                marker.map = self.mapView
+                newMarkers.append(marker)
+            }
+        }
+        
+        // 3. 현재 표시된 마커 배열 업데이트
+        self.currentMarkers = newMarkers
+        
+        // 4. 지도 카메라 조정
+        fitBoundsToMarkers(markers: newMarkers)
+    }
+    
+    /// 마커에 맞춰 카메라 조정
+    func fitBoundsToMarkers(markers: [GMSMarker]) {
+        guard !markers.isEmpty else { return }
+        
+        var bounds = GMSCoordinateBounds()
+        for marker in markers {
+            bounds = bounds.includingCoordinate(marker.position)
+        }
+        
+        let update: GMSCameraUpdate
+        if markers.count == 1 {
+            // 마커 하나일 때
+            update = GMSCameraUpdate.setTarget(markers.first!.position, zoom: 15)
+        } else {
+            update = GMSCameraUpdate.fit(bounds, withPadding: 60.0)
+        }
+        
+        mapView.animate(with: update)
     }
     
 }
