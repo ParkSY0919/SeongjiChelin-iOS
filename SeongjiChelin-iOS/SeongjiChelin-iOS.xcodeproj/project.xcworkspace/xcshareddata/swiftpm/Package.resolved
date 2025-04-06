@@ -1,5 +1,5 @@
 {
-  "originHash" : "bf50a77277432b70de9071b541fb8523ea1794608e0f403bb0b20c3a5874f495",
+  "originHash" : "ac9223b3f798fa1ce581c9315c2a47c8573001376d56b68ecdfe2d8f2eaeb2b6",
   "pins" : [
     {
       "identity" : "alamofire",
@@ -56,6 +56,15 @@
       }
     },
     {
+      "identity" : "rxcombine",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/CombineCommunity/RxCombine.git",
+      "state" : {
+        "revision" : "19474c2ac9fde613bba8513bf98990e1aa9831cd",
+        "version" : "2.0.1"
+      }
+    },
+    {
       "identity" : "rxdatasources",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/RxSwiftCommunity/RxDataSources.git",
@@ -107,6 +116,15 @@
       "state" : {
         "revision" : "ddccd20d6fb718448d9b179c454c561653fda7d5",
         "version" : "5.1.1"
+      }
+    },
+    {
+      "identity" : "youtubeplayerkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SvenTiigi/YouTubePlayerKit.git",
+      "state" : {
+        "revision" : "29ef4217810e15ce8c7fce6608a1eecd0935b621",
+        "version" : "2.0.0"
       }
     }
   ],
