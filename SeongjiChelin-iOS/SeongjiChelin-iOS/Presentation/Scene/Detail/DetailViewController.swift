@@ -127,6 +127,8 @@ final class DetailViewController: BaseViewController {
         }
         
         youtubePlayerContainer.do {
+            print("current: \(viewModel.restaurantInfo.youtubeId == nil)")
+            $0.isHidden = viewModel.restaurantInfo.youtubeId == nil
             $0.backgroundColor = .bg200
         }
         

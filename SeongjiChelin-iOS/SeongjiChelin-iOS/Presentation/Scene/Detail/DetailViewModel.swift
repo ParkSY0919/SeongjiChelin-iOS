@@ -13,9 +13,9 @@ final class DetailViewModel: ViewModelProtocol {
     let restaurantInfo: Restaurant
     let videoSource: YouTubePlayer.Source
     
-    init(restaurantInfo: Restaurant, videoId: String = "B4QWdVBGd9k") {
+    init(restaurantInfo: Restaurant) {
         self.restaurantInfo = restaurantInfo
-        self.videoSource = .video(id: videoId)
+        self.videoSource = .video(id: restaurantInfo.youtubeId ?? "")
     }
     
     struct Input {}

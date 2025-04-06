@@ -10,6 +10,7 @@ import UIKit
 // 개별 가게 정보를 담는 구조체
 struct Restaurant: Identifiable {
     let id = UUID()
+    let youtubeId: String?
     let name: String
     let category: String // 한식, 양식 등
     let storeInfo: String? // 가게 번호 등
@@ -73,13 +74,13 @@ struct RestaurantLiterals {
     static let psyTheme = RestaurantTheme(
         themeType: .psyTheme,
         restaurants: [
-            Restaurant(name: "영동설렁탕", category: "한식", storeInfo: nil, address: "서울 서초구 강남대로101안길 24", latitude: 36.50113, longitude: 127.02651, inVideoMenus: ["설렁탕", "수육"]),
-            Restaurant(name: "대성정육식당", category: "한식", storeInfo: nil, address: "서울 동대문구 왕산로 117", latitude: 36.57452, longitude: 127.03983, inVideoMenus: ["김치찌개", "제육볶음"]),
-            Restaurant(name: "우정낙지", category: "한식", storeInfo: nil, address: "서울 종로구 종로 104", latitude: 36.57031, longitude: 126.98915, inVideoMenus: ["낙지볶음", "조개탕"]),
-            Restaurant(name: "만두란", category: "중식", storeInfo: nil, address: "서울 서대문구 증가로 13길 12", latitude: 36.58535, longitude: 126.92711, inVideoMenus: ["군만두", "고기만두", "찐만두"]),
-            Restaurant(name: "신숙", category: "한식", storeInfo: nil, address: "서울 강남구 도산대로55길 45", latitude: 36.52548, longitude: 127.03896, inVideoMenus: ["닭볶음탕"]),
-            Restaurant(name: "갯마을", category: "한식", storeInfo: nil, address: "서울 송파구 백제고분로41길 6", latitude: 36.50822, longitude: 127.09618, inVideoMenus: ["감자옹심이"]),
-            Restaurant(name: "옥경이네 건생선", category: "한식", storeInfo: nil, address: "서울 중구 퇴계로85길 11", latitude: 36.56735, longitude: 127.01969, inVideoMenus: ["갑오징어 구이", "민어찜"])
+            Restaurant(youtubeId: nil, name: "우정초밥", category: "일식", storeInfo: "070-4320-2333", address: "서울 성북구 종암로3길 31 1층", latitude: 37.5929970946678, longitude: 127.034297992637, inVideoMenus: ["런치 오마카세", "디너 오마카세"]),
+            Restaurant(youtubeId: nil, name: "대청 치마오", category: "일식", storeInfo: "02-3413-7708", address: "서울 강남구 개포로 623 지하 1층 106호", latitude: 37.494341198165, longitude: 127.079647753194, inVideoMenus: ["본격 가라아게동"]),
+            Restaurant(youtubeId: nil, name: "훗카이도 부타동 스미레", category: "일식", storeInfo: nil, address: "서울특별시 서대문구 연세로4길 61", latitude: 37.5585661705571, longitude: 126.939533144555, inVideoMenus: ["삼겹 부타동"]),
+            Restaurant(youtubeId: nil, name: "크레이지카츠", category: "일식", storeInfo: "070-8621-7219", address: "서울 마포구 포은로2나길 44 2층", latitude: 37.5504517603956, longitude: 126.909712822276, inVideoMenus: ["특로스"]),
+            Restaurant(youtubeId: nil, name: "추억닭발 본점", category: "한식", storeInfo: "032-511-2881", address: "인천 부평구 부평문화로 47 2층 201호", latitude: 37.4941372513679, longitude: 126.721454845328, inVideoMenus: ["추억닭발(국물 닭발)"]),
+            Restaurant(youtubeId: nil, name: "작은정원 가좌점", category: "한식", storeInfo: "032-573-8889", address: "인천 서구 건지로 363 1층", latitude: 37.4973235910899, longitude: 126.682366877646, inVideoMenus: ["쭈꾸미볶음정식(매운맛)"]),
+            Restaurant(youtubeId: nil, name: "고려왕족발 가정점", category: "한식", storeInfo: "032-579-6790", address: "인천 서구 가정로380번길 7 2층", latitude: 37.5188394173766, longitude: 126.673872306107, inVideoMenus: ["왕족발(앞다리)"])
         ]
     )
     
@@ -88,21 +89,12 @@ struct RestaurantLiterals {
     static let sungSiKyungTheme = RestaurantTheme(
         themeType: .sungSiKyungTheme,
         restaurants: [
-            Restaurant(name: "영동설렁탕", category: "한식", storeInfo: nil, address: "서울 서초구 강남대로101안길 24", latitude: 37.50113, longitude: 127.02651, inVideoMenus: ["설렁탕", "수육"]),
-            Restaurant(name: "대성정육식당", category: "한식", storeInfo: nil, address: "서울 동대문구 왕산로 117", latitude: 37.57452, longitude: 127.03983, inVideoMenus: ["김치찌개", "제육볶음"]),
-            Restaurant(name: "우정낙지", category: "한식", storeInfo: nil, address: "서울 종로구 종로 104", latitude: 37.57031, longitude: 126.98915, inVideoMenus: ["낙지볶음", "조개탕"]),
-            Restaurant(name: "만두란", category: "중식", storeInfo: nil, address: "서울 서대문구 증가로 13길 12", latitude: 37.58535, longitude: 126.92711, inVideoMenus: ["군만두", "고기만두", "찐만두"]),
-            Restaurant(name: "신숙", category: "한식", storeInfo: nil, address: "서울 강남구 도산대로55길 45", latitude: 37.52548, longitude: 127.03896, inVideoMenus: ["닭볶음탕"]),
-            Restaurant(name: "갯마을", category: "한식", storeInfo: nil, address: "서울 송파구 백제고분로41길 6", latitude: 37.50822, longitude: 127.09618, inVideoMenus: ["감자옹심이"]),
-            Restaurant(name: "옥경이네 건생선", category: "한식", storeInfo: nil, address: "서울 중구 퇴계로85길 11", latitude: 37.56735, longitude: 127.01969, inVideoMenus: ["갑오징어 구이", "민어찜"]),
-            Restaurant(name: "약수순대", category: "한식", storeInfo: nil, address: "서울 중구 다산로10길 12", latitude: 37.55439, longitude: 127.01077, inVideoMenus: ["순대국"]),
-            Restaurant(name: "벽제갈비", category: "한식", storeInfo: nil, address: "서울 송파구 양재대로71길 6", latitude: 37.51462, longitude: 127.12160, inVideoMenus: ["양념갈비", "평양냉면"]),
-            Restaurant(name: "윤화돈까스", category: "경양식", storeInfo: nil, address: "서울 영등포구 시흥대로 609", latitude: 37.48297, longitude: 126.90434, inVideoMenus: ["돈까스", "생선까스"]),
-            Restaurant(name: "잼배옥", category: "한식", storeInfo: nil, address: "서울 중구 세종대로11길 31", latitude: 37.56422, longitude: 126.97535, inVideoMenus: ["설렁탕", "수육"]),
-            Restaurant(name: "중앙해장", category: "한식", storeInfo: nil, address: "서울 강남구 영동대로86길 17", latitude: 37.50729, longitude: 127.06297, inVideoMenus: ["곱창전골", "양선지해장국"]),
-            Restaurant(name: "산동칼국수", category: "한식", storeInfo: nil, address: "서울 영등포구 경인로77길 16", latitude: 37.51667, longitude: 126.90699, inVideoMenus: ["칼국수", "만두"]),
-            Restaurant(name: "원조 평양냉면집", category: "한식", storeInfo: nil, address: "인천 중구 답동로11번길 6", latitude: 37.47306, longitude: 126.62871, inVideoMenus: ["평양냉면", "불고기"]),
-            Restaurant(name: "만석장", category: "한식", storeInfo: nil, address: "서울 종로구 종로3길 17", latitude: 37.57094, longitude: 126.97874, inVideoMenus: ["쌈밥정식", "두부"]),
+            Restaurant(youtubeId: "Khjn-JspNkQ", name: "화진호이선장네해물", category: "한식", storeInfo: "033-631-0750", address: "강원특별자치도 속초시 먹거리4길 18-1 1층", latitude: 38.1953880677414, longitude: 128.573234420923, inVideoMenus: ["가자미튀김", "가자미조림", "대구탕", "회덮밥"]),
+            Restaurant(youtubeId: "vDVTYhm-2uU", name: "먹거리집", category: "한식", storeInfo: nil, address: "서울 중랑구 면목로91길 8 1층", latitude: 37.594576216919, longitude: 127.085389481171, inVideoMenus: ["수육", "내장", "제육볶음", "순대국"]),
+            Restaurant(youtubeId: "wKNO7zfr8JQ", name: "풍성감자탕", category: "한식", storeInfo: "02-446-0354", address: "서울 광진구 자양로18길 5", latitude: 37.5375769086631, longitude: 127.083844149774, inVideoMenus: ["감자탕"]),
+            Restaurant(youtubeId: "IJwIJZ3G-pw", name: "전원식당", category: "한식", storeInfo: "033-633-0282", address: "강원특별자치도 속초시 영금정로 15 1층", latitude: 38.2129588244246, longitude: 128.598068148553, inVideoMenus: ["두루치기"]),
+            Restaurant(youtubeId: "TUbvswTagLg", name: "충북원조순대국밥", category: "한식", storeInfo: nil, address: "서울 동작구 서달로14길 16 1층", latitude: 37.5078713792896, longitude: 126.963822451667, inVideoMenus: ["막창전골", "순대"]),
+            Restaurant(youtubeId: "oCVgwsJbFpk", name: "옛날칼국수", category: "한식", storeInfo: "02-939-6169", address: "서울 노원구 동일로 1417 1층", latitude: 37.6550688080345, longitude: 127.059980216361, inVideoMenus: ["칼국수", "얼큰수제비", "청양", "부추전", "왕만두"])
         ]
     )
     
@@ -111,15 +103,11 @@ struct RestaurantLiterals {
     static let ttoGanJibTheme = RestaurantTheme(
         themeType: .ttoGanJibTheme,
         restaurants: [
-            Restaurant(name: "땀땀 강남본점", category: "아시안", storeInfo: nil, address: "서울 강남구 강남대로98길 12-5", latitude: 37.50051, longitude: 127.02802, inVideoMenus: ["매운 소곱창 쌀국수"]),
-            Restaurant(name: "진주회관", category: "한식", storeInfo: nil, address: "서울 중구 세종대로11길 26", latitude: 37.56410, longitude: 126.97573, inVideoMenus: ["콩국수", "김치볶음밥"]),
-            Restaurant(name: "남도분식 북촌본점", category: "분식", storeInfo: nil, address: "서울 종로구 북촌로 42-1", latitude: 37.58088, longitude: 126.98434, inVideoMenus: ["빨콩떡볶이", "상추튀김", "김밥쌈"]),
-            Restaurant(name: "고갯마루집", category: "한식", storeInfo: nil, address: "서울 마포구 동교로 155", latitude: 37.55946, longitude: 126.92312, inVideoMenus: ["양념게장 백반"]),
-            Restaurant(name: "호랑이굴", category: "한식", storeInfo: nil, address: "서울 성동구 독서당로 227", latitude: 37.54327, longitude: 127.02851, inVideoMenus: ["곱창전골"]),
-            Restaurant(name: "미도식당", category: "양식", storeInfo: nil, address: "서울 광진구 동일로 241", latitude: 37.55441, longitude: 127.07419, inVideoMenus: ["명란 크림 파스타", "스테이크 덮밥"]),
-            Restaurant(name: "마포갈매기 본점", category: "한식", storeInfo: nil, address: "서울 마포구 토정로 313-3", latitude: 37.54139, longitude: 126.95112, inVideoMenus: ["마포갈매기", "돼지껍데기"]),
-            Restaurant(name: "미로식당", category: "한식/분식", storeInfo: nil, address: "서울 마포구 양화로19길 22-22", latitude: 37.55601, longitude: 126.92455, inVideoMenus: ["떡볶이", "곱도리탕"]),
-            Restaurant(name: "오봉집 문래본점", category: "한식", storeInfo: nil, address: "서울 영등포구 당산로 34", latitude: 37.51917, longitude: 126.89401, inVideoMenus: ["직화낙지볶음", "보쌈"]),
+            Restaurant(youtubeId: "vr3kD181iP4", name: "복돈이부추삼겹살", category: "한식", storeInfo: "0507-1310-5124", address: "서울 관악구 남현1길 68-14 남현빌딩", latitude: 37.4751687521468, longitude: 126.981124579443, inVideoMenus: ["삼겹살"]),
+            Restaurant(youtubeId: "gAg30SNDBbY", name: "걸리버막창", category: "한식", storeInfo: "053-356-6824", address: "대구 북구 옥산로 53", latitude: 35.885531706055, longitude: 128.581455376842, inVideoMenus: ["막창, 된장찌개"]),
+            Restaurant(youtubeId: "nOImQVpgYl4", name: "오뚜기분식", category: "분식", storeInfo: "043-844-3461", address: "충북 충주시 자유시장길 31 1층", latitude: 36.9734239530015, longitude: 127.932641315938, inVideoMenus: ["쫄면", "김밥"]),
+            Restaurant(youtubeId: "ReGp1WJE6VY", name: "진중 우육면관 본점", category: "아시안", storeInfo: "0507-1376-2257", address: "서울 종로구 청계천로 75-2 진중 우육면관 본점 (Niroumianguan)", latitude: 37.5685890877443, longitude: 126.985964604292, inVideoMenus: ["우육면(특)", "오이소채"]),
+            Restaurant(youtubeId: "2b8JtDgSckQ", name: "담택", category: "일식", storeInfo: "0507-1347-4561", address: "서울 마포구 동교로12안길 51 1층", latitude: 37.5544519990868, longitude: 126.915164802094, inVideoMenus: ["시오라멘"]),
         ]
     )
     
@@ -128,17 +116,10 @@ struct RestaurantLiterals {
     static let choizaLoadTheme = RestaurantTheme(
         themeType: .choizaLoadTheme,
         restaurants: [
-            Restaurant(name: "오통영", category: "한식", storeInfo: nil, address: "서울 강남구 압구정로46길 71", latitude: 37.52906, longitude: 127.04169, inVideoMenus: ["굴전", "멍게비빔밥", "매생이탕"]),
-            Restaurant(name: "중앙갈치식당", category: "한식", storeInfo: nil, address: "서울 중구 남대문시장길 22-12", latitude: 37.55979, longitude: 126.97715, inVideoMenus: ["갈치조림"]),
-            Restaurant(name: "호수집", category: "한식", storeInfo: nil, address: "서울 중구 청파로 443", latitude: 37.55577, longitude: 126.97080, inVideoMenus: ["닭꼬치", "닭볶음탕"]),
-            Restaurant(name: "대성집", category: "한식", storeInfo: nil, address: "서울 종로구 사직로 5", latitude: 37.57618, longitude: 126.96882, inVideoMenus: ["도가니탕", "수육"]),
-            Restaurant(name: "금돼지식당", category: "한식", storeInfo: nil, address: "서울 중구 다산로 149", latitude: 37.55854, longitude: 127.01124, inVideoMenus: ["본삼겹", "등목살", "김치찌개"]),
-            Restaurant(name: "몽크스부처", category: "채식/양식", storeInfo: nil, address: "서울 강남구 선릉로155길 5", latitude: 37.52731, longitude: 127.03654, inVideoMenus: ["비건 버거", "두부 크림 파스타", "비건 피자"]), // 채식 레스토랑
-            Restaurant(name: "영화루", category: "중식", storeInfo: nil, address: "서울 종로구 자하문로7길 65", latitude: 37.58316, longitude: 126.96998, inVideoMenus: ["고추간짜장", "탕수육"]),
-            Restaurant(name: "안동장", category: "중식", storeInfo: nil, address: "서울 중구 을지로 124", latitude: 37.56614, longitude: 126.99023, inVideoMenus: ["굴짬뽕", "송이덮밥"]),
-            Restaurant(name: "수퍼판", category: "퓨전 한식", storeInfo: nil, address: "서울 용산구 이태원로55가길 37", latitude: 37.53947, longitude: 126.99915, inVideoMenus: ["매생이굴떡국", "더덕구이 샐러드", "고사리 파스타"]), // 이혜정 셰프 운영
-            Restaurant(name: "가타쯔무리", category: "일식", storeInfo: nil, address: "서울 마포구 성미산로 198", latitude: 37.56332, longitude: 126.92170, inVideoMenus: ["우동", "붓카케 우동"]), // 오복수산 옆집
-            Restaurant(name: "소설한남", category: "한식", storeInfo: nil, address: "서울 용산구 한남대로20길 21-18", latitude: 37.53789, longitude: 127.00307, inVideoMenus: ["한식 코스 (시기별 변동)"]), // 파인 다이닝
+            Restaurant(youtubeId: "b8haUWdjYUM", name: "남영탉", category: "한식", storeInfo: "070-8733-5949", address: "서울 용산구 한강대로80길 12 1층", latitude: 37.5425431587763, longitude: 126.973487034748, inVideoMenus: ["동양탉", "마크탉", "탉무릎연골", "완탉면", "탉개장"]),
+            Restaurant(youtubeId: "UxMXbgceWKs", name: "사랑방 참숯화로구이", category: "한식", storeInfo: "02-774-5950", address: "서울 용산구 신흥로36길 4", latitude: 37.5464262359766, longitude: 126.981789206434, inVideoMenus: ["삼겹살", "돼지갈비"]),
+            Restaurant(youtubeId: "r3haobf1qkQ", name: "은주정", category: "한식", storeInfo: "0507-1406-4669", address: "서울 중구 창경궁로8길 32", latitude: 37.5686824540468, longitude: 126.999757313391, inVideoMenus: ["김치찌개", "고기추가", "라면사리"]),
+            Restaurant(youtubeId: "TwlzZI0jZw0", name: "맛이차이나", category: "중식", storeInfo: "010-9822-2653", address: "서울 마포구 독막로 68", latitude: 37.5475998077326, longitude: 126.920858592344, inVideoMenus: ["양장피", "팔보채", "어향가지", "청증 우럭", "탕수육", "흑후추 소스 소고기", "짜장면", "공부탕면(백짬뽕)", "볶음밥"])
         ]
     )
     
@@ -147,17 +128,11 @@ struct RestaurantLiterals {
     static let hongSeokCheonTheme = RestaurantTheme(
         themeType: .hongSeokCheonTheme,
         restaurants: [
-            Restaurant(name: "소와나", category: "한식", storeInfo: nil, address: "서울 강남구 도산대로55길 49", latitude: 37.52568, longitude: 127.03941, inVideoMenus: ["한우 오마카세", "특수부위"]),
-            Restaurant(name: "네기실비", category: "한식", storeInfo: nil, address: "서울 강남구 논현로150길 10", latitude: 37.51653, longitude: 127.03069, inVideoMenus: ["소고기 주물럭", "대파 김치"]),
-            Restaurant(name: "한와담 블랙", category: "한식", storeInfo: nil, address: "서울 용산구 독서당로 67", latitude: 37.53635, longitude: 127.00831, inVideoMenus: ["한우 안심", "깍두기 볶음밥"]),
-            Restaurant(name: "바오바", category: "아시안", storeInfo: nil, address: "서울 용산구 이태원로42길 48", latitude: 37.53560, longitude: 126.99770, inVideoMenus: ["바오", "타이완식 볶음밥"]),
-            Restaurant(name: "단상", category: "퓨전 한식", storeInfo: nil, address: "서울 강남구 도산대로55길 46", latitude: 37.52583, longitude: 127.03890, inVideoMenus: ["감태 타르트", "들기름 카펠리니", "한식 코스"]),
-            Restaurant(name: "피자에비뉴", category: "양식", storeInfo: nil, address: "서울 강남구 강남대로110길 13", latitude: 37.50254, longitude: 127.02845, inVideoMenus: ["페퍼로니 피자", "치즈 피자"]),
-            Restaurant(name: "목로", category: "한식", storeInfo: nil, address: "서울 용산구 이태원로54길 16-6", latitude: 37.53817, longitude: 127.00008, inVideoMenus: ["곱도리탕", "육전"]), // 이태원
-            Restaurant(name: "로컬릿", category: "채식/양식", storeInfo: nil, address: "서울 서초구 동광로 95", latitude: 37.48530, longitude: 126.99240, inVideoMenus: ["비건 라자냐", "부라타 샐러드"]), // 방배동 채식 레스토랑
-            Restaurant(name: "창화루", category: "중식", storeInfo: nil, address: "서울 종로구 수표로 28", latitude: 37.57258, longitude: 126.98753, inVideoMenus: ["샤오롱바오", "탄탄면", "마파두부"]), // 익선동 분점 등 여러 곳
-            Restaurant(name: "라페름", category: "샐러드/브런치", storeInfo: nil, address: "서울 용산구 이태원로54길 32", latitude: 37.53834, longitude: 127.00087, inVideoMenus: ["퀴노아 샐러드", "아보카도 샐러드", "치킨 스테이크"]), // 한남동
-            Restaurant(name: "무궁화", category: "한식", storeInfo: nil, address: "서울 중구 을지로 30 (롯데호텔 38층)", latitude: 37.56528, longitude: 126.98020, inVideoMenus: ["한정식 코스"]), // 파인 다이닝
+            Restaurant(youtubeId: "ec-6uhaWqho", name: "당산옛날곱창", category: "한식", storeInfo: "02-3667-2315", address: "서울 영등포구 당산로47길 14 1층", latitude: 37.5353741059467, longitude: 126.902277256782, inVideoMenus: ["모듬곱창"]),
+            Restaurant(youtubeId: "T62atXdV2s0", name: "진주집", category: "한식", storeInfo: "02-780-6108", address: "서울 영등포구 국제금융로6길 33 지하 1층", latitude: 37.5207908297398, longitude: 126.926911965929, inVideoMenus: ["콩국수", "육개장 칼국수"]),
+            Restaurant(youtubeId: "gbD1eKteaL0", name: "요미우돈교자", category: "일식", storeInfo: "0507-1426-8113", address: "경기 수원시 팔달구 화서문로32번길 28", latitude: 37.2839309520531, longitude: 127.012264488268, inVideoMenus: ["넓적우동", "붓카케 우동", "고기 교자 만두", "가지 불고기 덮밥"]),
+            Restaurant(youtubeId: "aaj8-GyAemk", name: "본전돼지국밥", category: "한식", storeInfo: "051-441-2946", address: "부산 동구 중앙대로214번길 3-8", latitude: 35.116594272274, longitude: 129.04139482351, inVideoMenus: ["돼지국밥"]),
+            Restaurant(youtubeId: "pQRy9ZFqQ6A", name: "톤쇼우", category: "일식", storeInfo: "010-5685-5482", address: "부산 금정구 금강로 247-10", latitude: 35.2304471534003, longitude: 129.084270106003, inVideoMenus: ["본삼겹", "특 로스카츠", "히레카츠", "카츠산도"])
         ]
     )
     
@@ -166,32 +141,10 @@ struct RestaurantLiterals {
     static let baekJongWonTheme = RestaurantTheme(
         themeType: .baekJongWonTheme,
         restaurants: [
-            // --- 예산시장 편 ---
-            Restaurant(name: "시장 국밥", category: "한식", storeInfo: nil, address: "충남 예산군 예산읍 예산시장 (백종원 거리 인근)", latitude: 36.67870, longitude: 126.84520, inVideoMenus: ["돼지국밥", "소머리국밥"]), // 예산시장 대표 위치
-            Restaurant(name: "선봉국수", category: "한식", storeInfo: nil, address: "충남 예산군 예산읍 예산시장 (백종원 거리 인근)", latitude: 36.67870, longitude: 126.84520, inVideoMenus: ["파기름 비빔국수", "잔치국수"]),
-            Restaurant(name: "신광정육점 (불판)", category: "한식/기타", storeInfo: nil, address: "충남 예산군 예산읍 예산시장 (백종원 거리 인근)", latitude: 36.67870, longitude: 126.84520, inVideoMenus: ["삼겹살", "목살", "갈매기살 (직접 구워먹기)"]),
-            Restaurant(name: "백술상회", category: "기타", storeInfo: nil, address: "충남 예산군 예산읍 예산시장 (백종원 거리 인근)", latitude: 36.67870, longitude: 126.84520, inVideoMenus: ["예산 사과 막걸리", "골목 막걸리"]),
-            Restaurant(name: "연돈볼카츠 예산시장점", category: "분식", storeInfo: nil, address: "충남 예산군 예산읍 예산시장 (백종원 거리 인근)", latitude: 36.67870, longitude: 126.84520, inVideoMenus: ["연돈볼카츠"]),
-            Restaurant(name: "시장꽈배기", category: "분식/디저트", storeInfo: nil, address: "충남 예산군 예산읍 예산시장 (백종원 거리 인근)", latitude: 36.67870, longitude: 126.84520, inVideoMenus: ["꽈배기", "찹쌀도너츠"]),
-            
-            // --- 강릉 중앙시장 편 ---
-            Restaurant(name: "강릉 성남 칼국수", category: "한식", storeInfo: nil, address: "강원 강릉시 중앙시장길 22-2 (성남동)", latitude: 37.75221, longitude: 128.89832, inVideoMenus: ["장칼국수"]),
-            Restaurant(name: "놀랄 호떡 군만두", category: "분식", storeInfo: nil, address: "강원 강릉시 금성로13번길 11-1 (성남동, 중앙시장 내)", latitude: 37.75235, longitude: 128.89870, inVideoMenus: ["아이스크림 호떡", "모짜렐라 치즈 호떡"]),
-            Restaurant(name: "팡파미유 육쪽마늘빵", category: "카페/디저트", storeInfo: nil, address: "강원 강릉시 금성로13번길 15 (성남동, 중앙시장 근처)", latitude: 37.75248, longitude: 128.89873, inVideoMenus: ["육쪽마늘빵"]),
-            Restaurant(name: "중앙시장 어묵고로케 (예: 수제어묵고로케)", category: "분식", storeInfo: nil, address: "강원 강릉시 금성로 21 (성남동, 중앙시장 내)", latitude: 37.75259, longitude: 128.89855, inVideoMenus: ["어묵고로케 (치즈, 김치, 고구마 등)"]), // 특정 가게 지정 어려움
-            
-            // --- 제주 동문시장 편 ---
-            Restaurant(name: "서울 떡볶이", category: "분식", storeInfo: nil, address: "제주 제주시 동문로4길 11 (이도일동, 동문시장 내)", latitude: 33.51295, longitude: 126.52755, inVideoMenus: ["떡볶이", "튀김", "김밥"]),
-            Restaurant(name: "오복 떡집", category: "카페/디저트", storeInfo: nil, address: "제주 제주시 동문로 15 (일도일동, 동문시장 내)", latitude: 33.51308, longitude: 126.52821, inVideoMenus: ["오메기떡"]),
-            Restaurant(name: "광명 식당", category: "한식", storeInfo: nil, address: "제주 제주시 동문로4길 9 (이도일동, 동문시장 내)", latitude: 33.51301, longitude: 126.52769, inVideoMenus: ["순대국밥", "순대", "내장"]),
-            Restaurant(name: "동문시장 회센터 (예: 딱새우회, 고등어회 파는 곳)", category: "일식/한식", storeInfo: nil, address: "제주 제주시 동문로 (동문시장 내 회센터 구역)", latitude: 33.5131, longitude: 126.5280, inVideoMenus: ["딱새우회", "고등어회", "갈치회"]), // 특정 가게 지정 어려움
-            
-            // --- 속초 관광수산시장 편 ---
-            Restaurant(name: "만석 닭강정 중앙시장점", category: "한식", storeInfo: nil, address: "강원 속초시 중앙로147번길 16 (중앙동)", latitude: 38.20721, longitude: 128.59071, inVideoMenus: ["닭강정 (보통맛, 매운맛)"]),
-            Restaurant(name: "속초 술찐빵 (예: 원조 술찐빵)", category: "분식/디저트", storeInfo: nil, address: "강원 속초시 중앙시장로 (중앙동, 속초관광수산시장 내)", latitude: 38.2068, longitude: 128.5910, inVideoMenus: ["술빵 (막걸리빵)"]), // 특정 가게 지정 어려움
-            Restaurant(name: "속초 씨앗호떡 (예: 남포동 찹쌀 씨앗호떡)", category: "분식", storeInfo: nil, address: "강원 속초시 중앙시장로 (중앙동, 속초관광수산시장 내)", latitude: 38.2070, longitude: 128.5912, inVideoMenus: ["씨앗호떡"]), // 특정 가게 지정 어려움
-            Restaurant(name: "88생선구이", category: "한식", storeInfo: nil, address: "강원 속초시 중앙부두길 71 (중앙동)", latitude: 38.20400, longitude: 128.59405, inVideoMenus: ["모듬 생선구이"]), // 시장 근처 유명 맛집
-        ]
+            Restaurant(youtubeId: "NROEyqEqkR4", name: "기라성", category: "중식", storeInfo: "063-582-1040", address: "전북 부안군 계화면 간재로 461 기라성", latitude: 35.764060322108, longitude: 126.692563323509, inVideoMenus: ["해물짜장", "볶음밥", "돈까스", "비빔간짜장"]),
+            Restaurant(youtubeId: "IBKaevIroGs", name: "엄정분식", category: "분식", storeInfo: "043-844-6931", address: "충북 충주시 충인6길 37-1", latitude: 36.973723104947, longitude: 127.933214337749, inVideoMenus: ["막창구이", "곱창전골"]),
+            Restaurant(youtubeId: "or2TgTRjPq8", name: "산동포자", category: "중식", storeInfo: "032-431-8885", address: "인천 부평구 마장로 75 대경빌딩", latitude: 37.4854923844293, longitude: 126.70769464585, inVideoMenus: ["홍소스즈토우", "꼴뚜기튀김", "바지락볶음", "홍소로우", "중국식새우튀김"]),
+            ]
     )
     
 }
