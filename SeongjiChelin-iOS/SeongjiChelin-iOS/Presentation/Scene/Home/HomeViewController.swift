@@ -304,9 +304,9 @@ private extension HomeViewController {
 extension HomeViewController: GMSMapViewDelegate {
     
     func showCustomHeightSheet(for restaurant: Restaurant) {
-        let vc = DetailViewController(viewModel: DetailViewModel())
+        let vc = DetailViewController(viewModel: DetailViewModel(restaurantInfo: restaurant))
         vc.modalPresentationStyle = .pageSheet
-        
+        vc.setSheet()
         present(vc, animated: true, completion: nil)
     }
     
