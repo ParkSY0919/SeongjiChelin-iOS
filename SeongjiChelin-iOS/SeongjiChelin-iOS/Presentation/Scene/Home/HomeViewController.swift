@@ -258,8 +258,6 @@ private extension HomeViewController {
             for restaurant in theme.restaurants {
                 let position = CLLocationCoordinate2D(latitude: restaurant.latitude, longitude: restaurant.longitude)
                 let marker = GMSMarker(position: position)
-                marker.title = restaurant.name
-                marker.snippet = "\(restaurant.category) | \(restaurant.address)"
                 
                 let customMarkerView = CustomMarkerView(themeType: theme.themeType)
                 marker.iconView = customMarkerView
@@ -313,12 +311,13 @@ extension HomeViewController: GMSMapViewDelegate {
             let smallDetent = UISheetPresentationController.Detent.custom(identifier: .customSmall) { context in
                 return context.maximumDetentValue * 0.45
             }
+            sheet.largestUndimmedDetentIdentifier = .customSmall
             
             sheet.detents = [smallDetent, .large()]
-            
             sheet.delegate = self
             sheet.prefersGrabberVisible = true
             sheet.selectedDetentIdentifier = .customSmall
+            
         }
         
         present(vc, animated: true, completion: nil)
