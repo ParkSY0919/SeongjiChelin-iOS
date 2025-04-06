@@ -29,16 +29,19 @@ final class SJFavoriteButton: UIButton {
     
     func setFavoriteButtonStyle() {
         var buttonConfiguration = UIButton.Configuration.plain()
-        buttonConfiguration.title = "즐겨찾기"
-        buttonConfiguration.image = UIImage(systemName: "star.fill")
-        buttonConfiguration.imagePlacement = .top
-        buttonConfiguration.imagePadding = 2
-        
-        buttonConfiguration.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
-            var outgoing = incoming
-            outgoing.font = UIFont.seongiFont(.body_bold_8)
-            outgoing.foregroundColor = .text100
-            return outgoing
+        if isHomeFavorite {
+            buttonConfiguration.title = "즐겨찾기"
+            buttonConfiguration.image = UIImage(systemName: "star")
+            buttonConfiguration.imagePlacement = .top
+            buttonConfiguration.imagePadding = 2
+            buttonConfiguration.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
+                var outgoing = incoming
+                outgoing.font = UIFont.seongiFont(.body_bold_8)
+                outgoing.foregroundColor = .text100
+                return outgoing
+            }
+        } else {
+            buttonConfiguration.image = UIImage(systemName: "star.fill")
         }
         
         self.configuration = buttonConfiguration
@@ -46,11 +49,11 @@ final class SJFavoriteButton: UIButton {
         let buttonStateHandler: UIButton.ConfigurationUpdateHandler = { button in
             switch button.state {
             case .normal:
-                button.configuration?.baseForegroundColor = .text100
-                button.configuration?.background.backgroundColor = .bg300
+                button.configuration?.baseForegroundColor = self.isHomeFavorite ? .text100 : .bg100
+                button.configuration?.background.backgroundColor = .clear
             case .selected:
-                button.configuration?.baseForegroundColor = .bg100
-                button.configuration?.background.backgroundColor = .primary200
+                button.configuration?.baseForegroundColor = self.isHomeFavorite ? .bg100 : .primary200
+                button.configuration?.background.backgroundColor = self.isHomeFavorite ? .primary200 : .clear
             default:
                 return
             }
@@ -62,6 +65,7 @@ final class SJFavoriteButton: UIButton {
             self.addTarget(self,
                            action: #selector(favoriteButtonTapped),
                            for: .touchUpInside)
+            self.contentMode = .scaleAspectFit
         } else {
             self.isSelected = true
         }
@@ -78,6 +82,7 @@ final class SJFavoriteButton: UIButton {
         case false:
             print(#function, "delete table")
         }
+        self.isUserInteractionEnabled = true
     }
     
 }

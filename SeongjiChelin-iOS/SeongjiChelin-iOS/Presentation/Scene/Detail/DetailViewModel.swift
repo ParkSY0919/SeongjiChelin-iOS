@@ -10,7 +10,7 @@ import YouTubePlayerKit
 
 final class DetailViewModel: ViewModelProtocol {
     
-    private let restaurantInfo: Restaurant
+    let restaurantInfo: Restaurant
     let videoSource: YouTubePlayer.Source
     
     init(restaurantInfo: Restaurant, videoId: String = "B4QWdVBGd9k") {

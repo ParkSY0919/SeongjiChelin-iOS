@@ -56,6 +56,7 @@
 		9E7F11672DA286E800693A4E /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 9E7F11662DA286E800693A4E /* RxCocoa */; };
 		9E7F11692DA286E800693A4E /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 9E7F11682DA286E800693A4E /* RxSwift */; };
 		9E7F116C2DA286F600693A4E /* RxCombine in Frameworks */ = {isa = PBXBuildFile; productRef = 9E7F116B2DA286F600693A4E /* RxCombine */; };
+		9E7F116E2DA2A74D00693A4E /* UIAlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E7F116D2DA2A74D00693A4E /* UIAlertManager.swift */; };
 		9EBD54D92D9DEE62005F4B8A /* SideMenu in Frameworks */ = {isa = PBXBuildFile; productRef = 9EBD54D82D9DEE62005F4B8A /* SideMenu */; };
 		9EBD54FE2D9E769D005F4B8A /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EBD54FD2D9E769D005F4B8A /* MenuViewController.swift */; };
 		9EBD55022D9E7951005F4B8A /* MenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EBD55012D9E7951005F4B8A /* MenuViewModel.swift */; };
@@ -113,6 +114,7 @@
 		9E6F7E202D97A04F009F24FC /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		9E7F115E2DA26FF300693A4E /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
 		9E7F11602DA2701700693A4E /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		9E7F116D2DA2A74D00693A4E /* UIAlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAlertManager.swift; sourceTree = "<group>"; };
 		9EBD54FD2D9E769D005F4B8A /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		9EBD55012D9E7951005F4B8A /* MenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewModel.swift; sourceTree = "<group>"; };
 		9EBD55032D9E7A5D005F4B8A /* UILabel+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+.swift"; sourceTree = "<group>"; };
@@ -220,6 +222,7 @@
 			children = (
 				9E6F7D9C2D96DA72009F24FC /* CustomFormaterManager.swift */,
 				9E6F7D9D2D96DA72009F24FC /* Log.swift */,
+				9E7F116D2DA2A74D00693A4E /* UIAlertManager.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -506,6 +509,7 @@
 				9E4A576D2DA253D800A538E3 /* SJCustomMarkerView.swift in Sources */,
 				9E4A57382D9F988000A538E3 /* SJStoreFilterButton.swift in Sources */,
 				9EBD54FE2D9E769D005F4B8A /* MenuViewController.swift in Sources */,
+				9E7F116E2DA2A74D00693A4E /* UIAlertManager.swift in Sources */,
 				9E6F7D802D96D70B009F24FC /* SceneDelegate.swift in Sources */,
 				9E6F7D902D96D8CB009F24FC /* ConstantLiterals.swift in Sources */,
 				9E6F7E152D979E31009F24FC /* DTO.swift in Sources */,
