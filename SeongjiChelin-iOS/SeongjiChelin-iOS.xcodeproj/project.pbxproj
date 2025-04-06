@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		9E4A572B2D9E98E700A538E3 /* MenuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4A572A2D9E98E700A538E3 /* MenuTableViewCell.swift */; };
 		9E4A572E2D9EA47300A538E3 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4A572D2D9EA47300A538E3 /* HomeViewModel.swift */; };
-		9E4A57312D9EB1B000A538E3 /* GoogleMaps in Frameworks */ = {isa = PBXBuildFile; productRef = 9E4A57302D9EB1B000A538E3 /* GoogleMaps */; };
 		9E4A57342D9EB73E00A538E3 /* GooglePlaces in Frameworks */ = {isa = PBXBuildFile; productRef = 9E4A57332D9EB73E00A538E3 /* GooglePlaces */; };
 		9E4A57362D9F8DDB00A538E3 /* RestaurantLiterals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4A57352D9F8DDB00A538E3 /* RestaurantLiterals.swift */; };
 		9E4A57382D9F988000A538E3 /* SJStoreFilterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4A57372D9F988000A538E3 /* SJStoreFilterButton.swift */; };
@@ -52,6 +51,7 @@
 		9E6F7E212D97A04F009F24FC /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E6F7E202D97A04F009F24FC /* BaseViewController.swift */; };
 		9E6F7E222D97A04F009F24FC /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E6F7E1E2D97A04F009F24FC /* BaseTableViewCell.swift */; };
 		9E6F7E242D97A04F009F24FC /* BaseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E6F7E1D2D97A04F009F24FC /* BaseCollectionViewCell.swift */; };
+		9E7F115C2DA266E600693A4E /* GoogleMaps in Frameworks */ = {isa = PBXBuildFile; productRef = 9E7F115B2DA266E600693A4E /* GoogleMaps */; };
 		9EBD54D92D9DEE62005F4B8A /* SideMenu in Frameworks */ = {isa = PBXBuildFile; productRef = 9EBD54D82D9DEE62005F4B8A /* SideMenu */; };
 		9EBD54FE2D9E769D005F4B8A /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EBD54FD2D9E769D005F4B8A /* MenuViewController.swift */; };
 		9EBD55022D9E7951005F4B8A /* MenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EBD55012D9E7951005F4B8A /* MenuViewModel.swift */; };
@@ -123,9 +123,9 @@
 				9E6F7DE52D9780B9009F24FC /* Alamofire in Frameworks */,
 				9E6F7DDF2D9780A5009F24FC /* RxSwift in Frameworks */,
 				9E6F7DEE2D97828F009F24FC /* Differentiator in Frameworks */,
-				9E4A57312D9EB1B000A538E3 /* GoogleMaps in Frameworks */,
 				9E6F7DDD2D9780A5009F24FC /* RxCocoa in Frameworks */,
 				9E6F7DF02D97828F009F24FC /* RxDataSources in Frameworks */,
+				9E7F115C2DA266E600693A4E /* GoogleMaps in Frameworks */,
 				9E6F7DDA2D97808E009F24FC /* SnapKit in Frameworks */,
 				9E4A57342D9EB73E00A538E3 /* GooglePlaces in Frameworks */,
 				9EBD54D92D9DEE62005F4B8A /* SideMenu in Frameworks */,
@@ -399,9 +399,9 @@
 				9E6F7DED2D97828F009F24FC /* Differentiator */,
 				9E6F7DEF2D97828F009F24FC /* RxDataSources */,
 				9EBD54D82D9DEE62005F4B8A /* SideMenu */,
-				9E4A57302D9EB1B000A538E3 /* GoogleMaps */,
 				9E4A57332D9EB73E00A538E3 /* GooglePlaces */,
 				9E4A573C2D9FB97100A538E3 /* Toast */,
+				9E7F115B2DA266E600693A4E /* GoogleMaps */,
 			);
 			productName = "SeongjiChelin-iOS";
 			productReference = 9E6F7CEA2D96D258009F24FC /* SeongjiChelin-iOS.app */;
@@ -440,9 +440,9 @@
 				9E6F7DE92D978150009F24FC /* XCRemoteSwiftPackageReference "realm-swift" */,
 				9E6F7DEC2D97828F009F24FC /* XCRemoteSwiftPackageReference "RxDataSources" */,
 				9EBD54D72D9DEE62005F4B8A /* XCRemoteSwiftPackageReference "SideMenu" */,
-				9E4A572F2D9EB1B000A538E3 /* XCRemoteSwiftPackageReference "ios-maps-sdk" */,
 				9E4A57322D9EB73E00A538E3 /* XCRemoteSwiftPackageReference "ios-places-sdk" */,
 				9E4A573B2D9FB97100A538E3 /* XCRemoteSwiftPackageReference "Toast-Swift" */,
+				9E7F115A2DA266E600693A4E /* XCRemoteSwiftPackageReference "ios-maps-sdk" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 9E6F7CEB2D96D258009F24FC /* Products */;
@@ -732,14 +732,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		9E4A572F2D9EB1B000A538E3 /* XCRemoteSwiftPackageReference "ios-maps-sdk" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/googlemaps/ios-maps-sdk.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 9.4.0;
-			};
-		};
 		9E4A57322D9EB73E00A538E3 /* XCRemoteSwiftPackageReference "ios-places-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/googlemaps/ios-places-sdk";
@@ -812,6 +804,14 @@
 				minimumVersion = 5.0.2;
 			};
 		};
+		9E7F115A2DA266E600693A4E /* XCRemoteSwiftPackageReference "ios-maps-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googlemaps/ios-maps-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.4.0;
+			};
+		};
 		9EBD54D72D9DEE62005F4B8A /* XCRemoteSwiftPackageReference "SideMenu" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/jonkykong/SideMenu.git";
@@ -823,11 +823,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		9E4A57302D9EB1B000A538E3 /* GoogleMaps */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 9E4A572F2D9EB1B000A538E3 /* XCRemoteSwiftPackageReference "ios-maps-sdk" */;
-			productName = GoogleMaps;
-		};
 		9E4A57332D9EB73E00A538E3 /* GooglePlaces */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 9E4A57322D9EB73E00A538E3 /* XCRemoteSwiftPackageReference "ios-places-sdk" */;
@@ -882,6 +877,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9E6F7DEC2D97828F009F24FC /* XCRemoteSwiftPackageReference "RxDataSources" */;
 			productName = RxDataSources;
+		};
+		9E7F115B2DA266E600693A4E /* GoogleMaps */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9E7F115A2DA266E600693A4E /* XCRemoteSwiftPackageReference "ios-maps-sdk" */;
+			productName = GoogleMaps;
 		};
 		9EBD54D82D9DEE62005F4B8A /* SideMenu */ = {
 			isa = XCSwiftPackageProductDependency;
