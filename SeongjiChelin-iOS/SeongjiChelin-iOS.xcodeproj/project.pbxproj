@@ -52,6 +52,8 @@
 		9E6F7E222D97A04F009F24FC /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E6F7E1E2D97A04F009F24FC /* BaseTableViewCell.swift */; };
 		9E6F7E242D97A04F009F24FC /* BaseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E6F7E1D2D97A04F009F24FC /* BaseCollectionViewCell.swift */; };
 		9E7F115C2DA266E600693A4E /* GoogleMaps in Frameworks */ = {isa = PBXBuildFile; productRef = 9E7F115B2DA266E600693A4E /* GoogleMaps */; };
+		9E7F115F2DA26FF300693A4E /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E7F115E2DA26FF300693A4E /* DetailViewModel.swift */; };
+		9E7F11612DA2701700693A4E /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E7F11602DA2701700693A4E /* DetailViewController.swift */; };
 		9EBD54D92D9DEE62005F4B8A /* SideMenu in Frameworks */ = {isa = PBXBuildFile; productRef = 9EBD54D82D9DEE62005F4B8A /* SideMenu */; };
 		9EBD54FE2D9E769D005F4B8A /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EBD54FD2D9E769D005F4B8A /* MenuViewController.swift */; };
 		9EBD55022D9E7951005F4B8A /* MenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EBD55012D9E7951005F4B8A /* MenuViewModel.swift */; };
@@ -107,6 +109,8 @@
 		9E6F7E1D2D97A04F009F24FC /* BaseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewCell.swift; sourceTree = "<group>"; };
 		9E6F7E1E2D97A04F009F24FC /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
 		9E6F7E202D97A04F009F24FC /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		9E7F115E2DA26FF300693A4E /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
+		9E7F11602DA2701700693A4E /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		9EBD54FD2D9E769D005F4B8A /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		9EBD55012D9E7951005F4B8A /* MenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewModel.swift; sourceTree = "<group>"; };
 		9EBD55032D9E7A5D005F4B8A /* UILabel+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+.swift"; sourceTree = "<group>"; };
@@ -328,6 +332,7 @@
 			children = (
 				9EBD54FC2D9E7692005F4B8A /* Menu */,
 				9E4A572C2D9EA18B00A538E3 /* Home */,
+				9E7F115D2DA26FDD00693A4E /* Detail */,
 			);
 			path = Scene;
 			sourceTree = "<group>";
@@ -359,6 +364,15 @@
 				9E6F7E1B2D97A00C009F24FC /* ViewModelProtocol.swift */,
 			);
 			path = Protocol;
+			sourceTree = "<group>";
+		};
+		9E7F115D2DA26FDD00693A4E /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+				9E7F115E2DA26FF300693A4E /* DetailViewModel.swift */,
+				9E7F11602DA2701700693A4E /* DetailViewController.swift */,
+			);
+			path = Detail;
 			sourceTree = "<group>";
 		};
 		9EBD54FC2D9E7692005F4B8A /* Menu */ = {
@@ -473,6 +487,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9EBD55042D9E7A5D005F4B8A /* UILabel+.swift in Sources */,
+				9E7F11612DA2701700693A4E /* DetailViewController.swift in Sources */,
 				9E6F7D7F2D96D70B009F24FC /* AppDelegate.swift in Sources */,
 				9E6F7D852D96D7A6009F24FC /* Config.swift in Sources */,
 				9E6F7D9E2D96DA72009F24FC /* Log.swift in Sources */,
@@ -503,6 +518,7 @@
 				9E6F7DD72D971B00009F24FC /* BaseAPIError.swift in Sources */,
 				9EBD55022D9E7951005F4B8A /* MenuViewModel.swift in Sources */,
 				9E4A57362D9F8DDB00A538E3 /* RestaurantLiterals.swift in Sources */,
+				9E7F115F2DA26FF300693A4E /* DetailViewModel.swift in Sources */,
 				9E6F7DCF2D96DB3D009F24FC /* NetworkServiceProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

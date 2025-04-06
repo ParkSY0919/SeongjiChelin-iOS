@@ -299,26 +299,13 @@ private extension HomeViewController {
     
 }
 
+
 @available(iOS 16.0, *)
 extension HomeViewController: GMSMapViewDelegate {
     
     func showCustomHeightSheet(for restaurant: Restaurant) {
-        let vc = UIViewController()
-        vc.view.backgroundColor = .systemTeal // 다른 색으로 구분
+        let vc = DetailViewController(viewModel: DetailViewModel())
         vc.modalPresentationStyle = .pageSheet
-        
-        if let sheet = vc.sheetPresentationController {
-            let smallDetent = UISheetPresentationController.Detent.custom(identifier: .customSmall) { context in
-                return context.maximumDetentValue * 0.45
-            }
-            sheet.largestUndimmedDetentIdentifier = .customSmall
-            
-            sheet.detents = [smallDetent, .large()]
-            sheet.delegate = self
-            sheet.prefersGrabberVisible = true
-            sheet.selectedDetentIdentifier = .customSmall
-            
-        }
         
         present(vc, animated: true, completion: nil)
     }
@@ -328,10 +315,6 @@ extension HomeViewController: GMSMapViewDelegate {
            let restaurant = userData["restaurant"] as? Restaurant {
             // 커스텀 높이 시트 함수
             showCustomHeightSheet(for: restaurant)
-            
-            // 카메라 줌 업데이트
-//            let update = GMSCameraUpdate.setTarget(marker.position, zoom: 15)
-//            mapView.animate(with: update)
         }
         // 기본 동작 작동
         return false
@@ -339,18 +322,6 @@ extension HomeViewController: GMSMapViewDelegate {
     
 }
 
-extension HomeViewController: UISheetPresentationControllerDelegate {
-    
-    func sheetPresentationControllerDidChangeSelectedDetentIdentifier(_ sheetPresentationController: UISheetPresentationController) {
-            //크기 변경 됐을 경우
-            print(sheetPresentationController.selectedDetentIdentifier == .large ? "large" : "medium")
-        }
-}
-
-extension UISheetPresentationController.Detent.Identifier {
-    static let customSmall = UISheetPresentationController.Detent.Identifier("customSmall")
-    static let customFixed = UISheetPresentationController.Detent.Identifier("customFixed")
-}
 
 extension HomeViewController: SideMenuNavigationControllerDelegate {
     
