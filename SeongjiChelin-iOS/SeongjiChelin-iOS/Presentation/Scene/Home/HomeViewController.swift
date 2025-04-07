@@ -174,6 +174,9 @@ private extension HomeViewController {
             let boldMenuImage = UIImage(systemName: "microphone", withConfiguration: boldConfig)
             $0.setImage(boldMenuImage, for: .normal)
             $0.tintColor = .text200
+            
+            //TODO: 추후 음성 기능 추가했을 때 삭제
+            $0.isHidden = true
         }
         
         searchTextField.do {
