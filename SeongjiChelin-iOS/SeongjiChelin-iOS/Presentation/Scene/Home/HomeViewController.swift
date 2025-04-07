@@ -179,6 +179,9 @@ private extension HomeViewController {
             $0.isHidden = true
         }
         
+        //TODO: 추후 삭제
+        favoriteListButton.isHidden = true
+        
         searchTextField.do {
             $0.placeholder = "식당, 장소, 카테고리 등 검색"
             $0.textAlignment = .left

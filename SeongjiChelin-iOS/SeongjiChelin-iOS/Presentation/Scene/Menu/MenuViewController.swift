@@ -132,7 +132,7 @@ final class MenuViewController: BaseViewController {
         }
         
         infoSuggestCorrectionLabel.setLabelUI(
-            "정보 수정 제안",
+            "정보 수정 제안 및 QnA",
             font: .seongiFont(.body_regular_14),
             textColor: .text100
         )
@@ -164,12 +164,16 @@ private extension MenuViewController {
         
         output.selectedItemAction
             .drive(onNext: { [weak self] selectedItem in
-                guard let self = self else { return }
-                
-                self.dismiss(animated: true) {
-                    print("선택된 메뉴 (Rx): \(selectedItem)")
-                    print("\(selectedItem) 메뉴 관련 화면으로 이동 또는 작업 수행")
+                guard let self else { return }
+                switch selectedItem {
+                case "홈":
+                    print("selectedItem: 홈")
+                case "나만의 식당":
+                    print("selectedItem: 나만의 식당")
+                default:
+                    self.dismiss(animated: true)
                 }
+                self.dismiss(animated: true)
             })
             .disposed(by: disposeBag)
     }
