@@ -174,13 +174,7 @@ private extension HomeViewController {
             let boldMenuImage = UIImage(systemName: "microphone", withConfiguration: boldConfig)
             $0.setImage(boldMenuImage, for: .normal)
             $0.tintColor = .text200
-            
-            //TODO: 추후 음성 기능 추가했을 때 삭제
-            $0.isHidden = true
         }
-        
-        //TODO: 추후 삭제
-        favoriteListButton.isHidden = true
         
         searchTextField.do {
             $0.placeholder = "식당, 장소, 카테고리 등 검색"

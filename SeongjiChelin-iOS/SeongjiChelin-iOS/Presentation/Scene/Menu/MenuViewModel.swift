@@ -25,9 +25,7 @@ final class MenuViewModel: ViewModelProtocol {
         let selectedItemAction: Driver<String>
     }
 
-    private let menuItemsRelay = BehaviorRelay<[String]>(value: ["홈"])
-    //TODO: 추후 추가하기
-//    private let menuItemsRelay = BehaviorRelay<[String]>(value: ["홈", "나만의 식당", "사용법"])
+    private let menuItemsRelay = BehaviorRelay<[String]>(value: ["홈", "나만의 식당", "사용법"])
 
     func transform(input: Input) -> Output {
         let menuItemsDriver = menuItemsRelay.asDriver()
