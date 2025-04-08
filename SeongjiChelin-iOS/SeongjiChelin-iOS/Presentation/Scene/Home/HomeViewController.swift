@@ -36,8 +36,12 @@ final class HomeViewController: BaseViewController {
     private let hongSeokCheonThemeButton = SJStoreFilterButton(theme: .hongSeokCheonTheme)
     private let baekJongWonThemeButton = SJStoreFilterButton(theme: .baekJongWonTheme)
     
-    private let camera = GMSCameraPosition.camera(withLatitude: -33.86, longitude: 151.20, zoom: 6.0)
-    private lazy var mapView = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
+    private let camera = GMSCameraPosition.camera(withLatitude: 37.5665, longitude: 126.9780, zoom: 12.0) // 예시: 서울 중심
+    private lazy var mapView: GMSMapView = { // lazy var 초기화 방식 변경 권장
+            let map = GMSMapView(frame: .zero) // Non-deprecated 방식 사용
+            map.camera = camera
+            return map
+        }()
     
     init(viewModel: HomeViewModel) {
         self.viewModel = viewModel
@@ -85,7 +89,7 @@ final class HomeViewController: BaseViewController {
         }
         
         customNavBar.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(45)
+            $0.top.equalToSuperview().inset(55)
             $0.leading.equalToSuperview().inset(15)
             $0.trailing.equalTo(favoriteListButton.snp.leading).offset(-15)
             $0.height.equalToSuperview().multipliedBy(0.06)

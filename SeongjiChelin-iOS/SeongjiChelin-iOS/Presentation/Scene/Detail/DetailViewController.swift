@@ -14,7 +14,6 @@ import SnapKit
 import Then
 import YouTubePlayerKit
 
-@available(iOS 16.0, *)
 final class DetailViewController: BaseViewController {
     
     private let disposeBag = DisposeBag()
@@ -261,7 +260,6 @@ final class DetailViewController: BaseViewController {
     
 }
 
-@available(iOS 16.0, *)
 extension DetailViewController: UISheetPresentationControllerDelegate {
     
     func sheetPresentationControllerDidChangeSelectedDetentIdentifier(_ sheetPresentationController: UISheetPresentationController) {
