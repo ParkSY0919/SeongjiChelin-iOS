@@ -61,6 +61,8 @@
 		9EBD54FE2D9E769D005F4B8A /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EBD54FD2D9E769D005F4B8A /* MenuViewController.swift */; };
 		9EBD55022D9E7951005F4B8A /* MenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EBD55012D9E7951005F4B8A /* MenuViewModel.swift */; };
 		9EBD55042D9E7A5D005F4B8A /* UILabel+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EBD55032D9E7A5D005F4B8A /* UILabel+.swift */; };
+		9EC0C3FB2DA6646B0037545A /* HomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EC0C3FA2DA6646B0037545A /* HomeCollectionViewCell.swift */; };
+		9EC0C3FD2DA66BDF0037545A /* SJStoreInfoBaseLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EC0C3FC2DA66BDF0037545A /* SJStoreInfoBaseLabelView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -118,6 +120,8 @@
 		9EBD54FD2D9E769D005F4B8A /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		9EBD55012D9E7951005F4B8A /* MenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewModel.swift; sourceTree = "<group>"; };
 		9EBD55032D9E7A5D005F4B8A /* UILabel+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+.swift"; sourceTree = "<group>"; };
+		9EC0C3FA2DA6646B0037545A /* HomeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewCell.swift; sourceTree = "<group>"; };
+		9EC0C3FC2DA66BDF0037545A /* SJStoreInfoBaseLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SJStoreInfoBaseLabelView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,6 +155,7 @@
 			children = (
 				9E4A572D2D9EA47300A538E3 /* HomeViewModel.swift */,
 				9E6F7D792D96D70B009F24FC /* HomeViewController.swift */,
+				9EC0C3FA2DA6646B0037545A /* HomeCollectionViewCell.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -360,6 +365,7 @@
 				9E4A57372D9F988000A538E3 /* SJStoreFilterButton.swift */,
 				9E4A57392D9FAD6D00A538E3 /* SJFavoriteButton.swift */,
 				9E4A576C2DA253D800A538E3 /* SJCustomMarkerView.swift */,
+				9EC0C3FC2DA66BDF0037545A /* SJStoreInfoBaseLabelView.swift */,
 			);
 			path = UIComponent;
 			sourceTree = "<group>";
@@ -503,6 +509,7 @@
 				9E6F7D852D96D7A6009F24FC /* Config.swift in Sources */,
 				9E6F7D9E2D96DA72009F24FC /* Log.swift in Sources */,
 				9E6F7E212D97A04F009F24FC /* BaseViewController.swift in Sources */,
+				9EC0C3FD2DA66BDF0037545A /* SJStoreInfoBaseLabelView.swift in Sources */,
 				9E6F7E222D97A04F009F24FC /* BaseTableViewCell.swift in Sources */,
 				9E6F7E242D97A04F009F24FC /* BaseCollectionViewCell.swift in Sources */,
 				9E6F7D9F2D96DA72009F24FC /* CustomFormaterManager.swift in Sources */,
@@ -520,6 +527,7 @@
 				9E4A573A2D9FAD6D00A538E3 /* SJFavoriteButton.swift in Sources */,
 				9E6F7D982D96D9C1009F24FC /* UIView+.swift in Sources */,
 				9E6F7D992D96D9C1009F24FC /* UIImage+.swift in Sources */,
+				9EC0C3FB2DA6646B0037545A /* HomeCollectionViewCell.swift in Sources */,
 				9E6F7D9A2D96D9C1009F24FC /* UIImageView+.swift in Sources */,
 				9E6F7D9B2D96D9C1009F24FC /* UIFont+.swift in Sources */,
 				9E6F7DD42D96DD7B009F24FC /* NetworkService.swift in Sources */,
