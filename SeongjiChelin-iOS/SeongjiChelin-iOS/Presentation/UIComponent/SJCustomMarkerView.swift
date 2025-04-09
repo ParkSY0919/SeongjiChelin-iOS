@@ -37,14 +37,12 @@ final class CustomMarkerView: UIView {
         iconImageView.do {
             $0.contentMode = .scaleAspectFit
             $0.tintColor = .bg100
-            $0.image = themeType.image
+            $0.image = themeType.madeImage
         }
         
         self.do {
             $0.backgroundColor = themeType.color
             $0.layer.cornerRadius = 32/2
-            $0.layer.borderWidth = 0.8
-            $0.layer.borderColor = UIColor.primary100.cgColor
         }
     }
     

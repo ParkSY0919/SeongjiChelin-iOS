@@ -19,7 +19,7 @@ final class SJStoreFilterButton: UIButton {
     let tapSubject = PublishSubject<RestaurantThemeType?>()
     
     init(theme: RestaurantThemeType) {
-        self.image = theme.image
+        self.image = theme.madeImage
         self.themeType = theme
         
         super.init(frame: .zero)

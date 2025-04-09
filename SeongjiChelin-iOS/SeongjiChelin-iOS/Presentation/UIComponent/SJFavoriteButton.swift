@@ -14,10 +14,10 @@ import Then
 
 final class SJFavoriteButton: UIButton {
     
-    private var isHomeFavorite: Bool
+    private let cornerRadius: CGFloat
     
-    init(isHomeFavorite: Bool = false) {
-        self.isHomeFavorite = isHomeFavorite
+    init(cornerRadius: CGFloat) {
+        self.cornerRadius = cornerRadius
         super.init(frame: .zero)
         
         setFavoriteButtonStyle()
@@ -27,48 +27,29 @@ final class SJFavoriteButton: UIButton {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setFavoriteButtonStyle() {
+    private func setFavoriteButtonStyle() {
         var buttonConfiguration = UIButton.Configuration.plain()
-        if isHomeFavorite {
-            buttonConfiguration.title = "즐겨찾기"
-            buttonConfiguration.image = UIImage(systemName: "star")
-            buttonConfiguration.imagePlacement = .top
-            buttonConfiguration.imagePadding = 2
-            buttonConfiguration.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
-                var outgoing = incoming
-                outgoing.font = UIFont.seongiFont(.body_bold_8)
-                outgoing.foregroundColor = .text100
-                return outgoing
-            }
-        } else {
-            buttonConfiguration.image = UIImage(systemName: "star.fill")
-        }
-        
+        buttonConfiguration.background.backgroundColor = .primary100
+        buttonConfiguration.baseForegroundColor = .bg100
         self.configuration = buttonConfiguration
         
         let buttonStateHandler: UIButton.ConfigurationUpdateHandler = { button in
             switch button.state {
             case .normal:
-                button.configuration?.baseForegroundColor = self.isHomeFavorite ? .text100 : .bg100
-                button.configuration?.background.backgroundColor = .clear
+                button.configuration?.image = UIImage(systemName: "bookmark")
             case .selected:
-                button.configuration?.baseForegroundColor = self.isHomeFavorite ? .bg100 : .primary200
-                button.configuration?.background.backgroundColor = self.isHomeFavorite ? .primary200 : .clear
+                button.configuration?.image = UIImage(systemName: "bookmark.fill")
             default:
                 return
             }
         }
         
         self.configurationUpdateHandler = buttonStateHandler
-        
-        if !isHomeFavorite {
-            self.addTarget(self,
-                           action: #selector(favoriteButtonTapped),
-                           for: .touchUpInside)
-            self.contentMode = .scaleAspectFit
-        } else {
-            self.isSelected = true
-        }
+        self.addTarget(self,
+                       action: #selector(favoriteButtonTapped),
+                       for: .touchUpInside)
+        self.contentMode = .scaleAspectFit
+        self.layer.cornerRadius = self.cornerRadius
     }
     
     @objc
