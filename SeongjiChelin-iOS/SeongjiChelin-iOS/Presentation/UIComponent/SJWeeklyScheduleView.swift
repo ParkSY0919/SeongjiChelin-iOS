@@ -102,7 +102,7 @@ final class SJWeeklyScheduleView: UIView {
             $0.top.equalTo(weekdayLabels[0].snp.bottom).offset(12)
             $0.leading.equalToSuperview().offset(8)
             $0.trailing.equalToSuperview().offset(-8)
-            $0.height.equalTo(1)
+            $0.height.equalTo(0.5)
         }
         
         //영업 시작 시간 레이블 레이아웃
@@ -154,8 +154,8 @@ final class SJWeeklyScheduleView: UIView {
         self.do {
             $0.backgroundColor = .bg100
             $0.layer.cornerRadius = 12
-            $0.layer.borderWidth = 1
-            $0.layer.borderColor = UIColor.bg200.cgColor
+            $0.layer.borderWidth = 0.8
+            $0.layer.borderColor = UIColor.primary200.cgColor
         }
         
         regularLabel.setLabelUI(
@@ -172,7 +172,7 @@ final class SJWeeklyScheduleView: UIView {
             alignment: .center
         )
         
-        dividerLine.backgroundColor = .bg200
+        dividerLine.backgroundColor = .primary200
     }
     
     

@@ -16,7 +16,7 @@ import YouTubePlayerKit
 
 final class DetailViewController: BaseViewController {
     
-    private let scheduleView = WeeklyScheduleView()
+    private let scheduleView = SJWeeklyScheduleView()
     
     private var isNoYoutube: Bool = false
     private let disposeBag = DisposeBag()
@@ -36,6 +36,9 @@ final class DetailViewController: BaseViewController {
     
     private let openingHoursToolLabel = SJStoreInfoBaseLabelView(type: .time)
     private let openingHoursLabel = UILabel()
+    
+    private let menusToolLabel = SJStoreInfoBaseLabelView(type: .video)
+    private let menusLabel = UILabel()
     
     private let nearWeatherLabel = UILabel()
     private let nearWeatherImageView = UIImageView()
@@ -70,6 +73,8 @@ final class DetailViewController: BaseViewController {
             parkingLabel,
             openingHoursToolLabel,
             openingHoursLabel,
+            menusToolLabel,
+            menusLabel,
             nearWeatherLabel,
             nearWeatherImageView,
             youtubePlayerContainer,
@@ -150,15 +155,20 @@ final class DetailViewController: BaseViewController {
             $0.height.equalTo(120)
         }
         
+        menusToolLabel.snp.makeConstraints {
+            $0.top.equalTo(scheduleView.snp.bottom).offset(20)
+            $0.leading.equalTo(addressToolLabel.snp.leading)
+        }
+        
+        menusLabel.snp.makeConstraints {
+            $0.top.equalTo(menusToolLabel.snp.top).offset(4)
+            $0.leading.equalTo(menusToolLabel.snp.trailing)
+            $0.trailing.equalTo(view.safeAreaLayoutGuide).inset(20)
+        }
+        
         addChild(playerViewController)
         
         youtubePlayerContainer.addSubviews(loadingIndicator, playerViewController.view)
-        
-//        youtubePlayerContainer.snp.makeConstraints {
-//            $0.top.equalTo(openingHoursLabel.snp.bottom).offset(12)
-//            $0.horizontalEdges.equalToSuperview().inset(24)
-//            $0.height.equalTo(youtubePlayerContainer.snp.width).multipliedBy(9.0/16.0)
-//        }
         
         loadingIndicator.snp.makeConstraints {
             $0.center.equalToSuperview()
@@ -201,7 +211,7 @@ final class DetailViewController: BaseViewController {
         storeNameLabel.setLabelUI("", font: .seongiFont(.title_bold_20), textColor: .primary200)
         storeNumberLabel.setLabelUI("", font: .seongiFont(.body_bold_12), textColor: .marker4)
         
-        [categoryLabel, storeAddressLabel, parkingLabel, openingHoursLabel, nearWeatherLabel].forEach { i in
+        [categoryLabel, storeAddressLabel, parkingLabel, openingHoursLabel, menusLabel].forEach { i in
             i.setLabelUI(
                 "",
                 font: .seongiFont(.body_bold_12),
@@ -222,26 +232,22 @@ final class DetailViewController: BaseViewController {
     
     //TODO: 추후 각 데이터 바인딩 수정
     private func configureDetailView(restaurant: Restaurant) {
-//        let isYoutubeIdNil = restaurant.youtubeId == nil
-//           isNoYoutube = isYoutubeIdNil
-//           openingHoursToolLabel.isNoYoutube(isValid: isYoutubeIdNil)
+        let isYoutubeIdNil = restaurant.youtubeId == nil
+        isNoYoutube = isYoutubeIdNil
+        menusToolLabel.isNoYoutube(isValid: isYoutubeIdNil)
         
         storeNameLabel.text = restaurant.name
         categoryLabel.text = restaurant.category
         storeAddressLabel.text = restaurant.address
         storeNumberLabel.text = restaurant.number
         parkingLabel.text = restaurant.amenities
+        menusLabel.text = restaurant.menus.map(\.self).joined(separator: ", ")
         
         openingHoursLabel.do {
             let status = restaurant.checkStoreStatus()
             $0.text = status.displayText
             $0.textColor = status.textColor
         }
-        
-        //메뉴관련
-        //openingHoursLabel.text = restaurant.menus.map(\.self).joined(separator: ", ")
-        
-        
         
         nearWeatherLabel.text = "🌡️ 현재 근처 날씨: " + "맑음"
         
@@ -250,20 +256,6 @@ final class DetailViewController: BaseViewController {
             switchLayout(isCustomSmall: isCustomSmall)
         }
     }
-    
-//    private func updateStoreStatus(_ restaurant: Restaurant) {
-//        let status = restaurant.checkStoreStatus()
-//        openingHoursLabel.text = status.displayText
-//        openingHoursLabel.textColor = status.textColor
-//        
-//        // 상태에 따라 배경색 변경 (선택사항)
-//        switch status {
-//        case .open:
-//            openingHoursLabel.backgroundColor = UIColor.systemGreen.withAlphaComponent(0.2)
-//        case .closed, .holidayClosed:
-//            openingHoursLabel.backgroundColor = UIColor.systemRed.withAlphaComponent(0.2)
-//        }
-//    }
     
     @objc
     private func handleStoreInfoLabelTap(_ gesture: UITapGestureRecognizer) {
@@ -331,7 +323,6 @@ extension DetailViewController {
         
         output.restaurantInfo
             .drive(with: self) { owner, restaurant in
-                owner.isNoYoutube = restaurant.youtubeId == nil
                 owner.configureDetailView(restaurant: restaurant)
             }.disposed(by: disposeBag)
         
@@ -377,8 +368,9 @@ extension DetailViewController {
         print("isCustomSmall: \(isCustomSmall)")
         // 두 조건에 따라 유튜브컨테이너 등 표시 여부 결정
         let shouldHideContainer = isNoYoutube || isCustomSmall
-        youtubePlayerContainer.isHidden = shouldHideContainer
-        dismissButton.isHidden = shouldHideContainer
+        [dismissButton, menusToolLabel, menusLabel, youtubePlayerContainer].forEach { i in
+            i.isHidden = shouldHideContainer
+        }
         
         if shouldHideContainer {
             favoriteButton.snp.remakeConstraints {
@@ -388,8 +380,8 @@ extension DetailViewController {
             }
             
             youtubePlayerContainer.snp.remakeConstraints {
-                $0.top.equalTo(openingHoursLabel.snp.bottom).offset(12)
-                $0.horizontalEdges.equalToSuperview().inset(24)
+                $0.top.equalTo(menusLabel.snp.bottom).offset(10)
+                $0.horizontalEdges.equalToSuperview().inset(20)
                 $0.height.equalTo(0)
             }
         } else {
@@ -400,8 +392,8 @@ extension DetailViewController {
             }
             
             youtubePlayerContainer.snp.remakeConstraints {
-                $0.top.equalTo(openingHoursLabel.snp.bottom).offset(12)
-                $0.horizontalEdges.equalToSuperview().inset(24)
+                $0.top.equalTo(menusLabel.snp.bottom).offset(10)
+                $0.horizontalEdges.equalToSuperview().inset(20)
                 $0.height.equalTo(youtubePlayerContainer.snp.width).multipliedBy(9.0/16.0)
             }
         }
@@ -426,228 +418,5 @@ extension DetailViewController: UISheetPresentationControllerDelegate {
 extension UISheetPresentationController.Detent.Identifier {
     
     static let customSmall = UISheetPresentationController.Detent.Identifier("customSmall")
-    
-}
-
-
-final class WeeklyScheduleView: UIView {
-    
-    //헤더 (요일) 레이블
-    private let weekdayLabels: [UILabel] = {
-        let days = ["월", "화", "수", "목", "금", "토", "일"]
-        return days.map { day in
-            return UILabel().then {
-                $0.text = day
-                $0.textAlignment = .center
-                $0.font = .seongiFont(.body_bold_14)
-                $0.textColor = .primary200
-            }
-        }
-    }()
-    
-    //영업 시작 시간 레이블
-    private let openTimeLabels: [UILabel] = {
-        return (0..<7).map { index in
-            return UILabel().then {
-                $0.text = "11:50"
-                $0.textAlignment = .center
-                $0.font = .seongiFont(.body_regular_12)
-                $0.textColor = .accentPink
-            }
-        }
-    }()
-    
-    //영업 종료 시간 레이블
-    private let closeTimeLabels: [UILabel] = {
-        return (0..<7).map { _ in
-            return UILabel().then {
-                $0.text = "22:00"
-                $0.textAlignment = .center
-                $0.font = .seongiFont(.body_regular_12)
-                $0.textColor = .accentPink
-            }
-        }
-    }()
-    
-    // 정기 휴무일 레이블
-    private let regularLabel = UILabel()
-    // 휴무일 레이블
-    private let sundayLabel = UILabel()
-    private let dividerLine = UIView()
-    
-//    private let holidayIndex
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
-        setHierarchy()
-        setLayout()
-        setStyle()
-    }
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-    
-    private func setHierarchy() {
-        //구분선 추가
-        addSubviews(dividerLine, regularLabel, sundayLabel)
-        
-        //요일 레이블 추가
-        weekdayLabels.forEach { addSubview($0) }
-        
-        //영업 시작 시간 레이블 추가
-        openTimeLabels.forEach { addSubview($0) }
-        
-        //영업 종료 시간 레이블 추가
-        closeTimeLabels.forEach { addSubview($0) }
-    }
-    
-    private func setLayout() {
-        //요일 레이블 레이아웃
-        for (index, label) in weekdayLabels.enumerated() {
-            label.snp.makeConstraints {
-                $0.top.equalToSuperview().offset(16)
-                $0.width.equalToSuperview().dividedBy(7)
-                $0.height.equalTo(20)
-                
-                if index == 0 {
-                    $0.leading.equalToSuperview()
-                } else {
-                    $0.leading.equalTo(weekdayLabels[index-1].snp.trailing)
-                }
-            }
-        }
-        
-        //구분선 레이아웃
-        dividerLine.snp.makeConstraints {
-            $0.top.equalTo(weekdayLabels[0].snp.bottom).offset(12)
-            $0.leading.equalToSuperview().offset(8)
-            $0.trailing.equalToSuperview().offset(-8)
-            $0.height.equalTo(1)
-        }
-        
-        //영업 시작 시간 레이블 레이아웃
-        for (index, label) in openTimeLabels.enumerated() {
-            label.snp.makeConstraints {
-                $0.top.equalTo(dividerLine.snp.bottom).offset(12)
-                $0.width.equalToSuperview().dividedBy(7)
-                $0.height.equalTo(20)
-                
-                if index == 0 {
-                    $0.leading.equalToSuperview()
-                } else {
-                    $0.leading.equalTo(openTimeLabels[index-1].snp.trailing)
-                }
-            }
-        }
-        
-        //영업 종료 시간 레이블 레이아웃
-        for (index, label) in closeTimeLabels.enumerated() {
-            label.snp.makeConstraints {
-                $0.top.equalTo(openTimeLabels[0].snp.bottom).offset(8)
-                $0.width.equalToSuperview().dividedBy(7)
-                $0.height.equalTo(20)
-                
-                if index == 0 {
-                    $0.leading.equalToSuperview()
-                } else {
-                    $0.leading.equalTo(closeTimeLabels[index-1].snp.trailing)
-                }
-            }
-        }
-        
-        regularLabel.snp.makeConstraints {
-            $0.top.equalTo(dividerLine.snp.bottom).offset(12)
-            $0.width.equalToSuperview().dividedBy(7)
-            $0.height.equalTo(20)
-            $0.leading.equalTo(openTimeLabels[6].snp.leading)
-        }
-        
-        sundayLabel.snp.makeConstraints {
-            $0.top.equalTo(regularLabel.snp.bottom).offset(8)
-            $0.width.equalToSuperview().dividedBy(7)
-            $0.height.equalTo(20)
-            $0.leading.equalTo(regularLabel.snp.leading)
-        }
-    }
-    
-    private func setStyle() {
-        self.do {
-            $0.backgroundColor = .bg100
-            $0.layer.cornerRadius = 12
-            $0.layer.borderWidth = 1
-            $0.layer.borderColor = UIColor.bg200.cgColor
-        }
-        
-        regularLabel.setLabelUI(
-            "정기",
-            font: .seongiFont(.body_bold_12),
-            textColor: .primary300,
-            alignment: .center
-        )
-        
-        sundayLabel.setLabelUI(
-            "휴무",
-            font: .seongiFont(.body_bold_12),
-            textColor: .primary300,
-            alignment: .center
-        )
-        
-        dividerLine.backgroundColor = .bg200
-    }
-    
-    
-    //영업시간 정보 업데이트 메서드
-    func updateSchedule(openTimes: [String], closeTimes: [String], holidayIndex: Int) {
-        // 기존 레이아웃 제약조건 제거
-        regularLabel.snp.removeConstraints()
-        
-        // 새로운 위치에 정기 휴무일 레이블 배치
-        regularLabel.snp.makeConstraints {
-            $0.top.equalTo(dividerLine.snp.bottom).offset(12)
-            $0.width.equalToSuperview().dividedBy(7)
-            $0.height.equalTo(20)
-            $0.leading.equalTo(openTimeLabels[holidayIndex].snp.leading)
-        }
-        
-        // 일요일 레이블 위치도 업데이트
-        sundayLabel.snp.removeConstraints()
-        sundayLabel.snp.makeConstraints {
-            $0.top.equalTo(regularLabel.snp.bottom).offset(8)
-            $0.width.equalToSuperview().dividedBy(7)
-            $0.height.equalTo(20)
-            $0.leading.equalTo(regularLabel.snp.leading)
-        }
-        
-        // 모든 레이블 보이게 초기화
-        for i in 0..<openTimeLabels.count {
-            openTimeLabels[i].isHidden = false
-            closeTimeLabels[i].isHidden = false
-        }
-        
-        // 휴무일 레이블 숨기기
-        if holidayIndex >= 0 && holidayIndex < openTimeLabels.count {
-            openTimeLabels[holidayIndex].isHidden = true
-            closeTimeLabels[holidayIndex].isHidden = true
-        }
-        
-        // 영업 시작 시간 업데이트
-        for (index, label) in openTimeLabels.enumerated() {
-            if index < openTimes.count && index != holidayIndex {
-                label.text = openTimes[index]
-            }
-        }
-        
-        // 영업 종료 시간 업데이트
-        for (index, label) in closeTimeLabels.enumerated() {
-            if index < closeTimes.count && index != holidayIndex {
-                label.text = closeTimes[index]
-            }
-        }
-        
-        // 레이아웃 즉시 업데이트
-        self.layoutIfNeeded()
-    }
     
 }
