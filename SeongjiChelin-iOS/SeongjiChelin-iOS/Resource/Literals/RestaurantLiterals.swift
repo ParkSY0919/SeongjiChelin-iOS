@@ -49,11 +49,11 @@ enum RestaurantThemeType: String, CaseIterable {
     var color: UIColor {
         switch self {
         case .psyTheme: .primary200
-        case .sungSiKyungTheme: .orange
-        case .ttoGanJibTheme: .yellow
-        case .choizaLoadTheme: .green
-        case .hongSeokCheonTheme: .blue
-        case .baekJongWonTheme: .purple
+        case .sungSiKyungTheme: .marker1
+        case .ttoGanJibTheme: .marker2
+        case .choizaLoadTheme: .marker3
+        case .hongSeokCheonTheme: .marker4
+        case .baekJongWonTheme: .marker5
         }
     }
 }

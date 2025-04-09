@@ -17,7 +17,7 @@ final class CustomMarkerView: UIView {
     
     init(themeType: RestaurantThemeType) {
         self.themeType = themeType
-        let defaultFrame = CGRect(x: 0, y: 0, width: 25, height: 25)
+        let defaultFrame = CGRect(x: 0, y: 0, width: 32, height: 32)
         super.init(frame: defaultFrame)
         
         setupViews()
@@ -31,20 +31,20 @@ final class CustomMarkerView: UIView {
         addSubview(iconImageView)
         
         iconImageView.snp.makeConstraints {
-            $0.edges.equalToSuperview().inset(2)
+            $0.edges.equalToSuperview().inset(6)
         }
         
         iconImageView.do {
             $0.contentMode = .scaleAspectFit
-            $0.tintColor = .primary200
+            $0.tintColor = .bg100
             $0.image = themeType.image
         }
         
         self.do {
-            $0.backgroundColor = .bg100
-            $0.layer.cornerRadius = 25/2
-            $0.layer.borderWidth = 1
-            $0.layer.borderColor = themeType.color.cgColor
+            $0.backgroundColor = themeType.color
+            $0.layer.cornerRadius = 32/2
+            $0.layer.borderWidth = 0.8
+            $0.layer.borderColor = UIColor.primary100.cgColor
         }
     }
     
