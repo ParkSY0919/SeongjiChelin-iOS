@@ -11,7 +11,6 @@ import RxCocoa
 
 final class MenuViewModel: ViewModelProtocol {
 
-    let cellIdentifier = "MenuCell"
     var currentMenuItems: [String] {
         return menuItemsRelay.value
     }
