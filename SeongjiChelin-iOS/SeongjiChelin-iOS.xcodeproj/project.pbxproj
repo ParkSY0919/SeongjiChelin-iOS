@@ -63,6 +63,7 @@
 		9EBD55042D9E7A5D005F4B8A /* UILabel+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EBD55032D9E7A5D005F4B8A /* UILabel+.swift */; };
 		9EC0C3FB2DA6646B0037545A /* HomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EC0C3FA2DA6646B0037545A /* HomeCollectionViewCell.swift */; };
 		9EC0C3FD2DA66BDF0037545A /* SJStoreInfoBaseLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EC0C3FC2DA66BDF0037545A /* SJStoreInfoBaseLabelView.swift */; };
+		9EC0C3FF2DA6EE5F0037545A /* SJWeeklyScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EC0C3FE2DA6EE5F0037545A /* SJWeeklyScheduleView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -122,6 +123,7 @@
 		9EBD55032D9E7A5D005F4B8A /* UILabel+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+.swift"; sourceTree = "<group>"; };
 		9EC0C3FA2DA6646B0037545A /* HomeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewCell.swift; sourceTree = "<group>"; };
 		9EC0C3FC2DA66BDF0037545A /* SJStoreInfoBaseLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SJStoreInfoBaseLabelView.swift; sourceTree = "<group>"; };
+		9EC0C3FE2DA6EE5F0037545A /* SJWeeklyScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SJWeeklyScheduleView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -366,6 +368,7 @@
 				9E4A57392D9FAD6D00A538E3 /* SJFavoriteButton.swift */,
 				9E4A576C2DA253D800A538E3 /* SJCustomMarkerView.swift */,
 				9EC0C3FC2DA66BDF0037545A /* SJStoreInfoBaseLabelView.swift */,
+				9EC0C3FE2DA6EE5F0037545A /* SJWeeklyScheduleView.swift */,
 			);
 			path = UIComponent;
 			sourceTree = "<group>";
@@ -532,6 +535,7 @@
 				9E6F7D9B2D96D9C1009F24FC /* UIFont+.swift in Sources */,
 				9E6F7DD42D96DD7B009F24FC /* NetworkService.swift in Sources */,
 				9E6F7DD52D96DD7B009F24FC /* TargetTypeProtocol.swift in Sources */,
+				9EC0C3FF2DA6EE5F0037545A /* SJWeeklyScheduleView.swift in Sources */,
 				9E6F7E1C2D97A00C009F24FC /* ViewModelProtocol.swift in Sources */,
 				9E4A572E2D9EA47300A538E3 /* HomeViewModel.swift in Sources */,
 				9E6F7DC82D96DB3D009F24FC /* ReusableProtocol.swift in Sources */,
