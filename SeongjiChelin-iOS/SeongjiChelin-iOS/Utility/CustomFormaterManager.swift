@@ -22,5 +22,19 @@ final class CustomFormatterManager {
         return formatter.string(from: date)
     }
     
+    // 시간 포맷을 위한 메소드 추가
+    func timeFormatter() -> DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm"
+        formatter.timeZone = TimeZone.current // 현재 시간대 사용
+        formatter.locale = Locale(identifier: "ko_KR")
+        return formatter
+    }
+    
+    // 요일 변환을 위한 메소드 추가
+    func weekdayString(from date: Date) -> String? {
+        let weekday = Calendar.current.component(.weekday, from: date) // 1(일) ~ 7(토)
+        let weekdayMap = [1: "일", 2: "월", 3: "화", 4: "수", 5: "목", 6: "금", 7: "토"]
+        return weekdayMap[weekday]
+    }
 }
-

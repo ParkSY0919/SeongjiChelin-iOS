@@ -14,11 +14,13 @@ struct Restaurant: Identifiable {
     let name: String
     let category: String // 한식, 양식 등
     let number: String // 가게 번호 등
-    let openingHours: String = "11:00 - 19:00" //TODO: 추후 추가
+    let openingHours: String = "21:00 - 19:00" //TODO: 추후 추가
     let address: String
     let latitude: Double // 위도
     let longitude: Double // 경도
     let menus: [String] // 추천 or 영상 속 메뉴
+    let closedDays: String = "금"
+    let amenities: String = "주차 O / 화장실 O"
 }
 
 // 테마별 가게 목록을 담는 구조체
@@ -156,7 +158,98 @@ struct RestaurantLiterals {
             Restaurant(youtubeId: "NROEyqEqkR4", name: "기라성", category: "중식", number: "063-582-1040", address: "전북 부안군 계화면 간재로 461 기라성", latitude: 35.764060322108, longitude: 126.692563323509, menus: ["해물짜장", "볶음밥", "돈까스", "비빔간짜장"]),
             Restaurant(youtubeId: "IBKaevIroGs", name: "엄정분식", category: "분식", number: "043-844-6931", address: "충북 충주시 충인6길 37-1", latitude: 36.973723104947, longitude: 127.933214337749, menus: ["막창구이", "곱창전골"]),
             Restaurant(youtubeId: "or2TgTRjPq8", name: "산동포자", category: "중식", number: "032-431-8885", address: "인천 부평구 마장로 75 대경빌딩", latitude: 37.4854923844293, longitude: 126.70769464585, menus: ["홍소스즈토우", "꼴뚜기튀김", "바지락볶음", "홍소로우", "중국식새우튀김"]),
-            ]
+        ]
     )
+    
+}
+
+extension Restaurant {
+    
+    ///가게 영업상태
+    enum StoreStatus {
+        case open(closeTime: String)
+        case closed(openTime: String)
+        case holidayClosed
+        
+        var displayText: String {
+            switch self {
+            case .open(let closeTime):
+                return "영업 중 \(closeTime)에 영업종료"
+            case .closed(let openTime):
+                return "영업 종료 \(openTime)에 영업시작"
+            case .holidayClosed:
+                return "휴무일"
+            }
+        }
+        
+        var textColor: UIColor {
+            switch self {
+            case .open:
+                return .blue.withAlphaComponent(0.6)
+            case .closed, .holidayClosed:
+                return .red.withAlphaComponent(0.6)
+            }
+        }
+    }
+    
+    ///현재 가게 영업 상태 및 휴무일 체크
+    func checkStoreStatus() -> StoreStatus {
+        let formatterManager = CustomFormatterManager.shared
+        
+        //1. 금일 휴무일 체크
+        let today = Date()
+        if let todayString = formatterManager.weekdayString(from: today), closedDays.contains(todayString) {
+            return .holidayClosed
+        }
+        
+        //2. 현재 영업 중인지 확인
+        let formatter = formatterManager.timeFormatter()
+        
+        //영업시간 파싱 ex)"21:00 - 19:00"
+        let timeComponents = openingHours.components(separatedBy: " - ")
+        guard timeComponents.count == 2 else { return .closed(openTime: "") }
+        
+        let openTimeString = timeComponents[0].trimmingCharacters(in: .whitespacesAndNewlines)
+        let closeTimeString = timeComponents[1].trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        guard let openTime = formatter.date(from: openTimeString),
+              let closeTime = formatter.date(from: closeTimeString) else {
+            
+            return .closed(openTime: "")
+        }
+        
+        //현재 시간 분리 (시간 비교를 위해)
+        let calendar = Calendar.current
+        let currentHour = calendar.component(.hour, from: today)
+        let currentMinute = calendar.component(.minute, from: today)
+        
+        let openHour = calendar.component(.hour, from: openTime)
+        let openMinute = calendar.component(.minute, from: openTime)
+        let closeHour = calendar.component(.hour, from: closeTime)
+        let closeMinute = calendar.component(.minute, from: closeTime)
+        
+        //현재 시간을 분 단위로 변환
+        let currentTotalMinutes = currentHour * 60 + currentMinute
+        let openTotalMinutes = openHour * 60 + openMinute
+        let closeTotalMinutes = closeHour * 60 + closeMinute
+        
+        ///영업 종료 시간이 익일까지 넘어가는 경우 분기처리
+        // 영업 종료 시간이 영업 시작 시간보다 작다면 익일 영업으로 간주
+        if closeTotalMinutes < openTotalMinutes {
+            //현재 시간이 영업 시작 시간 이후이거나 영업 종료 시간 이전이면 영업 중
+            if currentTotalMinutes >= openTotalMinutes || currentTotalMinutes <= closeTotalMinutes {
+                return .open(closeTime: closeTimeString)
+            } else {
+                return .closed(openTime: openTimeString)
+            }
+        } else {
+            //일반적인 당일 영업 케이스
+            if currentTotalMinutes >= openTotalMinutes && currentTotalMinutes <= closeTotalMinutes {
+                return .open(closeTime: closeTimeString)
+            } else {
+                return .closed(openTime: openTimeString)
+            }
+        }
+    }
     
 }

@@ -16,6 +16,7 @@ final class SJStoreInfoBaseLabelView: UIView {
         case address
         case category
         case number
+        case parking
         case time
         case video
         
@@ -26,6 +27,7 @@ final class SJStoreInfoBaseLabelView: UIView {
             case .number: UIImage(systemName: "phone")
             case .time: UIImage(systemName: "clock")
             case .video: UIImage(systemName: "video")
+            case .parking: UIImage(systemName: "parkingsign.square")
             }
         }
         
@@ -36,6 +38,7 @@ final class SJStoreInfoBaseLabelView: UIView {
             case .number: "연락처"
             case .time: "영업시간"
             case .video: "영상 속 메뉴"
+            case .parking: "편의시설"
             }
         }
     }
