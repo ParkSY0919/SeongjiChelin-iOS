@@ -46,17 +46,16 @@ final class SJStoreFilterButton: UIButton {
         let buttonStateHandler: UIButton.ConfigurationUpdateHandler = { button in
             switch button.state {
             case .normal:
-                button.configuration?.baseForegroundColor = .text100.withAlphaComponent(0.6)
-                button.configuration?.background.backgroundColor = .bg300
+                button.configuration?.baseForegroundColor = .bg300
+                button.configuration?.background.backgroundColor = .bg100
             case .selected:
                 button.configuration?.baseForegroundColor = .bg100
-                button.configuration?.background.backgroundColor = .primary200
+                button.configuration?.background.backgroundColor = self.themeType.color
             default:
                 return
             }
         }
         self.configurationUpdateHandler = buttonStateHandler
-        
         self.addTarget(
             self,
             action: #selector(SJStoreFilterButtonTapped),
