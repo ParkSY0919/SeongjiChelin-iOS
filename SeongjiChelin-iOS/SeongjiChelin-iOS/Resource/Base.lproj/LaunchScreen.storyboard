@@ -4,6 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -16,28 +17,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="appIcon" translatesAutoresizingMaskIntoConstraints="NO" id="WVf-yp-J3E">
-                                <rect key="frame" x="73" y="217" width="247" height="189"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="verticalLogo" translatesAutoresizingMaskIntoConstraints="NO" id="IzR-J4-J0g">
+                                <rect key="frame" x="0.0" y="255.33333333333334" width="393" height="341.33333333333326"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iSF-91-frC">
-                                <rect key="frame" x="85" y="446" width="222" height="73"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <attributedString key="attributedText">
-                                    <fragment content="성지슐랭">
-                                        <attributes>
-                                            <color key="NSColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <font key="NSFont" size="48" name=".AppleSDGothicNeoI-Bold"/>
-                                            <font key="NSOriginalFont" size="48" name=".AppleSDGothicNeoI-Bold"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                        </attributes>
-                                    </fragment>
-                                </attributedString>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                        <color key="backgroundColor" red="1" green="0.67843137254901964" blue="0.67843137254901964" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" name="AccentBeige"/>
+                        <constraints>
+                            <constraint firstItem="IzR-J4-J0g" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="48b-Hq-iYa"/>
+                            <constraint firstItem="IzR-J4-J0g" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="Mge-LC-xjD"/>
+                            <constraint firstItem="IzR-J4-J0g" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="d6r-Mf-n9R"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -46,6 +36,9 @@
         </scene>
     </scenes>
     <resources>
-        <image name="appIcon" width="500" height="500"/>
+        <image name="verticalLogo" width="341.33334350585938" height="341.33334350585938"/>
+        <namedColor name="AccentBeige">
+            <color red="1" green="0.97254901960784312" blue="0.88235294117647056" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
     </resources>
 </document>
