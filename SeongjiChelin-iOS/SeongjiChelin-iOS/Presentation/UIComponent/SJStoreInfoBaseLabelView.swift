@@ -75,7 +75,7 @@ final class SJStoreInfoBaseLabelView: UIView {
         }
         
         titleLabel.snp.makeConstraints {
-            $0.leading.equalTo(imageView.snp.trailing).offset(6)
+            $0.leading.equalTo(self.safeAreaLayoutGuide).offset(32)
             $0.centerY.equalTo(imageView.snp.centerY)
         }
         
