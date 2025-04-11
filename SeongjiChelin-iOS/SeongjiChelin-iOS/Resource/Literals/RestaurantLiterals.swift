@@ -51,7 +51,7 @@ enum RestaurantThemeType: String, CaseIterable {
     
     var image: UIImage? {
         switch self {
-        case .psyTheme: UIImage(resource: .riceBowl)
+        case .psyTheme: UIImage(resource: .riceBowl).withRenderingMode(.alwaysTemplate)
         case .sungSiKyungTheme: UIImage(systemName: "eyeglasses")
         case .ttoGanJibTheme: UIImage(systemName: "figure.walk")
         case .choizaLoadTheme: UIImage(systemName: "road.lanes")
