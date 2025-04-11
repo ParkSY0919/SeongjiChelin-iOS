@@ -376,7 +376,9 @@ extension DetailViewController {
     private func switchLayout(isCustomSmall: Bool) {
         print("isCustomSmall: \(isCustomSmall)")
         
-        dismissButton.isHidden = isCustomSmall
+        [dismissButton, menusToolLabel, menusLabel].forEach { i in
+            i.isHidden = isCustomSmall
+        }
         youtubePlayerContainer.isHidden = isCustomSmall || isNoYoutube
         
         
