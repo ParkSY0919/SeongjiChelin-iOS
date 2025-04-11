@@ -135,7 +135,7 @@ final class MenuViewController: BaseViewController {
         }
         
         infoSuggestCorrectionLabel.setLabelUI(
-            "정보 수정 제안",
+            "정보 수정 신고",
             font: .seongiFont(.body_black_14),
             textColor: .primary200.withAlphaComponent(0.6)
         )
