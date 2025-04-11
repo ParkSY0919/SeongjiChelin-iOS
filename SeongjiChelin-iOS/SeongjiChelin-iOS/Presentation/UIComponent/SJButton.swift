@@ -70,7 +70,7 @@ final class SJButton: UIButton {
         }
         self.configurationUpdateHandler = buttonStateHandler
         self.addTarget(self,
-                       action: #selector(favoriteButtonTapped),
+                       action: #selector(sjButtonTapped),
                        for: .touchUpInside)
         self.contentMode = .scaleAspectFit
         self.clipsToBounds = true
@@ -78,7 +78,7 @@ final class SJButton: UIButton {
     }
     
     @objc
-    private func favoriteButtonTapped(_ button: UIButton) {
+    private func sjButtonTapped(_ button: UIButton) {
         self.isUserInteractionEnabled = false
         
         self.isSelected.toggle()

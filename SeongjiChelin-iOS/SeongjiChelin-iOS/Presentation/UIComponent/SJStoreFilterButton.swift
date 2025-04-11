@@ -30,7 +30,7 @@ final class SJStoreFilterButton: UIButton {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setSJStoreFilterButton() {
+    private func setSJStoreFilterButton() {
         var config = UIButton.Configuration.plain()
         config.title = themeType.rawValue
         config.image = self.image

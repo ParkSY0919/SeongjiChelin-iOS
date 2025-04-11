@@ -43,6 +43,8 @@ final class CustomMarkerView: UIView {
         self.do {
             $0.backgroundColor = themeType.color
             $0.layer.cornerRadius = 32/2
+            $0.layer.borderWidth = 0.5
+            $0.layer.borderColor = UIColor.bg100.cgColor
         }
     }
     

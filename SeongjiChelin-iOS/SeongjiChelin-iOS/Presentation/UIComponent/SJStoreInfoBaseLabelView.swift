@@ -14,7 +14,6 @@ final class SJStoreInfoBaseLabelView: UIView {
     
     enum StoreInfoType {
         case address
-        case category
         case number
         case parking
         case time
@@ -23,7 +22,6 @@ final class SJStoreInfoBaseLabelView: UIView {
         var image: UIImage? {
             switch self {
             case .address: UIImage(systemName: "map")
-            case .category: UIImage(resource: .riceBowl)
             case .number: UIImage(systemName: "phone")
             case .time: UIImage(systemName: "clock")
             case .video: UIImage(systemName: "video")
@@ -34,9 +32,8 @@ final class SJStoreInfoBaseLabelView: UIView {
         var title: String {
             switch self {
             case .address: "주소"
-            case .category: "카테고리"
             case .number: "연락처"
-            case .time: "영업시간"
+            case .time: "영업 여부"
             case .video: "영상 속 메뉴"
             case .parking: "편의시설"
             }
