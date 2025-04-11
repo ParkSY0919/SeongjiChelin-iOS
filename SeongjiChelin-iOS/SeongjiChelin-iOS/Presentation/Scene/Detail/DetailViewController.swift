@@ -92,19 +92,19 @@ final class DetailViewController: BaseViewController {
         }
         
         favoriteButton.snp.makeConstraints {
-            $0.bottom.equalTo(storeNameLabel.snp.bottom)
+            $0.top.equalTo(view.safeAreaLayoutGuide).inset(10)
             $0.trailing.equalTo(view.safeAreaLayoutGuide).inset(20)
             $0.size.equalTo(36)
         }
         
         visitButton.snp.makeConstraints {
-            $0.bottom.equalTo(favoriteButton.snp.bottom)
+            $0.centerY.equalTo(favoriteButton.snp.centerY)
             $0.trailing.equalTo(favoriteButton.snp.leading).offset(-10)
             $0.size.equalTo(favoriteButton.snp.size)
         }
         
         storeNameLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).inset(30)
+            $0.bottom.equalTo(favoriteButton.snp.bottom)
             $0.leading.equalTo(view.safeAreaLayoutGuide).inset(20)
         }
 
@@ -375,35 +375,60 @@ extension DetailViewController {
     
     private func switchLayout(isCustomSmall: Bool) {
         print("isCustomSmall: \(isCustomSmall)")
-        // 두 조건에 따라 유튜브컨테이너 등 표시 여부 결정
-        let shouldHideContainer = isNoYoutube || isCustomSmall
-        [dismissButton, menusToolLabel, menusLabel, youtubePlayerContainer].forEach { i in
-            i.isHidden = shouldHideContainer
-        }
         
-        if shouldHideContainer {
+        dismissButton.isHidden = isCustomSmall
+        youtubePlayerContainer.isHidden = isCustomSmall || isNoYoutube
+        
+        
+        if isCustomSmall {
             favoriteButton.snp.remakeConstraints {
-                $0.bottom.equalTo(storeNameLabel.snp.bottom)
+                $0.top.equalTo(view.safeAreaLayoutGuide).inset(20)
                 $0.trailing.equalTo(view.safeAreaLayoutGuide).inset(20)
                 $0.size.equalTo(36)
             }
             
+            storeNameLabel.snp.remakeConstraints {
+                $0.bottom.equalTo(favoriteButton.snp.bottom)
+                $0.leading.equalTo(view.safeAreaLayoutGuide).inset(20)
+            }
+
+            categoryLabel.snp.remakeConstraints {
+                $0.bottom.equalTo(storeNameLabel.snp.bottom)
+                $0.leading.equalTo(storeNameLabel.snp.trailing).offset(10)
+                $0.trailing.lessThanOrEqualTo(visitButton.snp.leading).offset(-10)
+                $0.width.greaterThanOrEqualTo(30).priority(.required)
+            }
+            
             youtubePlayerContainer.snp.remakeConstraints {
-                $0.top.equalTo(menusLabel.snp.bottom).offset(10)
+                $0.top.equalTo(menusLabel.snp.bottom).offset(20)
                 $0.horizontalEdges.equalToSuperview().inset(20)
                 $0.height.equalTo(0)
             }
         } else {
             favoriteButton.snp.remakeConstraints {
-                $0.bottom.equalTo(storeNameLabel.snp.bottom)
+                $0.top.equalTo(view.safeAreaLayoutGuide).inset(20)
                 $0.trailing.equalTo(dismissButton.snp.leading).offset(-10)
                 $0.size.equalTo(36)
             }
             
-            youtubePlayerContainer.snp.remakeConstraints {
-                $0.top.equalTo(menusLabel.snp.bottom).offset(10)
-                $0.horizontalEdges.equalToSuperview().inset(20)
-                $0.height.equalTo(youtubePlayerContainer.snp.width).multipliedBy(9.0/16.0)
+            storeNameLabel.snp.remakeConstraints {
+                $0.top.equalTo(favoriteButton.snp.bottom).offset(14)
+                $0.leading.equalTo(view.safeAreaLayoutGuide).inset(20)
+            }
+
+            categoryLabel.snp.remakeConstraints {
+                $0.bottom.equalTo(storeNameLabel.snp.bottom)
+                $0.leading.equalTo(storeNameLabel.snp.trailing).offset(10)
+                $0.trailing.lessThanOrEqualTo(view.safeAreaLayoutGuide).inset(20)
+                $0.width.greaterThanOrEqualTo(30).priority(.required)
+            }
+            
+            if !isNoYoutube {
+                youtubePlayerContainer.snp.remakeConstraints {
+                    $0.top.equalTo(menusLabel.snp.bottom).offset(10)
+                    $0.horizontalEdges.equalToSuperview().inset(20)
+                    $0.height.equalTo(youtubePlayerContainer.snp.width).multipliedBy(9.0/16.0)
+                }
             }
         }
         
