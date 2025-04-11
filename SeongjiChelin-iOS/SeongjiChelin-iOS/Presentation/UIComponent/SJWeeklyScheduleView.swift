@@ -177,7 +177,7 @@ final class SJWeeklyScheduleView: UIView {
     
     
     //영업시간 정보 업데이트 메서드
-    func updateSchedule(openTimes: [String], closeTimes: [String], holidayIndex: Int) {
+    func updateSchedule(openTime: String, closeTime: String, holidayIndex: Int) {
         // 기존 레이아웃 제약조건 제거
         regularLabel.snp.removeConstraints()
         
@@ -211,6 +211,7 @@ final class SJWeeklyScheduleView: UIView {
         }
         
         // 영업 시작 시간 업데이트
+        let openTimes = Array(repeating: openTime, count: 7)
         for (index, label) in openTimeLabels.enumerated() {
             if index < openTimes.count && index != holidayIndex {
                 label.text = openTimes[index]
@@ -218,6 +219,7 @@ final class SJWeeklyScheduleView: UIView {
         }
         
         // 영업 종료 시간 업데이트
+        let closeTimes = Array(repeating: closeTime, count: 7)
         for (index, label) in closeTimeLabels.enumerated() {
             if index < closeTimes.count && index != holidayIndex {
                 label.text = closeTimes[index]

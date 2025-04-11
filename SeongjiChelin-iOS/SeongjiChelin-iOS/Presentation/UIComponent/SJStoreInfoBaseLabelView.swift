@@ -106,7 +106,8 @@ final class SJStoreInfoBaseLabelView: UIView {
     }
     
     func isNoYoutube(isValid: Bool) {
-        titleLabel.text = isValid ? "주인장 추천 메뉴" : type.title
+        titleLabel.text = isValid ? "추천 메뉴" : type.title
+        imageView.image = isValid ? UIImage(systemName: "hand.thumbsup") : type.image
     }
     
     required init?(coder: NSCoder) {

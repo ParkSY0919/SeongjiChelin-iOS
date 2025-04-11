@@ -160,6 +160,7 @@ final class HomeCollectionViewCell: BaseCollectionViewCell {
         storeNumberLabel.text = store.number
         parkingLabel.text = store.amenities
         menusLabel.text = store.menus.map(\.self).joined(separator: ", ")
+        menusToolLabel.isNoYoutube(isValid: true)
         
         openingHoursLabel.do {
             let status = store.checkStoreStatus()

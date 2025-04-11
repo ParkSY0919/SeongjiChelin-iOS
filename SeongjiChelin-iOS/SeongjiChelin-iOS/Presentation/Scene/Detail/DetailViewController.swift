@@ -229,9 +229,6 @@ final class DetailViewController: BaseViewController {
             )
         }
         
-        let openTimes = ["11:10", "11:20", "11:30", "11:40", "11:50", "11:40", "10:40"]
-        let closeTimes = ["22:00", "22:00", "22:00", "22:00", "22:00", "22:00", "20:00"]
-        scheduleView.updateSchedule(openTimes: openTimes, closeTimes: closeTimes, holidayIndex: 4)
     }
     
     /// restaurant 정보 업데이트
@@ -257,6 +254,10 @@ final class DetailViewController: BaseViewController {
             $0.text = status.displayText
             $0.textColor = status.textColor
         }
+        
+        let times = restaurant.openingHours.split(separator: " - ")
+        let holidyIndes = CustomFormatterManager.shared.weekdayString(from: restaurant.closedDays) ?? 0
+        scheduleView.updateSchedule(openTime: times[0].description, closeTime: times[1].description, holidayIndex: holidyIndes - 1)
         
         nearWeatherLabel.text = "🌡️ 현재 근처 날씨: " + "맑음"
         

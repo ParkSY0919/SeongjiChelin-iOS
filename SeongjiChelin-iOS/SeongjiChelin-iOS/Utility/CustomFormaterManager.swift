@@ -37,4 +37,10 @@ final class CustomFormatterManager {
         let weekdayMap = [1: "일", 2: "월", 3: "화", 4: "수", 5: "목", 6: "금", 7: "토"]
         return weekdayMap[weekday]
     }
+    
+    func weekdayString(from dateString: String) -> Int? {
+        let weekdayMap = ["월": 1, "화": 2, "수": 3, "목": 4, "금": 5, "토": 6, "토일": 7]
+        return weekdayMap[dateString]
+    }
+    
 }
