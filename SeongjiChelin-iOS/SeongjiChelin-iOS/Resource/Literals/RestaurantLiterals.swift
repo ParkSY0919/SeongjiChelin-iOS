@@ -19,8 +19,8 @@ struct Restaurant: Identifiable {
     let latitude: Double // 위도
     let longitude: Double // 경도
     let menus: [String] // 추천 or 영상 속 메뉴
-    let closedDays: String = "금"
-    let amenities: String = "주차 O / 화장실 O"
+    let closedDays: String = "월" //휴무일
+    let amenities: String = "주차 O / 화장실 O" //주차, 화장실 유무
 }
 
 // 테마별 가게 목록을 담는 구조체
@@ -62,7 +62,7 @@ enum RestaurantThemeType: String, CaseIterable {
     
     var color: UIColor {
         switch self {
-        case .psyTheme: .primary100
+        case .psyTheme: .marker0
         case .sungSiKyungTheme: .marker1
         case .ttoGanJibTheme: .marker2
         case .choizaLoadTheme: .marker3
@@ -185,9 +185,11 @@ extension Restaurant {
         var textColor: UIColor {
             switch self {
             case .open:
-                return .blue.withAlphaComponent(0.6)
-            case .closed, .holidayClosed:
-                return .red.withAlphaComponent(0.6)
+                return .영업중
+            case .closed:
+                return .영업종료
+            case .holidayClosed:
+                return .휴무일
             }
         }
     }

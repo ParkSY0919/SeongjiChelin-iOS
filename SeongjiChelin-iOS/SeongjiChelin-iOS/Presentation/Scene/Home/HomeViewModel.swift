@@ -18,13 +18,18 @@ final class HomeViewModel: ViewModelProtocol {
     struct Input {
         let menuTapped: ControlEvent<Void>
         let micTapped: ControlEvent<Void>
+        let modeChangeTapped: ControlEvent<Void>
+        let listCellTapped: ControlEvent<(RestaurantTheme, Restaurant)>
         let selectedFilterTheme: Observable<RestaurantThemeType?>
     }
 
     struct Output {
         let menuTrigger: Driver<Void>
         let micTrigger: Driver<Void>
+        let modeChangeTrigger: Driver<Void>
+        let listCellTrigger: Observable<(RestaurantTheme, Restaurant)>
         let filteredList: Driver<[RestaurantTheme]>
+        let filteredCellList: Driver<[RestaurantTheme]>
     }
 
     func transform(input: Input) -> Output {
@@ -43,7 +48,10 @@ final class HomeViewModel: ViewModelProtocol {
         return Output(
             menuTrigger: input.menuTapped.asDriver(),
             micTrigger: input.micTapped.asDriver(),
-            filteredList: filteredListDriver
+            modeChangeTrigger: input.modeChangeTapped.asDriver(),
+            listCellTrigger: input.listCellTapped.asObservable(),
+            filteredList: filteredListDriver,
+            filteredCellList: filteredListDriver
         )
     }
     
