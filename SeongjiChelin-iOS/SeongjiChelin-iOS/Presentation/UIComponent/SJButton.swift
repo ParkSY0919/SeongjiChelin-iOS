@@ -1,5 +1,5 @@
 //
-//  SJFavoriteButton.swift
+//  SJButton.swift
 //  SeongjiChelin-iOS
 //
 //  Created by 박신영 on 4/4/25.
@@ -12,12 +12,26 @@ import RxSwift
 import SnapKit
 import Then
 
-final class SJFavoriteButton: UIButton {
+final class SJButton: UIButton {
     
-    private let cornerRadius: CGFloat
+    enum SJButtonType {
+        case favorite
+        case foot
+        
+        var cornerRadius: CGFloat {
+            switch self {
+            case .favorite:
+                35/2
+            case .foot:
+                35/2
+            }
+        }
+    }
     
-    init(cornerRadius: CGFloat) {
-        self.cornerRadius = cornerRadius
+    private let type: SJButtonType
+    
+    init(type: SJButtonType) {
+        self.type = type
         super.init(frame: .zero)
         
         setFavoriteButtonStyle()
@@ -32,24 +46,35 @@ final class SJFavoriteButton: UIButton {
         buttonConfiguration.background.backgroundColor = .primary100
         buttonConfiguration.baseForegroundColor = .bg100
         self.configuration = buttonConfiguration
-        
         let buttonStateHandler: UIButton.ConfigurationUpdateHandler = { button in
             switch button.state {
             case .normal:
-                button.configuration?.image = UIImage(systemName: "bookmark")
+                switch self.type {
+                case .favorite:
+                    button.configuration?.image = UIImage(systemName: "bookmark")
+                case .foot:
+                    let image = UIImage(resource: .foot).withRenderingMode(.alwaysTemplate).resized(to: CGSize(width: 26, height: 26))
+                    button.configuration?.image = image
+                }
             case .selected:
-                button.configuration?.image = UIImage(systemName: "bookmark.fill")
+                switch self.type {
+                case .favorite:
+                    button.configuration?.image = UIImage(systemName: "bookmark.fill")
+                case .foot:
+                    let image = UIImage(resource: .footFill).withRenderingMode(.alwaysTemplate).resized(to: CGSize(width: 26, height: 26))
+                    button.configuration?.image = image
+                }
             default:
                 return
             }
         }
-        
         self.configurationUpdateHandler = buttonStateHandler
         self.addTarget(self,
                        action: #selector(favoriteButtonTapped),
                        for: .touchUpInside)
         self.contentMode = .scaleAspectFit
-        self.layer.cornerRadius = self.cornerRadius
+        self.clipsToBounds = true
+        self.layer.cornerRadius = type.cornerRadius
     }
     
     @objc

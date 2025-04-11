@@ -23,7 +23,8 @@ final class DetailViewController: BaseViewController {
     private let viewModel: DetailViewModel
     
     private let dismissButton = UIButton()
-    private let favoriteButton = SJFavoriteButton(cornerRadius: 35/2)
+    private let visitButton = SJButton(type: .foot)
+    private let favoriteButton = SJButton(type: .favorite)
     private let storeNameLabel = UILabel()
     private let categoryLabel = UILabel()
     private let addressToolLabel = SJStoreInfoBaseLabelView(type: .address)
@@ -62,6 +63,7 @@ final class DetailViewController: BaseViewController {
     override func setHierarchy() {
         view.addSubviews(
             dismissButton,
+            visitButton,
             favoriteButton,
             storeNameLabel,
             categoryLabel,
@@ -86,7 +88,7 @@ final class DetailViewController: BaseViewController {
         dismissButton.snp.makeConstraints {
             $0.centerY.equalTo(favoriteButton.snp.centerY)
             $0.trailing.equalTo(view.safeAreaLayoutGuide).inset(20)
-            $0.size.equalTo(36)
+            $0.size.equalTo(favoriteButton.snp.size)
         }
         
         favoriteButton.snp.makeConstraints {
@@ -95,15 +97,22 @@ final class DetailViewController: BaseViewController {
             $0.size.equalTo(36)
         }
         
+        visitButton.snp.makeConstraints {
+            $0.bottom.equalTo(favoriteButton.snp.bottom)
+            $0.trailing.equalTo(favoriteButton.snp.leading).offset(-10)
+            $0.size.equalTo(favoriteButton.snp.size)
+        }
+        
         storeNameLabel.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).inset(30)
             $0.leading.equalTo(view.safeAreaLayoutGuide).inset(20)
-            $0.trailing.lessThanOrEqualTo(favoriteButton.snp.leading)
         }
-        
+
         categoryLabel.snp.makeConstraints {
             $0.bottom.equalTo(storeNameLabel.snp.bottom)
             $0.leading.equalTo(storeNameLabel.snp.trailing).offset(10)
+            $0.trailing.lessThanOrEqualTo(visitButton.snp.leading).offset(-10)
+            $0.width.greaterThanOrEqualTo(30).priority(.required)
         }
         
         addressToolLabel.snp.makeConstraints {

@@ -11,6 +11,15 @@ typealias SFConfig = UIImage.SymbolConfiguration
 
 extension UIImage {
     
+    ///Assets image 크기 resized
+    func resized(to size: CGSize) -> UIImage? {
+        UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
+        defer { UIGraphicsEndImageContext() }
+        draw(in: CGRect(origin: .zero, size: size))
+        let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
+        return resizedImage?.withRenderingMode(.alwaysTemplate)
+    }
+    
     static func riceImage(size: CGFloat = 13) -> UIImage {
         let image = UIImage(resource: .riceBowl).withRenderingMode(.alwaysTemplate)
         
