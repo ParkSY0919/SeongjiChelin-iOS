@@ -12,7 +12,7 @@
 		9E4A57342D9EB73E00A538E3 /* GooglePlaces in Frameworks */ = {isa = PBXBuildFile; productRef = 9E4A57332D9EB73E00A538E3 /* GooglePlaces */; };
 		9E4A57362D9F8DDB00A538E3 /* RestaurantLiterals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4A57352D9F8DDB00A538E3 /* RestaurantLiterals.swift */; };
 		9E4A57382D9F988000A538E3 /* SJStoreFilterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4A57372D9F988000A538E3 /* SJStoreFilterButton.swift */; };
-		9E4A573A2D9FAD6D00A538E3 /* SJFavoriteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4A57392D9FAD6D00A538E3 /* SJFavoriteButton.swift */; };
+		9E4A573A2D9FAD6D00A538E3 /* SJButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4A57392D9FAD6D00A538E3 /* SJButton.swift */; };
 		9E4A573D2D9FB97100A538E3 /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = 9E4A573C2D9FB97100A538E3 /* Toast */; };
 		9E4A576D2DA253D800A538E3 /* SJCustomMarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4A576C2DA253D800A538E3 /* SJCustomMarkerView.swift */; };
 		9E6F7D7B2D96D70B009F24FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9E6F7D722D96D70B009F24FC /* Assets.xcassets */; };
@@ -85,7 +85,7 @@
 		9E4A572D2D9EA47300A538E3 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		9E4A57352D9F8DDB00A538E3 /* RestaurantLiterals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantLiterals.swift; sourceTree = "<group>"; };
 		9E4A57372D9F988000A538E3 /* SJStoreFilterButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SJStoreFilterButton.swift; sourceTree = "<group>"; };
-		9E4A57392D9FAD6D00A538E3 /* SJFavoriteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SJFavoriteButton.swift; sourceTree = "<group>"; };
+		9E4A57392D9FAD6D00A538E3 /* SJButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SJButton.swift; sourceTree = "<group>"; };
 		9E4A576C2DA253D800A538E3 /* SJCustomMarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SJCustomMarkerView.swift; sourceTree = "<group>"; };
 		9E6F7CEA2D96D258009F24FC /* SeongjiChelin-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SeongjiChelin-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E6F7D712D96D70B009F24FC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -365,7 +365,7 @@
 			isa = PBXGroup;
 			children = (
 				9E4A57372D9F988000A538E3 /* SJStoreFilterButton.swift */,
-				9E4A57392D9FAD6D00A538E3 /* SJFavoriteButton.swift */,
+				9E4A57392D9FAD6D00A538E3 /* SJButton.swift */,
 				9E4A576C2DA253D800A538E3 /* SJCustomMarkerView.swift */,
 				9EC0C3FC2DA66BDF0037545A /* SJStoreInfoBaseLabelView.swift */,
 				9EC0C3FE2DA6EE5F0037545A /* SJWeeklyScheduleView.swift */,
@@ -527,7 +527,7 @@
 				9E6F7D812D96D70B009F24FC /* HomeViewController.swift in Sources */,
 				9E4A572B2D9E98E700A538E3 /* MenuTableViewCell.swift in Sources */,
 				9E6F7D972D96D9C1009F24FC /* UIStackView+.swift in Sources */,
-				9E4A573A2D9FAD6D00A538E3 /* SJFavoriteButton.swift in Sources */,
+				9E4A573A2D9FAD6D00A538E3 /* SJButton.swift in Sources */,
 				9E6F7D982D96D9C1009F24FC /* UIView+.swift in Sources */,
 				9E6F7D992D96D9C1009F24FC /* UIImage+.swift in Sources */,
 				9EC0C3FB2DA6646B0037545A /* HomeCollectionViewCell.swift in Sources */,
