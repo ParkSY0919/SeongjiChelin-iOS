@@ -32,6 +32,22 @@ final class HomeCollectionViewCell: BaseCollectionViewCell {
     private let menusToolLabel = SJStoreInfoBaseLabelView(type: .video)
     private let menusLabel = UILabel()
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        self.layer.borderColor = nil
+        storeNameLabel.text = nil
+        categoryLabel.text = nil
+        storeAddressLabel.text = nil
+        storeNumberLabel.text = nil
+        parkingLabel.text = nil
+        menusLabel.text = nil
+        menusToolLabel.isNoYoutube(isValid: true)
+        openingHoursLabel.text = nil
+        visitButton.isSelected = false
+        favoriteButton.isSelected = false
+    }
+    
     override func setHierarchy() {
         contentView.addSubviews(
             visitButton,
@@ -167,6 +183,9 @@ final class HomeCollectionViewCell: BaseCollectionViewCell {
             $0.text = status.displayText
             $0.textColor = status.textColor
         }
+        
+        visitButton.configureWithRestaurant(restaurant: store)
+        favoriteButton.configureWithRestaurant(restaurant: store)
     }
     
 }

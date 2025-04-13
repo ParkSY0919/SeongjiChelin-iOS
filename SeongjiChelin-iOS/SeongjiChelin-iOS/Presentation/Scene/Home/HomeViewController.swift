@@ -171,6 +171,13 @@ private extension HomeViewController {
             sideMenuNav.sideMenuDelegate = self
         }
         
+        // MenuViewController의 클로저 설정
+        if let menuVC = SideMenuManager.default.leftMenuNavigationController?.viewControllers.first as? MenuViewController {
+            menuVC.onMenuItemSelected = { [weak self] selectedItem in
+                self?.handleMenuSelection(selectedItem)
+            }
+        }
+        
         mapView.delegate = self
         
         customNavBar.do {
@@ -420,6 +427,19 @@ private extension HomeViewController {
         }
     }
     
+    func handleMenuSelection(_ selectedItem: String) {
+        print(#function)
+        switch selectedItem {
+        case "홈":
+            print("홈홈홈")
+        case "나만의 식당":
+            let myRestaurantVC = MyRestaurantViewController()
+            self.navigationController?.pushViewController(myRestaurantVC, animated: true)
+        default:
+            break
+        }
+    }
+    
 }
 
 extension HomeViewController: GMSMapViewDelegate {
@@ -456,7 +476,6 @@ extension HomeViewController: SideMenuNavigationControllerDelegate {
         UIView.animate(withDuration: 0.3) { [weak self] in
             self?.mapView.alpha = 0.6
         }
-        
     }
     
     func sideMenuWillDisappear(menu: SideMenuNavigationController, animated: Bool) {

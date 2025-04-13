@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9E03BCDC2DA8F7A30097AA7E /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 9E03BCDB2DA8F7A30097AA7E /* RealmSwift */; };
+		9E03BCDD2DA8F7B70097AA7E /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 9E03BCDB2DA8F7A30097AA7E /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		9E03BCE22DA8FFD60097AA7E /* RestaurantRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E03BCE12DA8FFD60097AA7E /* RestaurantRepository.swift */; };
+		9E03BCE72DAB749B0097AA7E /* SJFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E03BCE52DAB749B0097AA7E /* SJFilterView.swift */; };
+		9E03BCE82DAB749B0097AA7E /* SJRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E03BCE62DAB749B0097AA7E /* SJRatingView.swift */; };
+		9E03BCED2DAB7A770097AA7E /* MyRestaurantViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E03BCEA2DAB7A770097AA7E /* MyRestaurantViewController.swift */; };
+		9E03BCEE2DAB7A770097AA7E /* MyRestaurantViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E03BCEB2DAB7A770097AA7E /* MyRestaurantViewModel.swift */; };
+		9E03BCEF2DAB7A770097AA7E /* MyRestaurantTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E03BCE92DAB7A770097AA7E /* MyRestaurantTableViewCell.swift */; };
 		9E4A572B2D9E98E700A538E3 /* MenuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4A572A2D9E98E700A538E3 /* MenuTableViewCell.swift */; };
 		9E4A572E2D9EA47300A538E3 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4A572D2D9EA47300A538E3 /* HomeViewModel.swift */; };
 		9E4A57342D9EB73E00A538E3 /* GooglePlaces in Frameworks */ = {isa = PBXBuildFile; productRef = 9E4A57332D9EB73E00A538E3 /* GooglePlaces */; };
@@ -15,6 +23,7 @@
 		9E4A573A2D9FAD6D00A538E3 /* SJButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4A57392D9FAD6D00A538E3 /* SJButton.swift */; };
 		9E4A573D2D9FB97100A538E3 /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = 9E4A573C2D9FB97100A538E3 /* Toast */; };
 		9E4A576D2DA253D800A538E3 /* SJCustomMarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4A576C2DA253D800A538E3 /* SJCustomMarkerView.swift */; };
+		9E6EC4172DA8F72600EE1DBA /* RestaurantTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E6EC4162DA8F72600EE1DBA /* RestaurantTable.swift */; };
 		9E6F7D7B2D96D70B009F24FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9E6F7D722D96D70B009F24FC /* Assets.xcassets */; };
 		9E6F7D7D2D96D70B009F24FC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9E6F7D752D96D70B009F24FC /* LaunchScreen.storyboard */; };
 		9E6F7D7F2D96D70B009F24FC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E6F7D712D96D70B009F24FC /* AppDelegate.swift */; };
@@ -40,10 +49,8 @@
 		9E6F7DE22D9780AD009F24FC /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = 9E6F7DE12D9780AD009F24FC /* Then */; };
 		9E6F7DE52D9780B9009F24FC /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 9E6F7DE42D9780B9009F24FC /* Alamofire */; };
 		9E6F7DE82D9780E9009F24FC /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 9E6F7DE72D9780E9009F24FC /* Kingfisher */; };
-		9E6F7DEB2D978150009F24FC /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 9E6F7DEA2D978150009F24FC /* Realm */; };
 		9E6F7DEE2D97828F009F24FC /* Differentiator in Frameworks */ = {isa = PBXBuildFile; productRef = 9E6F7DED2D97828F009F24FC /* Differentiator */; };
 		9E6F7DF02D97828F009F24FC /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = 9E6F7DEF2D97828F009F24FC /* RxDataSources */; };
-		9E6F7DF12D97829F009F24FC /* Realm in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 9E6F7DEA2D978150009F24FC /* Realm */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		9E6F7E152D979E31009F24FC /* DTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E6F7E142D979E31009F24FC /* DTO.swift */; };
 		9E6F7E1C2D97A00C009F24FC /* ViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E6F7E1B2D97A00C009F24FC /* ViewModelProtocol.swift */; };
 		9E6F7E212D97A04F009F24FC /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E6F7E202D97A04F009F24FC /* BaseViewController.swift */; };
@@ -73,7 +80,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				9E6F7DF12D97829F009F24FC /* Realm in Embed Frameworks */,
+				9E03BCDD2DA8F7B70097AA7E /* RealmSwift in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -81,12 +88,19 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		9E03BCE12DA8FFD60097AA7E /* RestaurantRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantRepository.swift; sourceTree = "<group>"; };
+		9E03BCE52DAB749B0097AA7E /* SJFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SJFilterView.swift; sourceTree = "<group>"; };
+		9E03BCE62DAB749B0097AA7E /* SJRatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SJRatingView.swift; sourceTree = "<group>"; };
+		9E03BCE92DAB7A770097AA7E /* MyRestaurantTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyRestaurantTableViewCell.swift; sourceTree = "<group>"; };
+		9E03BCEA2DAB7A770097AA7E /* MyRestaurantViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyRestaurantViewController.swift; sourceTree = "<group>"; };
+		9E03BCEB2DAB7A770097AA7E /* MyRestaurantViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyRestaurantViewModel.swift; sourceTree = "<group>"; };
 		9E4A572A2D9E98E700A538E3 /* MenuTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTableViewCell.swift; sourceTree = "<group>"; };
 		9E4A572D2D9EA47300A538E3 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		9E4A57352D9F8DDB00A538E3 /* RestaurantLiterals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantLiterals.swift; sourceTree = "<group>"; };
 		9E4A57372D9F988000A538E3 /* SJStoreFilterButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SJStoreFilterButton.swift; sourceTree = "<group>"; };
 		9E4A57392D9FAD6D00A538E3 /* SJButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SJButton.swift; sourceTree = "<group>"; };
 		9E4A576C2DA253D800A538E3 /* SJCustomMarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SJCustomMarkerView.swift; sourceTree = "<group>"; };
+		9E6EC4162DA8F72600EE1DBA /* RestaurantTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantTable.swift; sourceTree = "<group>"; };
 		9E6F7CEA2D96D258009F24FC /* SeongjiChelin-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SeongjiChelin-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E6F7D712D96D70B009F24FC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9E6F7D722D96D70B009F24FC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -132,9 +146,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				9E7F11642DA2846700693A4E /* YouTubePlayerKit in Frameworks */,
-				9E6F7DEB2D978150009F24FC /* Realm in Frameworks */,
 				9E6F7DE82D9780E9009F24FC /* Kingfisher in Frameworks */,
 				9E7F11672DA286E800693A4E /* RxCocoa in Frameworks */,
+				9E03BCDC2DA8F7A30097AA7E /* RealmSwift in Frameworks */,
 				9E7F116C2DA286F600693A4E /* RxCombine in Frameworks */,
 				9E4A573D2D9FB97100A538E3 /* Toast in Frameworks */,
 				9E6F7DE52D9780B9009F24FC /* Alamofire in Frameworks */,
@@ -152,6 +166,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9E03BCEC2DAB7A770097AA7E /* MyRestaurant */ = {
+			isa = PBXGroup;
+			children = (
+				9E03BCE92DAB7A770097AA7E /* MyRestaurantTableViewCell.swift */,
+				9E03BCEA2DAB7A770097AA7E /* MyRestaurantViewController.swift */,
+				9E03BCEB2DAB7A770097AA7E /* MyRestaurantViewModel.swift */,
+			);
+			path = MyRestaurant;
+			sourceTree = "<group>";
+		};
 		9E4A572C2D9EA18B00A538E3 /* Home */ = {
 			isa = PBXGroup;
 			children = (
@@ -247,7 +271,6 @@
 		9E6F7D8B2D96D874009F24FC /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				9E6F7DA32D96DB3D009F24FC /* Database */,
 				9E6F7DAD2D96DB3D009F24FC /* Entity */,
 				9E6F7DB12D96DB3D009F24FC /* Network */,
 				9E6F7DBA2D96DB3D009F24FC /* Repository */,
@@ -274,13 +297,6 @@
 				9E4A57352D9F8DDB00A538E3 /* RestaurantLiterals.swift */,
 			);
 			path = Literals;
-			sourceTree = "<group>";
-		};
-		9E6F7DA32D96DB3D009F24FC /* Database */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Database;
 			sourceTree = "<group>";
 		};
 		9E6F7DA82D96DB3D009F24FC /* DTO */ = {
@@ -320,6 +336,8 @@
 		9E6F7DBA2D96DB3D009F24FC /* Repository */ = {
 			isa = PBXGroup;
 			children = (
+				9E03BCE12DA8FFD60097AA7E /* RestaurantRepository.swift */,
+				9E6EC4162DA8F72600EE1DBA /* RestaurantTable.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -347,6 +365,7 @@
 				9EBD54FC2D9E7692005F4B8A /* Menu */,
 				9E4A572C2D9EA18B00A538E3 /* Home */,
 				9E7F115D2DA26FDD00693A4E /* Detail */,
+				9E03BCEC2DAB7A770097AA7E /* MyRestaurant */,
 			);
 			path = Scene;
 			sourceTree = "<group>";
@@ -369,6 +388,8 @@
 				9E4A576C2DA253D800A538E3 /* SJCustomMarkerView.swift */,
 				9EC0C3FC2DA66BDF0037545A /* SJStoreInfoBaseLabelView.swift */,
 				9EC0C3FE2DA6EE5F0037545A /* SJWeeklyScheduleView.swift */,
+				9E03BCE52DAB749B0097AA7E /* SJFilterView.swift */,
+				9E03BCE62DAB749B0097AA7E /* SJRatingView.swift */,
 			);
 			path = UIComponent;
 			sourceTree = "<group>";
@@ -423,7 +444,6 @@
 				9E6F7DE12D9780AD009F24FC /* Then */,
 				9E6F7DE42D9780B9009F24FC /* Alamofire */,
 				9E6F7DE72D9780E9009F24FC /* Kingfisher */,
-				9E6F7DEA2D978150009F24FC /* Realm */,
 				9E6F7DED2D97828F009F24FC /* Differentiator */,
 				9E6F7DEF2D97828F009F24FC /* RxDataSources */,
 				9EBD54D82D9DEE62005F4B8A /* SideMenu */,
@@ -434,6 +454,7 @@
 				9E7F11662DA286E800693A4E /* RxCocoa */,
 				9E7F11682DA286E800693A4E /* RxSwift */,
 				9E7F116B2DA286F600693A4E /* RxCombine */,
+				9E03BCDB2DA8F7A30097AA7E /* RealmSwift */,
 			);
 			productName = "SeongjiChelin-iOS";
 			productReference = 9E6F7CEA2D96D258009F24FC /* SeongjiChelin-iOS.app */;
@@ -468,7 +489,6 @@
 				9E6F7DE02D9780AD009F24FC /* XCRemoteSwiftPackageReference "Then" */,
 				9E6F7DE32D9780B9009F24FC /* XCRemoteSwiftPackageReference "Alamofire" */,
 				9E6F7DE62D9780E9009F24FC /* XCRemoteSwiftPackageReference "Kingfisher" */,
-				9E6F7DE92D978150009F24FC /* XCRemoteSwiftPackageReference "realm-swift" */,
 				9E6F7DEC2D97828F009F24FC /* XCRemoteSwiftPackageReference "RxDataSources" */,
 				9EBD54D72D9DEE62005F4B8A /* XCRemoteSwiftPackageReference "SideMenu" */,
 				9E4A57322D9EB73E00A538E3 /* XCRemoteSwiftPackageReference "ios-places-sdk" */,
@@ -477,6 +497,7 @@
 				9E7F11622DA2846700693A4E /* XCRemoteSwiftPackageReference "YouTubePlayerKit" */,
 				9E7F11652DA286E800693A4E /* XCRemoteSwiftPackageReference "RxSwift" */,
 				9E7F116A2DA286F600693A4E /* XCRemoteSwiftPackageReference "RxCombine" */,
+				9E03BCDA2DA8F7A30097AA7E /* XCRemoteSwiftPackageReference "realm-swift" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 9E6F7CEB2D96D258009F24FC /* Products */;
@@ -522,6 +543,7 @@
 				9E7F116E2DA2A74D00693A4E /* UIAlertManager.swift in Sources */,
 				9E6F7D802D96D70B009F24FC /* SceneDelegate.swift in Sources */,
 				9E6F7D902D96D8CB009F24FC /* ConstantLiterals.swift in Sources */,
+				9E6EC4172DA8F72600EE1DBA /* RestaurantTable.swift in Sources */,
 				9E6F7E152D979E31009F24FC /* DTO.swift in Sources */,
 				9E6F7D912D96D8CB009F24FC /* StringLiterals.swift in Sources */,
 				9E6F7D812D96D70B009F24FC /* HomeViewController.swift in Sources */,
@@ -532,9 +554,15 @@
 				9E6F7D992D96D9C1009F24FC /* UIImage+.swift in Sources */,
 				9EC0C3FB2DA6646B0037545A /* HomeCollectionViewCell.swift in Sources */,
 				9E6F7D9A2D96D9C1009F24FC /* UIImageView+.swift in Sources */,
+				9E03BCE22DA8FFD60097AA7E /* RestaurantRepository.swift in Sources */,
 				9E6F7D9B2D96D9C1009F24FC /* UIFont+.swift in Sources */,
+				9E03BCE72DAB749B0097AA7E /* SJFilterView.swift in Sources */,
+				9E03BCE82DAB749B0097AA7E /* SJRatingView.swift in Sources */,
 				9E6F7DD42D96DD7B009F24FC /* NetworkService.swift in Sources */,
 				9E6F7DD52D96DD7B009F24FC /* TargetTypeProtocol.swift in Sources */,
+				9E03BCED2DAB7A770097AA7E /* MyRestaurantViewController.swift in Sources */,
+				9E03BCEE2DAB7A770097AA7E /* MyRestaurantViewModel.swift in Sources */,
+				9E03BCEF2DAB7A770097AA7E /* MyRestaurantTableViewCell.swift in Sources */,
 				9EC0C3FF2DA6EE5F0037545A /* SJWeeklyScheduleView.swift in Sources */,
 				9E6F7E1C2D97A00C009F24FC /* ViewModelProtocol.swift in Sources */,
 				9E4A572E2D9EA47300A538E3 /* HomeViewModel.swift in Sources */,
@@ -772,6 +800,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		9E03BCDA2DA8F7A30097AA7E /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift.git";
+			requirement = {
+				kind = exactVersion;
+				version = 20.0.1;
+			};
+		};
 		9E4A57322D9EB73E00A538E3 /* XCRemoteSwiftPackageReference "ios-places-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/googlemaps/ios-places-sdk";
@@ -818,14 +854,6 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 8.3.1;
-			};
-		};
-		9E6F7DE92D978150009F24FC /* XCRemoteSwiftPackageReference "realm-swift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/realm/realm-swift.git";
-			requirement = {
-				kind = exactVersion;
-				version = 20.0.1;
 			};
 		};
 		9E6F7DEC2D97828F009F24FC /* XCRemoteSwiftPackageReference "RxDataSources" */ = {
@@ -879,6 +907,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		9E03BCDB2DA8F7A30097AA7E /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9E03BCDA2DA8F7A30097AA7E /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
+		};
 		9E4A57332D9EB73E00A538E3 /* GooglePlaces */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 9E4A57322D9EB73E00A538E3 /* XCRemoteSwiftPackageReference "ios-places-sdk" */;
@@ -908,11 +941,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9E6F7DE62D9780E9009F24FC /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
-		};
-		9E6F7DEA2D978150009F24FC /* Realm */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 9E6F7DE92D978150009F24FC /* XCRemoteSwiftPackageReference "realm-swift" */;
-			productName = Realm;
 		};
 		9E6F7DED2D97828F009F24FC /* Differentiator */ = {
 			isa = XCSwiftPackageProductDependency;

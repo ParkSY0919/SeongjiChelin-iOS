@@ -15,12 +15,17 @@ final class DetailViewModel: ViewModelProtocol {
     
     let youtubePlayer: YouTubePlayer
     let restaurantInfo: Restaurant
+    private let parameters = YouTubePlayer.Parameters(
+        autoPlay: false,
+        showControls: true,
+        showFullscreenButton: true
+    )
     private lazy var restaurantInfoSubject = BehaviorRelay<Restaurant>(value: self.restaurantInfo)
     private lazy var youtubeInfoSubject = BehaviorRelay<String?>(value: self.restaurantInfo.youtubeId)
     
     init(restaurantInfo: Restaurant) {
         self.restaurantInfo = restaurantInfo
-        self.youtubePlayer = YouTubePlayer(source: .video(id: restaurantInfo.youtubeId ?? ""), configuration: .init(fullscreenMode: .system))
+        self.youtubePlayer = YouTubePlayer(source: .video(id: restaurantInfo.youtubeId ?? ""), parameters: parameters, configuration: .init(fullscreenMode: .system))
     }
     
     struct Input {

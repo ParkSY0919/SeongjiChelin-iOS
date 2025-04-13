@@ -51,6 +51,12 @@ final class DetailViewController: BaseViewController {
     init(viewModel: DetailViewModel) {
         self.viewModel = viewModel
         super.init()
+        
+        //초기 로드 이후 음소거
+        Task {
+            try? await viewModel.youtubePlayer.mute() //음소거
+            //자동 재생을 막는 방법을 모르겠다
+        }
     }
     
     override func viewDidLoad() {
@@ -255,6 +261,9 @@ final class DetailViewController: BaseViewController {
             $0.textColor = status.textColor
         }
         
+        visitButton.configureWithRestaurant(restaurant: restaurant)
+        favoriteButton.configureWithRestaurant(restaurant: restaurant)
+        
         let times = restaurant.openingHours.split(separator: " - ")
         let holidyIndes = CustomFormatterManager.shared.weekdayString(from: restaurant.closedDays) ?? 0
         scheduleView.updateSchedule(openTime: times[0].description, closeTime: times[1].description, holidayIndex: holidyIndes - 1)
@@ -338,7 +347,7 @@ extension DetailViewController {
         
         output.youtubeInfo
             .drive(with: self) { owner, videoId in
-                if let videoId {
+                if let videoId, !videoId.isEmpty {
                     Task {
                         do {
                             try await owner.playerViewController.player.load(source: .video(id: videoId))

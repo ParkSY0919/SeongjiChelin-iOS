@@ -30,6 +30,12 @@ struct SideMenuSetup {
 
 final class MenuViewController: BaseViewController {
     
+    // MARK: - Constants
+    static let menuItemSelectedNotification = Notification.Name("menuItemSelectedNotification")
+    
+    // MARK: - Properties
+    var onMenuItemSelected: ((String) -> Void)?
+    
     private let disposeBag = DisposeBag()
     private let viewModel: MenuViewModel
     
@@ -165,14 +171,8 @@ private extension MenuViewController {
         output.selectedItemAction
             .drive(onNext: { [weak self] selectedItem in
                 guard let self else { return }
-                switch selectedItem {
-                case "홈":
-                    print("selectedItem: 홈")
-                case "나만의 식당":
-                    print("selectedItem: 나만의 식당")
-                default:
-                    self.dismiss(animated: true)
-                }
+                // 클로저를 통해 선택된 메뉴 항목 전달
+                self.onMenuItemSelected?(selectedItem)
                 self.dismiss(animated: true)
             })
             .disposed(by: disposeBag)
