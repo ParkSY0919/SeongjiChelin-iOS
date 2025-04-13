@@ -440,6 +440,9 @@ private extension HomeViewController {
             UIView.animate(withDuration: 0.5) {
                 self.navigationController?.pushViewController(onboardingVC, animated: true)
             }
+        case "정보 수정 신고":
+            let webVC = SJWebViewController(urlString: "https://notch-crate-349.notion.site/1d46931aa0158095b055d762d55f5d2a?pvs=4")
+            self.present(webVC, animated: true)
         default:
             break
         }
@@ -491,3 +494,5 @@ extension HomeViewController: SideMenuNavigationControllerDelegate {
     }
     
 }
+
+

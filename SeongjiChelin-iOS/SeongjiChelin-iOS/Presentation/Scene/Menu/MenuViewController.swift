@@ -30,9 +30,6 @@ struct SideMenuSetup {
 
 final class MenuViewController: BaseViewController {
     
-    // MARK: - Constants
-    static let menuItemSelectedNotification = Notification.Name("menuItemSelectedNotification")
-    
     // MARK: - Properties
     var onMenuItemSelected: ((String) -> Void)?
     
@@ -45,6 +42,7 @@ final class MenuViewController: BaseViewController {
     private let underLine2 = UIView()
     private let sirenImageView = UIImageView()
     private let infoSuggestCorrectionLabel = UILabel()
+    private let labelTapGesture = UITapGestureRecognizer()
     
     init(viewModel: MenuViewModel) {
         self.viewModel = viewModel
@@ -140,11 +138,15 @@ final class MenuViewController: BaseViewController {
             $0.tintColor = .primary300.withAlphaComponent(0.6)
         }
         
-        infoSuggestCorrectionLabel.setLabelUI(
-            "정보 수정 신고",
-            font: .seongiFont(.body_black_14),
-            textColor: .primary200.withAlphaComponent(0.6)
-        )
+        infoSuggestCorrectionLabel.do {
+            $0.setLabelUI(
+                "정보 수정 신고",
+                font: .seongiFont(.body_black_14),
+                textColor: .primary200.withAlphaComponent(0.6)
+            )
+            $0.addGestureRecognizer(labelTapGesture)
+            $0.isUserInteractionEnabled = true
+        }
     }
     
 }
@@ -153,7 +155,8 @@ private extension MenuViewController {
     
     func bind() {
         let input = MenuViewModel.Input(
-            modelSelected: tableView.rx.modelSelected(String.self)
+            modelSelected: tableView.rx.modelSelected(String.self),
+            infoLabelTapped: labelTapGesture.rx.event
         )
         
         let output = viewModel.transform(input: input)
@@ -176,6 +179,13 @@ private extension MenuViewController {
                 self.dismiss(animated: true)
             })
             .disposed(by: disposeBag)
+        
+        output.infoLabelTrigger
+            .drive(with: self, onNext: { owner, _ in
+                owner.dismiss(animated: true) {
+                    owner.onMenuItemSelected?("정보 수정 신고")
+                }
+            }).disposed(by: disposeBag)
     }
     
 }
