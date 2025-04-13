@@ -52,12 +52,6 @@ final class DetailViewController: BaseViewController {
     init(viewModel: DetailViewModel) {
         self.viewModel = viewModel
         super.init()
-        
-        //초기 로드 이후 음소거
-        Task {
-            try? await viewModel.youtubePlayer.mute() //음소거
-            //자동 재생을 막는 방법을 모르겠다
-        }
     }
     
     override func viewDidLoad() {
@@ -358,6 +352,7 @@ extension DetailViewController {
                     Task {
                         do {
                             try await owner.playerViewController.player.load(source: .video(id: videoId))
+                            try await owner.playerViewController.player.pause()
                         } catch {
                             print("비디오 로드 실패: \(error)")
                         }
