@@ -95,7 +95,7 @@ final class SJFilterView: UIView {
                     button.configuration?.background.backgroundColor = .bg100
                 case .selected:
                     button.configuration?.baseForegroundColor = .bg100
-                    button.configuration?.background.backgroundColor = .primary100
+                    button.configuration?.background.backgroundColor = .primary200
                 default:
                     return
                 }

@@ -101,7 +101,7 @@ final class MyRestaurantTableViewCell: BaseTableViewCell {
             $0.contentMode = .scaleAspectFit
             $0.clipsToBounds = true
             $0.image = UIImage(systemName: "fork.knife")
-            $0.tintColor = .primary200
+            $0.tintColor = .primary100
         }
         
         nameLabel.do {
