@@ -232,4 +232,5 @@ final class MyRestaurantTableViewCell: BaseTableViewCell {
             ratingBadge.isHidden = true
         }
     }
-} 
+    
+}

@@ -18,6 +18,7 @@ final class DetailViewController: BaseViewController {
     
     private let scheduleView = SJWeeklyScheduleView()
     
+    var onChangeState: (() -> ())?
     private var isNoYoutube: Bool = false
     private let disposeBag = DisposeBag()
     private let viewModel: DetailViewModel
@@ -334,6 +335,12 @@ extension DetailViewController {
         let input = DetailViewModel.Input(dismissTapped: dismissButton.rx.tap)
         
         let output = viewModel.transform(input: input)
+        
+        [favoriteButton, visitButton].forEach { [weak self] i in
+            i.onChangeState = {
+                self?.onChangeState?()
+            }
+        }
         
         output.dismissTrigger
             .drive(with: self) { owner, _ in

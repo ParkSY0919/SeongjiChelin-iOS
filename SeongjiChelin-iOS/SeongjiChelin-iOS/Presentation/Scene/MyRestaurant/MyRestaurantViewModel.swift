@@ -7,18 +7,22 @@
 
 import Foundation
 
-import RealmSwift
 import RxCocoa
 import RxSwift
 
 final class MyRestaurantViewModel: ViewModelProtocol {
     
     struct Input {
-        let filterType: SJFilterType
+        let filterType: PublishSubject<SJFilterType>
+        let tableCellTapped: ControlEvent<RestaurantTable>
+        let backButtonTapped: ControlEvent<()>
     }
     
     struct Output {
-        let restaurants: BehaviorRelay<[RestaurantTable]>
+        let restaurants: Driver<[RestaurantTable]>
+        let isEmpty: Driver<Bool>
+        let tableCellTrigger: Driver<RestaurantTable>
+        let backButtonTrigger: Driver<()>
     }
     
     // MARK: - Properties
@@ -26,17 +30,33 @@ final class MyRestaurantViewModel: ViewModelProtocol {
     private let repo: RestaurantRepositoryProtocol = RestaurantRepository()
     private let disposeBag = DisposeBag()
     
-    let restaurantsRelay = BehaviorRelay<[RestaurantTable]>(value: [])
+    private let restaurantsRelay = BehaviorRelay<[RestaurantTable]>(value: [])
     
     // MARK: - Methods
     
     func transform(input: Input) -> Output {
-        fetchRestaurants(filter: input.filterType)
-        return Output(restaurants: restaurantsRelay)
+        input.filterType
+            .subscribe(with: self, onNext: { owner, type in
+                owner.fetchRestaurants(filter: type)
+            })
+            .disposed(by: disposeBag)
+        
+        let isEmpty = restaurantsRelay
+                    .map { $0.isEmpty }
+                    .asDriver(onErrorJustReturn: true)
+        
+        return Output(
+            restaurants: restaurantsRelay.asDriver(),
+            isEmpty: isEmpty,
+            tableCellTrigger: input.tableCellTapped.asDriver(),
+            backButtonTrigger: input.backButtonTapped.asDriver()
+        )
     }
     
     func fetchRestaurants(filter: SJFilterType) {
-        var restaurants: Results<RestaurantTable>
+        // 불필요한 데이터 정리 이후 전체 레스토랑 호출
+        _ = repo.cleanupUnusedTables()
+        var restaurants = repo.fetchAll()
         
         switch filter {
         case .all:
@@ -52,9 +72,8 @@ final class MyRestaurantViewModel: ViewModelProtocol {
         
         // Realm Results를 Array로 변환
         let restaurantArray = Array(restaurants)
-        restaurantsRelay.accept(restaurantArray)
         
-        // 불필요한 데이터 정리
-        _ = repo.cleanupUnusedTables()
+        restaurantsRelay.accept(restaurantArray)
     }
-} 
+    
+}

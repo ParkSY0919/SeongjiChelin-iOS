@@ -32,6 +32,7 @@ final class SJButton: UIButton {
     private let type: SJButtonType
     private let repo: RestaurantRepositoryProtocol = RestaurantRepository()
     private var restaurantInfo: Restaurant?
+    var onChangeState: (() -> ())?
     
     init(type: SJButtonType) {
         self.type = type
@@ -131,6 +132,7 @@ final class SJButton: UIButton {
         }
         
         self.isUserInteractionEnabled = true
+        onChangeState?()
     }
     
     @objc
@@ -177,6 +179,7 @@ final class SJButton: UIButton {
         }
         
         self.isUserInteractionEnabled = true
+        onChangeState?()
     }
     
     // Restaurant 객체로부터 새 RestaurantTable 생성

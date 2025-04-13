@@ -18,10 +18,13 @@ final class MyRestaurantViewController: BaseViewController {
     
     private let viewModel = MyRestaurantViewModel()
     private let disposeBag = DisposeBag()
+    private var currentFilterType: SJFilterType = .all
+    private var currentDetailViewController: DetailViewController?
     
     // MARK: - UI Components
     
     private let titleLabel = UILabel()
+    private let backButton = UIButton()
     private let filterView = SJFilterView()
     private let tableView = UITableView()
     private let emptyView = EmptyRestaurantView()
@@ -44,6 +47,7 @@ final class MyRestaurantViewController: BaseViewController {
     override func setHierarchy() {
         view.addSubviews(
             titleLabel,
+            backButton,
             filterView,
             tableView,
             emptyView
@@ -53,12 +57,18 @@ final class MyRestaurantViewController: BaseViewController {
     override func setLayout() {
         titleLabel.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(16)
-            $0.leading.equalTo(view.safeAreaLayoutGuide).offset(20)
+            $0.centerX.equalTo(view.safeAreaLayoutGuide)
+        }
+        
+        backButton.snp.makeConstraints {
+            $0.centerY.equalTo(titleLabel.snp.centerY)
+            $0.leading.equalTo(view.safeAreaLayoutGuide).offset(16)
+            $0.size.equalTo(35)
         }
         
         filterView.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(16)
-            $0.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
+            $0.top.equalTo(titleLabel.snp.bottom).offset(22)
+            $0.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(16)
             $0.height.equalTo(44)
         }
         
@@ -82,55 +92,60 @@ final class MyRestaurantViewController: BaseViewController {
             $0.textColor = .text100
         }
         
+        backButton.do {
+            $0.setImage(UIImage(systemName: "xmark"), for: .normal)
+            $0.tintColor = .text100
+            $0.backgroundColor = .bg200
+            $0.contentMode = .scaleAspectFit
+            $0.layer.cornerRadius = 35/2
+        }
+        
         emptyView.isHidden = true
         
         tableView.do {
             $0.backgroundColor = .clear
             $0.separatorStyle = .none
             $0.showsVerticalScrollIndicator = false
+            $0.rowHeight = 120
             $0.register(MyRestaurantTableViewCell.self, forCellReuseIdentifier: MyRestaurantTableViewCell.identifier)
         }
     }
     
-    // MARK: - Data Binding
-    
     private func bindViewModel() {
-        // 필터 선택 이벤트 바인딩
+        let input = MyRestaurantViewModel.Input(
+            filterType: filterView.selectedFilterSubject,
+            tableCellTapped: tableView.rx.modelSelected(RestaurantTable.self),
+            backButtonTapped: backButton.rx.controlEvent(.touchUpInside)
+        )
+        let output = viewModel.transform(input: input)
+        
+        // 현재 필터 타입 저장
         filterView.selectedFilterSubject
             .subscribe(onNext: { [weak self] filterType in
-                self?.viewModel.fetchRestaurants(filter: filterType)
+                self?.currentFilterType = filterType
             })
             .disposed(by: disposeBag)
         
-        // 레스토랑 데이터 바인딩
-        viewModel.restaurantsRelay
-            .subscribe(onNext: { [weak self] restaurants in
-                self?.tableView.reloadData()
-                self?.updateEmptyView(isEmpty: restaurants.isEmpty)
-            })
-            .disposed(by: disposeBag)
+        output.restaurants
+            .drive(tableView.rx.items(cellIdentifier: MyRestaurantTableViewCell.identifier, cellType: MyRestaurantTableViewCell.self)) { row, element, cell in
+                cell.configure(with: element)
+            }.disposed(by: disposeBag)
         
-        // 테이블뷰 델리게이트 & 데이터소스 설정
-        tableView.rx.setDelegate(self)
-            .disposed(by: disposeBag)
+        output.isEmpty
+            .drive(with: self) { owner, isEmpty in
+                owner.updateEmptyView(isEmpty: isEmpty)
+            }.disposed(by: disposeBag)
         
-        viewModel.restaurantsRelay
-            .bind(to: tableView.rx.items(cellIdentifier: MyRestaurantTableViewCell.identifier, cellType: MyRestaurantTableViewCell.self)) { [weak self] index, restaurant, cell in
-                guard let self = self else { return }
-                cell.configure(with: restaurant)
-                
-                // 셀 선택 시 상세 페이지로 이동
-//                cell.rx.tapGesture()
-//                    .when(.recognized)
-//                    .subscribe(onNext: { _ in
-//                        self.navigateToDetailView(with: restaurant)
-//                    })
-//                    .disposed(by: cell.disposeBag)
-            }
-            .disposed(by: disposeBag)
+        output.tableCellTrigger
+            .drive(with: self) { owner, restaurantTable in
+                owner.navigateToDetailView(with: restaurantTable)
+            }.disposed(by: disposeBag)
+        
+        output.backButtonTrigger
+            .drive(with: self) { owner, _ in
+                owner.navigationController?.popViewController(animated: true)
+            }.disposed(by: disposeBag)
     }
-    
-    // MARK: - Helper Methods
     
     private func updateEmptyView(isEmpty: Bool) {
         emptyView.isHidden = !isEmpty
@@ -138,83 +153,23 @@ final class MyRestaurantViewController: BaseViewController {
     }
     
     private func navigateToDetailView(with restaurant: RestaurantTable) {
-        
-        let detailVC = DetailViewController(viewModel: DetailViewModel(restaurantInfo: Restaurant.mappingRestaurant(restaurant)))
-        navigationController?.pushViewController(detailVC, animated: true)
+        let store = Restaurant.mappingRestaurant(restaurant)
+    
+        if let detailVC = self.currentDetailViewController,
+           self.presentedViewController === detailVC {
+            detailVC.updateRestaurantInfo(store)
+        } else {
+            // 없으면 새로 생성해서 표시
+            let vm = DetailViewModel(restaurantInfo: store)
+            let detailVC = DetailViewController(viewModel: vm)
+            detailVC.onChangeState = { [weak self] in
+                guard let self else { return }
+                self.filterView.selectedFilterSubject.onNext(self.currentFilterType)
+            }
+            self.present(detailVC, animated: true) { [weak self] in
+                self?.currentDetailViewController = detailVC
+            }
+        }
     }
+    
 }
-
-// MARK: - UITableViewDelegate
-
-extension MyRestaurantViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 120
-    }
-}
-
-// MARK: - 빈 화면 표시용 뷰
-
-final class EmptyRestaurantView: UIView {
-    
-    // MARK: - UI Components
-    
-    private let imageView = UIImageView()
-    private let titleLabel = UILabel()
-    private let descriptionLabel = UILabel()
-    
-    // MARK: - Initializers
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        configureUI()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    // MARK: - UI Configuration
-    
-    private func configureUI() {
-        addSubviews(
-            imageView,
-            titleLabel,
-            descriptionLabel
-        )
-        
-        imageView.snp.makeConstraints {
-            $0.top.centerX.equalToSuperview()
-            $0.size.equalTo(CGSize(width: 80, height: 80))
-        }
-        
-        titleLabel.snp.makeConstraints {
-            $0.top.equalTo(imageView.snp.bottom).offset(16)
-            $0.centerX.equalToSuperview()
-        }
-        
-        descriptionLabel.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(8)
-            $0.centerX.equalToSuperview()
-        }
-        
-        imageView.do {
-            $0.image = UIImage(systemName: "fork.knife")
-            $0.tintColor = .bg300
-            $0.contentMode = .scaleAspectFit
-        }
-        
-        titleLabel.do {
-            $0.text = "저장된 식당이 없습니다"
-            $0.font = .seongiFont(.title_bold_16)
-            $0.textColor = .text100
-        }
-        
-        descriptionLabel.do {
-            $0.text = "식당을 방문하거나 즐겨찾기에 추가해보세요"
-            $0.font = .seongiFont(.body_regular_14)
-            $0.textColor = .text200
-            $0.numberOfLines = 0
-            $0.textAlignment = .center
-        }
-    }
-} 
