@@ -12,6 +12,7 @@ import RealmSwift
 final class RestaurantTable: Object, Identifiable {
     
     @Persisted(primaryKey: true) var id: ObjectId // PK
+    @Persisted var storeID: String
     @Persisted var youtubeId: String?
     @Persisted var name: String
     @Persisted var category: String
@@ -28,9 +29,9 @@ final class RestaurantTable: Object, Identifiable {
     @Persisted var rating: Double? //평점 (5점 만점)
     @Persisted var review: String? //리뷰 내용
 
-    convenience init(id: ObjectId, youtubeId: String? = nil, name: String, category: String, number: String, openingHours: String, address: String, latitude: Double, longitude: Double, menus: List<String>, closedDays: String, amenities: String, isVisited: Bool = false, isFavorite: Bool = false, rating: Double? = nil, review: String? = nil) {
+    convenience init(storeID: String, youtubeId: String? = nil, name: String, category: String, number: String, openingHours: String, address: String, latitude: Double, longitude: Double, menus: List<String>, closedDays: String, amenities: String, isVisited: Bool = false, isFavorite: Bool = false, rating: Double? = nil, review: String? = nil) {
         self.init()
-        self.id = id
+        self.storeID = storeID
         self.youtubeId = youtubeId
         self.name = name
         self.category = category

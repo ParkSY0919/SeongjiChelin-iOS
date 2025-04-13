@@ -18,7 +18,7 @@ protocol RestaurantRepositoryProtocol {
     func fetchByRating(minRating: Double) -> Results<RestaurantTable>
     func createAndEditItem(checkTable: Bool, data: RestaurantTable, isVisited: Bool?, isFavorite: Bool?, rating: Double?, review: String?, handler: @escaping (Bool) -> Void)
     func deleteItem(data: RestaurantTable, handler: @escaping (Bool) -> Void)
-    func getItemById(id: ObjectId) -> RestaurantTable?
+    func getItemById(id: String) -> RestaurantTable?
     func cleanupUnusedTables() -> Int
     func deleteItemInUpdate(data: RestaurantTable)
 }
@@ -114,8 +114,11 @@ final class RestaurantRepository: RestaurantRepositoryProtocol {
         }
     }
 
-    func getItemById(id: ObjectId) -> RestaurantTable? {
-        return realm.object(ofType: RestaurantTable.self, forPrimaryKey: id)
+    func getItemById(id: String) -> RestaurantTable? {
+        print("Searching for item with ID: \(id)")
+        let result = realm.objects(RestaurantTable.self).filter("storeID == %@", id).first
+        print("Search result: \(result != nil ? "Found" : "Not found")")
+        return result
     }
     
     func cleanupUnusedTables() -> Int {
