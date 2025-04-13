@@ -435,6 +435,11 @@ private extension HomeViewController {
         case "나만의 식당":
             let myRestaurantVC = MyRestaurantViewController()
             self.navigationController?.pushViewController(myRestaurantVC, animated: true)
+        case "사용법":
+            let onboardingVC = OnboardingViewController()
+            UIView.animate(withDuration: 0.5) {
+                self.navigationController?.pushViewController(onboardingVC, animated: true)
+            }
         default:
             break
         }

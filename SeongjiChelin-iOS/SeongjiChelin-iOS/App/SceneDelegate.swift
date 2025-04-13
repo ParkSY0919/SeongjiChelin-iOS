@@ -21,10 +21,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // SideMenu 초기 설정 호출
         SideMenuSetup.setupSideMenu()
         
-        let mainViewController = HomeViewController(viewModel: HomeViewModel())
-        let navigationController = UINavigationController(rootViewController: mainViewController)
+        // 온보딩 표시 여부 확인
+        let hasSeenOnboarding = UserDefaults.standard.bool(forKey: "hasSeenOnboarding")
         
-        window?.rootViewController = navigationController
+        if !hasSeenOnboarding {
+            // 온보딩을 보지 않았으면 온보딩 화면 표시
+            let onboardingVC = OnboardingViewController()
+            window?.rootViewController = onboardingVC
+        } else {
+            // 온보딩을 이미 봤으면 메인 화면으로 이동
+            let mainViewController = HomeViewController(viewModel: HomeViewModel())
+            let navigationController = UINavigationController(rootViewController: mainViewController)
+            window?.rootViewController = navigationController
+        }
+        
         window?.makeKeyAndVisible()
     }
     

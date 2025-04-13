@@ -16,6 +16,8 @@
 		9E03BCEE2DAB7A770097AA7E /* MyRestaurantViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E03BCEB2DAB7A770097AA7E /* MyRestaurantViewModel.swift */; };
 		9E03BCEF2DAB7A770097AA7E /* MyRestaurantTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E03BCE92DAB7A770097AA7E /* MyRestaurantTableViewCell.swift */; };
 		9E03BCF12DABAE450097AA7E /* EmptyRestaurantView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E03BCF02DABAE450097AA7E /* EmptyRestaurantView.swift */; };
+		9E03BCF42DABC85F0097AA7E /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E03BCF32DABC85F0097AA7E /* OnboardingViewController.swift */; };
+		9E03BCF62DABC8D30097AA7E /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E03BCF52DABC8D30097AA7E /* OnboardingViewModel.swift */; };
 		9E4A572B2D9E98E700A538E3 /* MenuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4A572A2D9E98E700A538E3 /* MenuTableViewCell.swift */; };
 		9E4A572E2D9EA47300A538E3 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4A572D2D9EA47300A538E3 /* HomeViewModel.swift */; };
 		9E4A57342D9EB73E00A538E3 /* GooglePlaces in Frameworks */ = {isa = PBXBuildFile; productRef = 9E4A57332D9EB73E00A538E3 /* GooglePlaces */; };
@@ -96,6 +98,8 @@
 		9E03BCEA2DAB7A770097AA7E /* MyRestaurantViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyRestaurantViewController.swift; sourceTree = "<group>"; };
 		9E03BCEB2DAB7A770097AA7E /* MyRestaurantViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyRestaurantViewModel.swift; sourceTree = "<group>"; };
 		9E03BCF02DABAE450097AA7E /* EmptyRestaurantView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyRestaurantView.swift; sourceTree = "<group>"; };
+		9E03BCF32DABC85F0097AA7E /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
+		9E03BCF52DABC8D30097AA7E /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
 		9E4A572A2D9E98E700A538E3 /* MenuTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTableViewCell.swift; sourceTree = "<group>"; };
 		9E4A572D2D9EA47300A538E3 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		9E4A57352D9F8DDB00A538E3 /* RestaurantLiterals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantLiterals.swift; sourceTree = "<group>"; };
@@ -177,6 +181,15 @@
 				9E03BCF02DABAE450097AA7E /* EmptyRestaurantView.swift */,
 			);
 			path = MyRestaurant;
+			sourceTree = "<group>";
+		};
+		9E03BCF22DABC8200097AA7E /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				9E03BCF52DABC8D30097AA7E /* OnboardingViewModel.swift */,
+				9E03BCF32DABC85F0097AA7E /* OnboardingViewController.swift */,
+			);
+			path = Onboarding;
 			sourceTree = "<group>";
 		};
 		9E4A572C2D9EA18B00A538E3 /* Home */ = {
@@ -365,6 +378,7 @@
 		9E6F7E172D979FC7009F24FC /* Scene */ = {
 			isa = PBXGroup;
 			children = (
+				9E03BCF22DABC8200097AA7E /* Onboarding */,
 				9EBD54FC2D9E7692005F4B8A /* Menu */,
 				9E4A572C2D9EA18B00A538E3 /* Home */,
 				9E7F115D2DA26FDD00693A4E /* Detail */,
@@ -549,6 +563,7 @@
 				9E6EC4172DA8F72600EE1DBA /* RestaurantTable.swift in Sources */,
 				9E03BCF12DABAE450097AA7E /* EmptyRestaurantView.swift in Sources */,
 				9E6F7E152D979E31009F24FC /* DTO.swift in Sources */,
+				9E03BCF62DABC8D30097AA7E /* OnboardingViewModel.swift in Sources */,
 				9E6F7D912D96D8CB009F24FC /* StringLiterals.swift in Sources */,
 				9E6F7D812D96D70B009F24FC /* HomeViewController.swift in Sources */,
 				9E4A572B2D9E98E700A538E3 /* MenuTableViewCell.swift in Sources */,
@@ -568,6 +583,7 @@
 				9E03BCEE2DAB7A770097AA7E /* MyRestaurantViewModel.swift in Sources */,
 				9E03BCEF2DAB7A770097AA7E /* MyRestaurantTableViewCell.swift in Sources */,
 				9EC0C3FF2DA6EE5F0037545A /* SJWeeklyScheduleView.swift in Sources */,
+				9E03BCF42DABC85F0097AA7E /* OnboardingViewController.swift in Sources */,
 				9E6F7E1C2D97A00C009F24FC /* ViewModelProtocol.swift in Sources */,
 				9E4A572E2D9EA47300A538E3 /* HomeViewModel.swift in Sources */,
 				9E6F7DC82D96DB3D009F24FC /* ReusableProtocol.swift in Sources */,
