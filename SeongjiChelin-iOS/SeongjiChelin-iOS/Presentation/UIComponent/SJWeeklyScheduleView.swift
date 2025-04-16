@@ -177,25 +177,34 @@ final class SJWeeklyScheduleView: UIView {
     
     
     //영업시간 정보 업데이트 메서드
-    func updateSchedule(openTime: String, closeTime: String, holidayIndex: Int) {
-        // 기존 레이아웃 제약조건 제거
-        regularLabel.snp.removeConstraints()
-        
-        // 새로운 위치에 정기 휴무일 레이블 배치
-        regularLabel.snp.makeConstraints {
-            $0.top.equalTo(dividerLine.snp.bottom).offset(12)
-            $0.width.equalToSuperview().dividedBy(7)
-            $0.height.equalTo(20)
-            $0.leading.equalTo(openTimeLabels[holidayIndex].snp.leading)
-        }
-        
-        // 일요일 레이블 위치도 업데이트
-        sundayLabel.snp.removeConstraints()
-        sundayLabel.snp.makeConstraints {
-            $0.top.equalTo(regularLabel.snp.bottom).offset(8)
-            $0.width.equalToSuperview().dividedBy(7)
-            $0.height.equalTo(20)
-            $0.leading.equalTo(regularLabel.snp.leading)
+    func updateSchedule(businessHours: [String: String], holidayIndex: Int) {
+        // 휴무일이 없는 경우(holidayIndex가 음수) regularLabel과 sundayLabel 숨기기
+        if holidayIndex < 0 {
+            regularLabel.isHidden = true
+            sundayLabel.isHidden = true
+        } else {
+            regularLabel.isHidden = false
+            sundayLabel.isHidden = false
+            
+            // 기존 레이아웃 제약조건 제거
+            regularLabel.snp.removeConstraints()
+            
+            // 새로운 위치에 정기 휴무일 레이블 배치
+            regularLabel.snp.makeConstraints {
+                $0.top.equalTo(dividerLine.snp.bottom).offset(12)
+                $0.width.equalToSuperview().dividedBy(7)
+                $0.height.equalTo(20)
+                $0.leading.equalTo(openTimeLabels[holidayIndex].snp.leading)
+            }
+            
+            // 일요일 레이블 위치도 업데이트
+            sundayLabel.snp.removeConstraints()
+            sundayLabel.snp.makeConstraints {
+                $0.top.equalTo(regularLabel.snp.bottom).offset(8)
+                $0.width.equalToSuperview().dividedBy(7)
+                $0.height.equalTo(20)
+                $0.leading.equalTo(regularLabel.snp.leading)
+            }
         }
         
         // 모든 레이블 보이게 초기화
@@ -210,24 +219,31 @@ final class SJWeeklyScheduleView: UIView {
             closeTimeLabels[holidayIndex].isHidden = true
         }
         
-        // 영업 시작 시간 업데이트
-        let openTimes = Array(repeating: openTime, count: 7)
-        for (index, label) in openTimeLabels.enumerated() {
-            if index < openTimes.count && index != holidayIndex {
-                label.text = openTimes[index]
-            }
-        }
+        // 요일 매핑 - openTimeLabels 및 closeTimeLabels의 인덱스와 businessHours 딕셔너리의 키 매핑
+        let weekdayMapping = ["월", "화", "수", "목", "금", "토", "일"]
         
-        // 영업 종료 시간 업데이트
-        let closeTimes = Array(repeating: closeTime, count: 7)
-        for (index, label) in closeTimeLabels.enumerated() {
-            if index < closeTimes.count && index != holidayIndex {
-                label.text = closeTimes[index]
+        // 영업 시간 업데이트
+        for (index, weekday) in weekdayMapping.enumerated() {
+            if let businessHour = businessHours[weekday] {
+                if businessHour == "휴무" {
+                    openTimeLabels[index].isHidden = true
+                    closeTimeLabels[index].isHidden = true
+                } else {
+                    // "시작시간 - 종료시간" 형식에서 분리
+                    let times = businessHour.components(separatedBy: " - ")
+                    if times.count == 2 {
+                        openTimeLabels[index].text = times[0].trimmingCharacters(in: .whitespacesAndNewlines)
+                        closeTimeLabels[index].text = times[1].trimmingCharacters(in: .whitespacesAndNewlines)
+                    }
+                }
+            } else {
+                // 해당 요일 정보가 없는 경우
+                openTimeLabels[index].isHidden = true
+                closeTimeLabels[index].isHidden = true
             }
         }
         
         // 레이아웃 즉시 업데이트
         self.layoutIfNeeded()
     }
-    
 }

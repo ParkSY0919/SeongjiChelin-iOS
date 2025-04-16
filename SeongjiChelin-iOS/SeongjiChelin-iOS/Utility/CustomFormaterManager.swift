@@ -33,13 +33,13 @@ final class CustomFormatterManager {
     
     // 요일 변환을 위한 메소드 추가
     func weekdayString(from date: Date) -> String? {
-        let weekday = Calendar.current.component(.weekday, from: date) // 1(일) ~ 7(토)
-        let weekdayMap = [1: "일", 2: "월", 3: "화", 4: "수", 5: "목", 6: "금", 7: "토"]
+        let weekday = Calendar.current.component(.weekday, from: date)
+        let weekdayMap = [1: "월", 2: "화", 3: "수", 4: "목", 5: "금", 6: "토", 7: "일"]
         return weekdayMap[weekday]
     }
     
     func weekdayString(from dateString: String) -> Int? {
-        let weekdayMap = ["월": 1, "화": 2, "수": 3, "목": 4, "금": 5, "토": 6, "토일": 7]
+        let weekdayMap = ["월": 1, "화": 2, "수": 3, "목": 4, "금": 5, "토": 6, "일": 7]
         return weekdayMap[dateString]
     }
     
