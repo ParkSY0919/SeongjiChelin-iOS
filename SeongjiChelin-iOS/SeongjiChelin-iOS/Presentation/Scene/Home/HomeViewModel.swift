@@ -14,6 +14,7 @@ final class HomeViewModel: ViewModelProtocol {
     
     private let disposeBag = DisposeBag()
     private let currentFilterRelay = BehaviorRelay<RestaurantThemeType?>(value: nil)
+    let willAppearTrigger = PublishSubject<Void>()
 
     struct Input {
         let menuTapped: ControlEvent<Void>
@@ -33,6 +34,10 @@ final class HomeViewModel: ViewModelProtocol {
     }
 
     func transform(input: Input) -> Output {
+        willAppearTrigger.subscribe(with: self) { owner, _ in
+            owner.currentFilterRelay.accept(nil)
+        }.disposed(by: disposeBag)
+        
         // 입력된 필터 테마를 내부 상태(currentFilterRelay)에 바인딩
         input.selectedFilterTheme
             .bind(to: currentFilterRelay)

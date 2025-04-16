@@ -46,6 +46,15 @@ final class HomeViewController: BaseViewController {
         super.init()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        print(#function)
+        viewModel.willAppearTrigger.onNext(())
+    }
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBar.isHidden = true
@@ -197,11 +206,13 @@ private extension HomeViewController {
             let boldMenuImage = UIImage(systemName: "microphone", withConfiguration: boldConfig)
             $0.setImage(boldMenuImage, for: .normal)
             $0.tintColor = .text200
+            $0.isHidden = true
         }
         
         searchTextField.do {
-            $0.placeholder = "식당, 장소, 카테고리 등 검색"
+            $0.placeholder = ""
             $0.textAlignment = .left
+            $0.isUserInteractionEnabled = false
         }
     }
     
@@ -465,9 +476,11 @@ extension HomeViewController: GMSMapViewDelegate {
                 // 없으면 새로 생성해서 표시
                 let vm = DetailViewModel(restaurantInfo: restaurant)
                 let vc = DetailViewController(viewModel: vm)
+                
                 present(vc, animated: true) { [weak self] in
                     self?.currentDetailViewController = vc
                 }
+                
             }
         }
         // 기본 동작 작동

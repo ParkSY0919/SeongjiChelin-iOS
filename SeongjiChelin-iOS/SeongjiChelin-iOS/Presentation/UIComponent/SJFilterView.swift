@@ -59,7 +59,7 @@ final class SJFilterView: UIView {
     private var currentSelectedButton: UIButton?
     
     init() {
-        let filterTypes: [SJFilterType] = [.all, .visited, .favorite, .rated]
+        let filterTypes: [SJFilterType] = [.all, .visited, .favorite]
         
         
         self.filterButtons = filterTypes.map { type in
