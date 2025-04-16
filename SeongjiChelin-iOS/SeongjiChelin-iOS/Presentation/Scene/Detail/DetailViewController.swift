@@ -24,8 +24,8 @@ final class DetailViewController: BaseViewController {
     private let viewModel: DetailViewModel
     
     private let dismissButton = UIButton()
-    private let visitButton = SJButton(type: .foot)
-    private let favoriteButton = SJButton(type: .favorite)
+    private let visitButton = SJButton(type: .foot, repo: RestaurantRepository())
+    private let favoriteButton = SJButton(type: .favorite, repo: RestaurantRepository())
     private let storeNameLabel = UILabel()
     private let categoryLabel = UILabel()
     private let addressToolLabel = SJStoreInfoBaseLabelView(type: .address)
@@ -259,9 +259,9 @@ final class DetailViewController: BaseViewController {
         visitButton.configureWithRestaurant(restaurant: restaurant)
         favoriteButton.configureWithRestaurant(restaurant: restaurant)
         
-        let times = restaurant.openingHours.split(separator: " - ")
-        let holidyIndes = CustomFormatterManager.shared.weekdayString(from: restaurant.closedDays) ?? 0
-        scheduleView.updateSchedule(openTime: times[0].description, closeTime: times[1].description, holidayIndex: holidyIndes - 1)
+        let holidyIndes = CustomFormatterManager.shared.weekdayString(from: restaurant.closedDays) ?? -1
+        print("holidyIndes: \(holidyIndes)")
+        scheduleView.updateSchedule(businessHours: restaurant.businessHours, holidayIndex: holidyIndes-1)
         
         nearWeatherLabel.text = "🌡️ 현재 근처 날씨: " + "맑음"
         

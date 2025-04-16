@@ -12,8 +12,8 @@ import Then
 
 final class HomeCollectionViewCell: BaseCollectionViewCell {
     
-    private let visitButton = SJButton(type: .foot)
-    private let favoriteButton = SJButton(type: .favorite)
+    private let visitButton = SJButton(type: .foot, repo: RestaurantRepository())
+    private let favoriteButton = SJButton(type: .favorite, repo: RestaurantRepository())
     private let storeNameLabel = UILabel()
     private let categoryLabel = UILabel()
     private let numberLabel = UILabel()
