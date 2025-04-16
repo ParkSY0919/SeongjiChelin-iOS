@@ -11,22 +11,30 @@ import RealmSwift
 
 protocol RestaurantRepositoryProtocol {
     func getFileURL()
-    func fetchAll() -> Results<RestaurantTable>
-    func fetchVisited() -> Results<RestaurantTable>
-    func fetchFavorites() -> Results<RestaurantTable>
-    func fetchRated() -> Results<RestaurantTable>
-    func fetchByRating(minRating: Double) -> Results<RestaurantTable>
-    func createAndEditItem(checkTable: Bool, data: RestaurantTable, isVisited: Bool?, isFavorite: Bool?, rating: Double?, review: String?, handler: @escaping (Bool) -> Void)
-    func deleteItem(data: RestaurantTable, handler: @escaping (Bool) -> Void)
-    func getItemById(id: String) -> RestaurantTable?
-    func cleanupUnusedTables() -> Int
-    func deleteItemInUpdate(data: RestaurantTable)
+    func getTableByStoreID(storeID: String) -> RestaurantTable? //일치하는 테이블
+    func fetchAll() -> Results<RestaurantTable> //전체
+    func fetchVisited() -> Results<RestaurantTable> //방문한 곳
+    func fetchFavorites() -> Results<RestaurantTable> //저장한 곳
+    func fetchRated() -> Results<RestaurantTable> //리뷰있는 곳
+    func upsertRestaurant(storeID: String, isVisited: Bool?, isFavorite: Bool?, rating: Double?, review: String?, handler: @escaping (Bool) -> Void)
+    //추가
+    func createItem(storeID: String, isVisited: Bool?, isFavorite: Bool?, rating: Double?,
+                    review: String?, handler: @escaping (Bool) -> Void)
+    //수정
+    func updateItem(data: RestaurantTable, isVisited: Bool?, isFavorite: Bool?, rating: Double?,
+                    review: String?, handler: @escaping (Bool) -> Void)
 }
 
 
 final class RestaurantRepository: RestaurantRepositoryProtocol {
     
     private let realm = try! Realm()
+    
+    func getTableByStoreID(storeID: String) -> RestaurantTable? {
+        let result = realm.objects(RestaurantTable.self).filter("storeID == %@", storeID).first
+        print("Search result: \(result != nil ? "Found" : "Not found")")
+        return result
+    }
 
     func getFileURL() {
         print(realm.configuration.fileURL ?? "getFileURL Error", "getFileURL")
@@ -48,94 +56,108 @@ final class RestaurantRepository: RestaurantRepositoryProtocol {
         return realm.objects(RestaurantTable.self).filter("rating != nil")
     }
     
-    func fetchByRating(minRating: Double) -> Results<RestaurantTable> {
-        return realm.objects(RestaurantTable.self).filter("rating >= %@", minRating)
+    func upsertRestaurant(storeID: String,
+                          isVisited: Bool? = nil,
+                          isFavorite: Bool? = nil,
+                          rating: Double? = nil,
+                          review: String? = nil,
+                          handler: @escaping (Bool) -> Void) {
+        //해당 식당에 대한 테이블 데이터가 있다면,,
+        if let data = getTableByStoreID(storeID: storeID) {
+            updateItem(data: data, isVisited: isVisited, isFavorite: isFavorite, rating: rating, review: review) { isSuccess in
+                switch isSuccess {
+                case true:
+                    print("updateItem 성공")
+                    handler(true)
+                case false:
+                    print("updateItem 실패")
+                    handler(false)
+                }
+            }
+        } else { //없다면,,
+            createItem(storeID: storeID, isVisited: isVisited, isFavorite: isFavorite, rating: rating, review: review) { isSuccess in
+                switch isSuccess {
+                case true:
+                    print("createItem 성공")
+                    handler(true)
+                case false:
+                    print("createItem 실패")
+                    handler(false)
+                }
+            }
+        }
     }
-
-    func createAndEditItem(checkTable: Bool, data: RestaurantTable, isVisited: Bool? = nil, isFavorite: Bool? = nil, rating: Double? = nil, review: String? = nil, handler: @escaping (Bool) -> Void) {
+    
+    func createItem(
+        storeID: String,
+        isVisited: Bool?,
+        isFavorite: Bool?,
+        rating: Double?,
+        review: String?,
+        handler: @escaping (Bool) -> Void
+    ) {
+        //테이블 데이터
         guard isVisited != nil || isFavorite != nil || rating != nil || review != nil else {
             handler(false)
             return
         }
 
-        //식당 테이블 있는지 확인
-        switch checkTable {
-        case true: //있다면 업데이트
-            do {
-                try realm.write {
-                    var updateData: [String: Any] = ["id": data.id]
-                    if let isVisited = isVisited {
-                        updateData["isVisited"] = isVisited
-                    }
-                    if let isFavorite = isFavorite {
-                        updateData["isFavorite"] = isFavorite
-                    }
-                    if let rating = rating {
-                        updateData["rating"] = rating
-                    }
-                    if let review = review {
-                        updateData["review"] = review
-                    }
-                    realm.create(RestaurantTable.self, value: updateData, update: .modified)
-                    print("realm 업데이트 성공")
-                    handler(true)
-                }
-            } catch {
-                print("realm 업데이트 실패")
-                handler(false)
-            }
-        case false: //없다면 생성
-            do {
-                try realm.write {
-                    realm.add(data)
-                    print("realm 저장 성공한 경우")
-                }
-            } catch {
-                print("realm 저장이 실패한 경우")
-                handler(false)
-            }
-        }
-    }
-    
-    func deleteItemInUpdate(data: RestaurantTable) {
-        realm.delete(data)
-    }
-
-    func deleteItem(data: RestaurantTable, handler: @escaping (Bool) -> Void) {
         do {
             try realm.write {
-                realm.delete(data)
-                print("realm 데이터 삭제 성공")
+                let data = RestaurantTable(
+                    storeID: storeID,
+                    isVisited: isVisited ?? false,
+                    isFavorite: isFavorite ?? false,
+                    rating: rating,
+                    review: review
+                )
+                realm.add(data)
+                print("realm 업데이트 성공")
                 handler(true)
             }
         } catch {
-            print("realm 데이터 삭제 실패")
+            print("realm 업데이트 실패")
             handler(false)
         }
     }
 
-    func getItemById(id: String) -> RestaurantTable? {
-        print("Searching for item with ID: \(id)")
-        let result = realm.objects(RestaurantTable.self).filter("storeID == %@", id).first
-        print("Search result: \(result != nil ? "Found" : "Not found")")
-        return result
-    }
-    
-    func cleanupUnusedTables() -> Int {
-        let unusedTables = realm.objects(RestaurantTable.self)
-            .filter("isVisited == false AND isFavorite == false AND rating == nil AND review == nil")
-        
-        let count = unusedTables.count
-        
+    func updateItem(
+        data: RestaurantTable,
+        isVisited: Bool?,
+        isFavorite: Bool?,
+        rating: Double?,
+        review: String?,
+        handler: @escaping (Bool) -> Void
+    ) {
+        //테이블 데이터
+        guard isVisited != nil || isFavorite != nil || rating != nil || review != nil else {
+            handler(false)
+            return
+        }
+
         do {
             try realm.write {
-                realm.delete(unusedTables)
-                print("미사용 테이블 \(count)개 삭제 성공")
+                var updateData: [String: Any] = ["storeID": data.storeID]
+                if let isVisited = isVisited {
+                    updateData["isVisited"] = isVisited
+                }
+                if let isFavorite = isFavorite {
+                    updateData["isFavorite"] = isFavorite
+                }
+                if let rating = rating {
+                    updateData["rating"] = rating
+                }
+                if let review = review {
+                    updateData["review"] = review
+                }
+                realm.create(RestaurantTable.self, value: updateData, update: .modified)
+                print("realm 업데이트 성공")
+                handler(true)
             }
-            return count
         } catch {
-            print("미사용 테이블 삭제 실패: \(error.localizedDescription)")
-            return 0
+            print("realm 업데이트 실패")
+            handler(false)
         }
     }
+    
 }
