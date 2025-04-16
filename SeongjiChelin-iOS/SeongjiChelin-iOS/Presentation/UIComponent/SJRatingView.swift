@@ -161,27 +161,7 @@ final class SJRatingView: UIView {
                 let reviewText = self.reviewTextView.text == "리뷰를 작성해주세요 (선택사항)" ? nil : self.reviewTextView.text
                 
                 // 리뷰 및 평점 저장
-                self.repo.createAndEditItem(
-                    checkTable: true,
-                    data: restaurant,
-                    isVisited: true,
-                    isFavorite: nil,
-                    rating: currentRating > 0 ? currentRating : nil,
-                    review: reviewText
-                ) { isSuccess in
-                    if isSuccess {
-                        print("리뷰 저장 성공")
-                        
-                        // 모든 값이 없거나 false인 경우 테이블 삭제
-                        if currentRating == 0 && reviewText == nil && !restaurant.isVisited && !restaurant.isFavorite {
-                            self.repo.deleteItem(data: restaurant) { deleteSuccess in
-                                print(deleteSuccess ? "불필요한 테이블 삭제 성공" : "테이블 삭제 실패")
-                            }
-                        }
-                    } else {
-                        print("리뷰 저장 실패")
-                    }
-                }
+                
             })
             .disposed(by: disposeBag)
     }

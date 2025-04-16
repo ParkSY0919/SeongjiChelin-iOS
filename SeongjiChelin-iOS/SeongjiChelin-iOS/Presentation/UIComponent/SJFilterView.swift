@@ -50,20 +50,13 @@ enum SJFilterType {
 
 final class SJFilterView: UIView {
     
-    // MARK: - Properties
-    
-    private let repo: RestaurantRepositoryProtocol = RestaurantRepository()
     private let disposeBag = DisposeBag()
     let selectedFilterSubject = PublishSubject<SJFilterType>()
-    
-    // MARK: - UI Components
     
     private let scrollView = UIScrollView()
     private let filterStackView = UIStackView()
     private let filterButtons: [UIButton]
     private var currentSelectedButton: UIButton?
-    
-    // MARK: - Initializers
     
     init() {
         let filterTypes: [SJFilterType] = [.all, .visited, .favorite, .rated]
@@ -119,8 +112,6 @@ final class SJFilterView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - UI Configuration
-    
     private func configureUI() {
         addSubviews(scrollView)
         scrollView.addSubview(filterStackView)
@@ -148,8 +139,6 @@ final class SJFilterView: UIView {
         
     }
     
-    // MARK: - Bindings
-    
     private func setUpBindings() {
         for (index, button) in filterButtons.enumerated() {
             button.rx.tap
@@ -163,8 +152,6 @@ final class SJFilterView: UIView {
                 .disposed(by: disposeBag)
         }
     }
-    
-    // MARK: - Helper Methods
     
     private func getFilterType(tag: Int) -> SJFilterType {
         switch tag {
@@ -189,26 +176,6 @@ final class SJFilterView: UIView {
             selectedButton.isSelected = true
             currentSelectedButton = selectedButton
         }
-    }
-    
-    // MARK: - Public Methods
-    func applyFilter(type: SJFilterType, completion: @escaping ([RestaurantTable]) -> Void) {
-        var restaurants: Results<RestaurantTable>
-        
-        switch type {
-        case .all:
-            restaurants = repo.fetchAll()
-        case .visited:
-            restaurants = repo.fetchVisited()
-        case .favorite:
-            restaurants = repo.fetchFavorites()
-        case .rated:
-            restaurants = repo.fetchRated()
-        }
-        
-        // Realm Results를 Array로 변환
-        let restaurantArray = Array(restaurants)
-        completion(restaurantArray)
     }
     
 }

@@ -14,25 +14,25 @@ final class MyRestaurantViewModel: ViewModelProtocol {
     
     struct Input {
         let filterType: PublishSubject<SJFilterType>
-        let tableCellTapped: ControlEvent<RestaurantTable>
+        let tableCellTapped: ControlEvent<Restaurant>
         let backButtonTapped: ControlEvent<()>
     }
     
     struct Output {
-        let restaurants: Driver<[RestaurantTable]>
+        let restaurants: Driver<[Restaurant]>
         let isEmpty: Driver<Bool>
-        let tableCellTrigger: Driver<RestaurantTable>
+        let tableCellTrigger: Driver<Restaurant>
         let backButtonTrigger: Driver<()>
     }
     
-    // MARK: - Properties
-    
-    private let repo: RestaurantRepositoryProtocol = RestaurantRepository()
+    private let repo: RestaurantRepositoryProtocol
     private let disposeBag = DisposeBag()
     
-    private let restaurantsRelay = BehaviorRelay<[RestaurantTable]>(value: [])
+    private let restaurantsRelay = BehaviorRelay<[Restaurant]>(value: [])
     
-    // MARK: - Methods
+    init(repo: RestaurantRepositoryProtocol) {
+        self.repo = repo
+    }
     
     func transform(input: Input) -> Output {
         input.filterType
@@ -54,26 +54,27 @@ final class MyRestaurantViewModel: ViewModelProtocol {
     }
     
     func fetchRestaurants(filter: SJFilterType) {
-        // 불필요한 데이터 정리 이후 전체 레스토랑 호출
-        _ = repo.cleanupUnusedTables()
-        var restaurants = repo.fetchAll()
-        
+        let allStaticRestaurants = RestaurantLiterals.allRestaurantThemesData
+
+        var filteredTableResults = [String]()
         switch filter {
         case .all:
-            // 방문, 즐겨찾기, 평점 중 하나라도 설정된 레스토랑
-            restaurants = repo.fetchAll().filter("isVisited == true OR isFavorite == true OR rating != nil")
+            restaurantsRelay.accept(allStaticRestaurants)
+            return
         case .visited:
-            restaurants = repo.fetchVisited()
+            filteredTableResults = repo.fetchVisited().map { $0.storeID }
         case .favorite:
-            restaurants = repo.fetchFavorites()
+            filteredTableResults = repo.fetchFavorites().map { $0.storeID }
         case .rated:
-            restaurants = repo.fetchRated()
+            filteredTableResults = repo.fetchRated().map { $0.storeID }
+    
         }
-        
-        // Realm Results를 Array로 변환
-        let restaurantArray = Array(restaurants)
-        
-        restaurantsRelay.accept(restaurantArray)
+
+        let finalRestaurants = allStaticRestaurants.filter { staticRestaurant in
+            filteredTableResults.contains(staticRestaurant.storeID)
+        }
+
+        restaurantsRelay.accept(finalRestaurants)
     }
     
 }

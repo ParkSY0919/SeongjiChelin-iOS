@@ -36,7 +36,7 @@ struct RestaurantTheme: Identifiable {
 }
 
 enum RestaurantThemeType: String, CaseIterable {
-    case psyTheme = "psy Pick!"
+    case psyTheme = "주인장 Pick"
     case sungSiKyungTheme = "성시경의 먹을텐데"
     case ttoGanJibTheme = "풍자의 또간집"
     case choizaLoadTheme = "최자의 최자로드"
@@ -95,6 +95,8 @@ enum RestaurantThemeType: String, CaseIterable {
 }
 
 struct RestaurantLiterals {
+    
+    static let allRestaurantThemesData = RestaurantLiterals.allRestaurantThemes.flatMap { $0.restaurants }
     
     static let allRestaurantThemes: [RestaurantTheme] = [
         psyTheme,

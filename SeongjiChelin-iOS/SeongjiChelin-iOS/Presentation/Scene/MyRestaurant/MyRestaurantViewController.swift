@@ -14,14 +14,10 @@ import Then
 
 final class MyRestaurantViewController: BaseViewController {
     
-    // MARK: - Properties
-    
-    private let viewModel = MyRestaurantViewModel()
+    private let viewModel: MyRestaurantViewModel
     private let disposeBag = DisposeBag()
     private var currentFilterType: SJFilterType = .all
     private var currentDetailViewController: DetailViewController?
-    
-    // MARK: - UI Components
     
     private let titleLabel = UILabel()
     private let backButton = UIButton()
@@ -29,13 +25,15 @@ final class MyRestaurantViewController: BaseViewController {
     private let tableView = UITableView()
     private let emptyView = EmptyRestaurantView()
     
-    // MARK: - Lifecycle
+    init(viewModel: MyRestaurantViewModel) {
+        self.viewModel = viewModel
+        super.init()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         bindViewModel()
-        print(#function)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -114,7 +112,7 @@ final class MyRestaurantViewController: BaseViewController {
     private func bindViewModel() {
         let input = MyRestaurantViewModel.Input(
             filterType: filterView.selectedFilterSubject,
-            tableCellTapped: tableView.rx.modelSelected(RestaurantTable.self),
+            tableCellTapped: tableView.rx.modelSelected(Restaurant.self),
             backButtonTapped: backButton.rx.controlEvent(.touchUpInside)
         )
         let output = viewModel.transform(input: input)
@@ -152,15 +150,13 @@ final class MyRestaurantViewController: BaseViewController {
         tableView.isHidden = isEmpty
     }
     
-    private func navigateToDetailView(with restaurant: RestaurantTable) {
-        let store = Restaurant.mappingRestaurant(restaurant)
-    
+    private func navigateToDetailView(with restaurant: Restaurant) {
         if let detailVC = self.currentDetailViewController,
            self.presentedViewController === detailVC {
-            detailVC.updateRestaurantInfo(store)
+            detailVC.updateRestaurantInfo(restaurant)
         } else {
             // 없으면 새로 생성해서 표시
-            let vm = DetailViewModel(restaurantInfo: store)
+            let vm = DetailViewModel(restaurantInfo: restaurant)
             let detailVC = DetailViewController(viewModel: vm)
             detailVC.onChangeState = { [weak self] in
                 guard let self else { return }

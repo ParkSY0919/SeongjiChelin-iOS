@@ -13,20 +13,12 @@ import Then
 
 final class MyRestaurantTableViewCell: BaseTableViewCell {
     
-    // MARK: - Properties
-    
-    let disposeBag = DisposeBag()
-    
-    // MARK: - UI Components
-    
     private let containerView = UIView()
     private let restaurantImageView = UIImageView()
     private let line = UIView()
     private let nameLabel = UILabel()
     private let categoryLabel = UILabel()
     private let addressLabel = UILabel()
-    
-    // MARK: - Initializers
     
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -35,8 +27,6 @@ final class MyRestaurantTableViewCell: BaseTableViewCell {
         categoryLabel.text = nil
         addressLabel.text = nil
     }
-    
-    // MARK: - UI Setup
     
     override func setHierarchy() {
         contentView.addSubview(containerView)
@@ -121,9 +111,7 @@ final class MyRestaurantTableViewCell: BaseTableViewCell {
         }
     }
     
-    // MARK: - Public Methods
-    
-    func configure(with restaurant: RestaurantTable) {
+    func configure(with restaurant: Restaurant) {
         nameLabel.text = restaurant.name
         categoryLabel.text = restaurant.category
         addressLabel.text = restaurant.address

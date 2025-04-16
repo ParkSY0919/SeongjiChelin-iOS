@@ -433,7 +433,7 @@ private extension HomeViewController {
         case "홈":
             print("홈홈홈")
         case "나만의 식당":
-            let myRestaurantVC = MyRestaurantViewController()
+            let myRestaurantVC = MyRestaurantViewController(viewModel: MyRestaurantViewModel(repo: RestaurantRepository()))
             self.navigationController?.pushViewController(myRestaurantVC, animated: true)
         case "사용법":
             let onboardingVC = OnboardingViewController()
