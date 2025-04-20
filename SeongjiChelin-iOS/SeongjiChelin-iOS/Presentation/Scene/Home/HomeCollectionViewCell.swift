@@ -188,4 +188,28 @@ final class HomeCollectionViewCell: BaseCollectionViewCell {
         favoriteButton.configureWithRestaurant(restaurant: store)
     }
     
+    func configureCell(store: Restaurant) {
+        self.layer.borderColor = UIColor.bg150.cgColor
+        self.layer.borderWidth = 1
+        visitButton.isHidden = true
+        favoriteButton.isHidden = true
+        
+        storeNameLabel.text = store.name
+        categoryLabel.text = store.category
+        storeAddressLabel.text = store.address
+        storeNumberLabel.text = store.number
+        parkingLabel.text = store.amenities
+        menusLabel.text = store.menus.map(\.self).joined(separator: ", ")
+        menusToolLabel.isNoYoutube(isValid: true)
+        
+        openingHoursLabel.do {
+            let status = store.checkStoreStatus()
+            $0.text = status.displayText
+            $0.textColor = status.textColor
+        }
+        
+        visitButton.configureWithRestaurant(restaurant: store)
+        favoriteButton.configureWithRestaurant(restaurant: store)
+    }
+    
 }

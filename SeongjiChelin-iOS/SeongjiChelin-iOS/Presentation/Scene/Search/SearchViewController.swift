@@ -21,7 +21,7 @@ final class SearchViewController: BaseViewController {
     private let textFieldContainer = UIView()
     private let navBackBtn = UIButton()
     private let navTextField = UITextField()
-    private let searchResultTableView = UITableView()
+    private lazy var searchResultCollectionView = UICollectionView(frame: .zero, collectionViewLayout: setupCollectionView())
     
     init(viewModel: SearchViewModel) {
         self.viewModel = viewModel
@@ -38,8 +38,14 @@ final class SearchViewController: BaseViewController {
         bind()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navTextField.becomeFirstResponder()
+    }
+    
     override func setHierarchy() {
-        view.addSubviews(customNavBar, searchResultTableView)
+        view.addSubviews(customNavBar, searchResultCollectionView)
         
         customNavBar.addSubviews(navBackBtn,
                                  textFieldContainer)
@@ -69,12 +75,10 @@ final class SearchViewController: BaseViewController {
             $0.edges.equalToSuperview().inset(10)
         }
         
-        searchResultTableView.snp.makeConstraints {
+        searchResultCollectionView.snp.makeConstraints {
             $0.top.equalTo(customNavBar.snp.bottom).offset(20)
-            $0.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide).offset(10)
+            $0.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide).inset(10)
         }
-        
-        
     }
     
     override func setStyle() {
@@ -101,15 +105,11 @@ final class SearchViewController: BaseViewController {
             $0.clearButtonMode = .whileEditing
         }
         
-        searchResultTableView.do {
-            $0.backgroundColor = .accentBeige
-            $0.separatorStyle = .none
+        searchResultCollectionView.do {
             $0.showsVerticalScrollIndicator = false
-            $0.rowHeight = 120
-            $0.register(MyRestaurantTableViewCell.self, forCellReuseIdentifier: MyRestaurantTableViewCell.identifier)
+            $0.register(HomeCollectionViewCell.self, forCellWithReuseIdentifier: HomeCollectionViewCell.identifier)
         }
     }
-    
     
 }
 
@@ -117,23 +117,50 @@ private extension SearchViewController {
     
     func bind() {
         let input = SearchViewModel.Input(
-            in_TapNavBackButton: navBackBtn.rx.tap,
-            in_TapNavTextFieldReturnKey: navTextField.rx.controlEvent(.editingDidEndOnExit),
-            in_NavTextFieldText: navTextField.rx.text.orEmpty
+            navBackButtonTapped: navBackBtn.rx.tap,
+            returnKeyTapped: navTextField.rx.controlEvent(.editingDidEndOnExit),
+            searchTextFieldText: navTextField.rx.text.orEmpty
         )
         
         let output = viewModel.transform(input: input)
         
-        output.out_TapNavBackButton
+        output.navBackButtonTrigger
             .drive(with: self, onNext: { owner, _ in
                 owner.navigationController?.popViewController(animated: true)
             }).disposed(by: disposeBag)
+        
+        output.returnKeyTrigger
+            .drive(with: self) { owner, _ in
+                owner.navTextField.resignFirstResponder()
+            }.disposed(by: disposeBag)
+        
+        output.filterRestaurantList
+            .drive(searchResultCollectionView.rx.items(cellIdentifier: HomeCollectionViewCell.identifier, cellType: HomeCollectionViewCell.self))
+        { item, data, cell in
+            cell.configureCell(store: data)
+        }.disposed(by: disposeBag)
+        
+        output.scrollTopTrigger
+            .bind(with: self) { owner, _ in
+                owner.setScrollToTop()
+            }.disposed(by: disposeBag)
     }
     
     func setScrollToTop() {
         print(#function)
         let indexPath = NSIndexPath(row: NSNotFound, section: 0)
-//        searchResultTableView.scrollToRow(at: indexPath as IndexPath, at: .top, animated: false)
+        searchResultCollectionView.scrollToItem(at: indexPath as IndexPath, at: .top, animated: true)
+    }
+    
+    func setupCollectionView() -> UICollectionViewFlowLayout {
+        let layout = UICollectionViewFlowLayout()
+        layout.minimumLineSpacing = 14
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
+        let width = (ConstantLiterals.ScreenSize.width - 20)
+        layout.itemSize = CGSize(width: width, height: 200)
+        layout.scrollDirection = .vertical
+        
+        return layout
     }
     
 }

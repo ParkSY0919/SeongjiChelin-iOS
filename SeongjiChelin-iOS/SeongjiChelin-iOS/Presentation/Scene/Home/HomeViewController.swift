@@ -168,6 +168,7 @@ final class HomeViewController: BaseViewController {
         collectionView.do {
             $0.register(HomeCollectionViewCell.self, forCellWithReuseIdentifier: HomeCollectionViewCell.identifier)
             $0.isHidden = true
+            $0.showsVerticalScrollIndicator = false
             $0.backgroundColor = .clear
         }
         
