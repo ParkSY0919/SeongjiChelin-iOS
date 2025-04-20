@@ -20,6 +20,7 @@ final class HomeViewController: BaseViewController {
     private let viewModel: HomeViewModel
     private let selectedFilterSubject = PublishSubject<RestaurantThemeType?>()
     private var currentMarkers: [GMSMarker] = []
+    private var selectedMarker: GMSMarker?
     
     private let customNavBar = UIView()
     private let menuButton = UIButton()
@@ -482,6 +483,31 @@ private extension HomeViewController {
         }
     }
     
+    ///마커 표시 로직
+    private func selectMarker(_ marker: GMSMarker, restaurant: Restaurant) {
+        resetSelectedMarker()
+        
+        if let customIconView = marker.iconView as? CustomMarkerView {
+            customIconView.scaleUp()
+        }
+        //다른 마커 위에 보이도록 zIndex 설정
+         marker.zIndex = 1
+        
+        selectedMarker = marker
+    }
+    
+    ///현재 선택된 마커를 원상태
+    private func resetSelectedMarker() {
+        if let marker = selectedMarker {
+            if let customIconView = marker.iconView as? CustomMarkerView {
+                customIconView.resetScale()
+            }
+            //zIndex 초기화
+             marker.zIndex = 0
+        }
+        selectedMarker = nil
+    }
+    
 }
 
 extension HomeViewController: GMSMapViewDelegate {
@@ -489,8 +515,11 @@ extension HomeViewController: GMSMapViewDelegate {
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
         guard let userData = marker.userData as? [String: Any],
               let restaurant = userData["restaurant"] as? Restaurant else {
-            return false
+            resetSelectedMarker()
+            return true
         }
+        
+        
         
         // 시트를 표시하고 카메라를 조정하는 로직을 캡슐화
         let presentAndAdjustCamera = { [weak self] (targetRestaurant: Restaurant, tappedMarker: GMSMarker) in
@@ -547,6 +576,8 @@ extension HomeViewController: GMSMapViewDelegate {
             presentAndAdjustCamera(restaurant, marker)
         }
         
+        selectMarker(marker, restaurant: restaurant)
+        
         //기본 마커 탭 동작(카메라 자동 중앙 이동)을 막음
         return true
     }
@@ -577,6 +608,17 @@ extension HomeViewController: GMSMapViewDelegate {
             let update = GMSCameraUpdate.scrollBy(x: 0, y: scrollAmountY)
             print("Adjusting camera for marker. Scrolling map by \(scrollAmountY) points.")
             mapView.animate(with: update)
+        }
+    }
+    
+    ///지도 탭 했을 시 sheet 닫기
+    func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
+        print("Map tapped at coordinate: \(coordinate)")
+        resetSelectedMarker()
+        //열려있는 DetailVC 닫기
+        if let detailVC = currentDetailViewController, presentedViewController === detailVC {
+            detailVC.dismiss(animated: true)
+            currentDetailViewController = nil
         }
     }
     
