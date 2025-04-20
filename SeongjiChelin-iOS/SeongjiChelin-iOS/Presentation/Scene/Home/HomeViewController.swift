@@ -210,9 +210,8 @@ private extension HomeViewController {
         }
         
         searchTextField.do {
-            $0.placeholder = ""
+            $0.placeholder = "식당, 주소 등을 입력해주세요."
             $0.textAlignment = .left
-            $0.isUserInteractionEnabled = false
         }
     }
     
@@ -277,7 +276,8 @@ private extension HomeViewController {
             micTapped: micButton.rx.tap.asControlEvent(),
             modeChangeTapped: modeChangeButton.rx.tap,
             listCellTapped: collectionView.rx.modelSelected((RestaurantTheme, Restaurant).self),
-            selectedFilterTheme: selectedFilterSubject.asObservable()
+            selectedFilterTheme: selectedFilterSubject.asObservable(),
+            searchTextField: searchTextField.rx.text.orEmpty
         )
         
         allFilterButtonTaps
@@ -316,7 +316,7 @@ private extension HomeViewController {
             .subscribe(with: self) { owner, tupleData in
                 print("cell이 클릭되었습니다")
                 let (_, restaurant) = tupleData
-//                 현재 표시된 DetailViewController가 있는지 확인
+                //                 현재 표시된 DetailViewController가 있는지 확인
                 if let detailVC = owner.currentDetailViewController,
                    owner.presentedViewController === detailVC {
                     detailVC.updateRestaurantInfo(restaurant)
@@ -329,6 +329,22 @@ private extension HomeViewController {
                     }
                 }
             }.disposed(by: disposeBag)
+        
+        
+        output.searchTextFieldTrigger
+            .bind(with: self) { owner, text in
+                print("text: \(text)")
+                owner.modeChange(isListView: true)
+            }.disposed(by: disposeBag)
+        
+        searchTextField.rx.controlEvent(.editingDidEnd)
+            .subscribe(with: self) { owner, _ in
+                if owner.searchTextField.text?.isEmpty ?? true {
+                    print("Search text is empty.")
+                    owner.modeChange()
+                }
+            }
+            .disposed(by: disposeBag)
         
         output.filteredList
             .drive(with: self, onNext: { owner, themes in
@@ -416,13 +432,20 @@ private extension HomeViewController {
         mapView.animate(with: update)
     }
     
-    func modeChange() {
+    func modeChange(isListView: Bool = false) {
         if let detailVC = currentDetailViewController,
            presentedViewController === detailVC {
             dismiss(animated: true)
         }
-        modeChangeButton.isSelected.toggle()
-        let isListState = modeChangeButton.isSelected
+        var isListState = false
+        
+        if !isListView {
+            modeChangeButton.isSelected.toggle()
+            isListState = modeChangeButton.isSelected
+        } else {
+            modeChangeButton.isSelected = true
+            isListState = true
+        }
         
         UIView.animate(withDuration: 1.0) { [weak self] in
             guard let self else { return }
@@ -464,27 +487,97 @@ private extension HomeViewController {
 extension HomeViewController: GMSMapViewDelegate {
     
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
-        if let userData = marker.userData as? [String: Any],
-           let restaurant = userData["restaurant"] as? Restaurant {
+        guard let userData = marker.userData as? [String: Any],
+              let restaurant = userData["restaurant"] as? Restaurant else {
+            return false
+        }
+        
+        // 시트를 표시하고 카메라를 조정하는 로직을 캡슐화
+        let presentAndAdjustCamera = { [weak self] (targetRestaurant: Restaurant, tappedMarker: GMSMarker) in
+            guard let self else { return }
             
-            // 현재 표시된 DetailViewController가 있는지 확인
-            if let detailVC = currentDetailViewController,
-               presentedViewController === detailVC {
-                // 이미 표시된 DetailViewController가 있으면 내용만 업데이트
-                detailVC.updateRestaurantInfo(restaurant)
-            } else {
-                // 없으면 새로 생성해서 표시
-                let vm = DetailViewModel(restaurantInfo: restaurant)
-                let vc = DetailViewController(viewModel: vm)
-                
-                present(vc, animated: true) { [weak self] in
+            let vm = DetailViewModel(restaurantInfo: targetRestaurant)
+            let vc = DetailViewController(viewModel: vm)
+            
+            // 시트 표시
+            self.present(vc, animated: true) { [weak self, tappedMarker] in
+                guard let self = self,
+                      let presentedSheetView = vc.view,
+                      let window = self.view.window else {
+                    print("Error: Could not get self, presentedSheetView, or window.")
                     self?.currentDetailViewController = vc
+                    return
                 }
                 
+                //1. 시트 뷰의 bounds를 윈도우 좌표계로 변환하여 프레임 얻기
+                let sheetFrameInWindow = presentedSheetView.convert(presentedSheetView.bounds, to: window)
+                let sheetTopY = sheetFrameInWindow.minY // 윈도우 기준 Y 좌표
+                print("Sheet Frame in Window (Completion): \(sheetFrameInWindow)")
+                
+                //2. 마커의 화면 좌표 얻기 (MapView 기준)
+                let markerPointOnMap = self.mapView.projection.point(for: tappedMarker.position)
+                let markerPointOnWindow = self.mapView.convert(markerPointOnMap, to: window)
+                let markerWindowY = markerPointOnWindow.y
+                
+                //마커와 시트뷰 사이 여백 보장
+                let desiredMarkerVisiblePadding: CGFloat = 50
+                let desiredMarkerVisibleY = sheetTopY - desiredMarkerVisiblePadding
+                
+                //마커가 detailVC에 가려진다면
+                if markerWindowY > desiredMarkerVisibleY {
+                    //그럼 맵뷰 카메라 이동
+                    let scrollAmountY = markerWindowY - desiredMarkerVisibleY
+                    let update = GMSCameraUpdate.scrollBy(x: 0, y: scrollAmountY)
+                    self.mapView.animate(with: update)
+                }
+                
+                self.currentDetailViewController = vc
             }
         }
-        // 기본 동작 작동
-        return false
+        
+        // 현재 표시된 DetailViewController가 있는지 확인
+        if let detailVC = currentDetailViewController, presentedViewController === detailVC {
+            print("Updating existing DetailViewController.")
+            detailVC.updateRestaurantInfo(restaurant)
+            DispatchQueue.main.async { [weak self] in
+                self?.adjustCameraForMarker(marker, relativeTo: detailVC.view)
+            }
+        } else {
+            print("Presenting new DetailViewController.")
+            presentAndAdjustCamera(restaurant, marker)
+        }
+        
+        //기본 마커 탭 동작(카메라 자동 중앙 이동)을 막음
+        return true
+    }
+    
+    //카메라 조정을 위한 헬퍼 함수 (재사용 및 가독성 위해 분리)
+    private func adjustCameraForMarker(_ marker: GMSMarker, relativeTo sheetView: UIView) {
+        guard let window = view.window else {
+            print("Warning: Could not get window. Cannot adjust camera.")
+            return
+        }
+        
+        //시트의 화면 상단 Y 좌표 (Window 기준)
+        let sheetFrameInWindow = sheetView.convert(sheetView.bounds, to: window)
+        let sheetTopY = sheetFrameInWindow.minY
+        
+        //마커의 화면 좌표 (MapView 기준)
+        let markerPointOnMap = mapView.projection.point(for: marker.position)
+        let markerPointOnWindow = mapView.convert(markerPointOnMap, to: window)
+        let markerWindowY = markerPointOnWindow.y
+        
+        //마커가 보여야 할 최소 Y 좌표
+        let desiredMarkerVisiblePadding: CGFloat = 50
+        let desiredMarkerVisibleY = sheetTopY - desiredMarkerVisiblePadding
+        
+        //마커가 시트에 가려지는지 확인 및 스크롤
+        if markerWindowY > desiredMarkerVisibleY {
+            let scrollAmountY = markerWindowY - desiredMarkerVisibleY
+            let update = GMSCameraUpdate.scrollBy(x: 0, y: scrollAmountY)
+            print("Adjusting camera for marker. Scrolling map by \(scrollAmountY) points.")
+            mapView.animate(with: update)
+        }
     }
     
 }

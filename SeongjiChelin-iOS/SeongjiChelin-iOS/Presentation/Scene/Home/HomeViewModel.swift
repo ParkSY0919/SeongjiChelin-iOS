@@ -22,6 +22,7 @@ final class HomeViewModel: ViewModelProtocol {
         let modeChangeTapped: ControlEvent<Void>
         let listCellTapped: ControlEvent<(RestaurantTheme, Restaurant)>
         let selectedFilterTheme: Observable<RestaurantThemeType?>
+        let searchTextField: ControlProperty<String>
     }
 
     struct Output {
@@ -29,11 +30,14 @@ final class HomeViewModel: ViewModelProtocol {
         let micTrigger: Driver<Void>
         let modeChangeTrigger: Driver<Void>
         let listCellTrigger: Observable<(RestaurantTheme, Restaurant)>
+        let searchTextFieldTrigger: PublishRelay<String>
         let filteredList: Driver<[RestaurantTheme]>
         let filteredCellList: Driver<[RestaurantTheme]>
     }
 
     func transform(input: Input) -> Output {
+        let searchTextField = PublishRelay<String>()
+        
         willAppearTrigger.subscribe(with: self) { owner, _ in
             owner.currentFilterRelay.accept(nil)
         }.disposed(by: disposeBag)
@@ -43,6 +47,10 @@ final class HomeViewModel: ViewModelProtocol {
             .bind(to: currentFilterRelay)
             .disposed(by: disposeBag)
         
+        input.searchTextField
+            .subscribe(onNext: searchTextField.accept(_:))
+            .disposed(by: disposeBag)
+        
         // 현재 필터 상태(currentFilterRelay)가 변경될 때마다 리스트 필터링
         let filteredListDriver = currentFilterRelay
             .map { [weak self] selectedThemeType -> [RestaurantTheme] in
@@ -50,11 +58,14 @@ final class HomeViewModel: ViewModelProtocol {
             }
             .asDriver(onErrorJustReturn: RestaurantLiterals.allRestaurantThemes)
         
+        
+        
         return Output(
             menuTrigger: input.menuTapped.asDriver(),
             micTrigger: input.micTapped.asDriver(),
             modeChangeTrigger: input.modeChangeTapped.asDriver(),
             listCellTrigger: input.listCellTapped.asObservable(),
+            searchTextFieldTrigger: searchTextField,
             filteredList: filteredListDriver,
             filteredCellList: filteredListDriver
         )

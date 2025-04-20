@@ -61,6 +61,15 @@ final class DetailViewController: BaseViewController {
         bind()
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        if let sheet = self.sheetPresentationController {
+            let isCustomSmall = sheet.selectedDetentIdentifier == .medium
+            switchLayout(isCustomSmall: isCustomSmall)
+        }
+    }
+    
     override func setHierarchy() {
         view.addSubviews(
             dismissButton,
@@ -266,7 +275,7 @@ final class DetailViewController: BaseViewController {
         nearWeatherLabel.text = "🌡️ 현재 근처 날씨: " + "맑음"
         
         if let sheet = self.sheetPresentationController {
-            let isCustomSmall = sheet.selectedDetentIdentifier == .customSmall
+            let isCustomSmall = sheet.selectedDetentIdentifier == .medium
             switchLayout(isCustomSmall: isCustomSmall)
         }
     }
@@ -313,15 +322,11 @@ extension DetailViewController {
     
     private func setSheet() {
         if let sheet = self.sheetPresentationController {
-            let smallDetent = UISheetPresentationController.Detent.custom(identifier: .customSmall) { context in
-                return context.maximumDetentValue * 0.45
-            }
-            sheet.selectedDetentIdentifier = .customSmall
-            sheet.largestUndimmedDetentIdentifier = .customSmall
-            sheet.detents = [smallDetent, .large()]
+            sheet.selectedDetentIdentifier = .medium
+            sheet.largestUndimmedDetentIdentifier = .medium
+            sheet.detents = [.medium(), .large()]
             sheet.prefersGrabberVisible = true
             sheet.preferredCornerRadius = 20
-            sheet.delegate = self
         }
     }
     
@@ -451,20 +456,5 @@ extension DetailViewController {
             self?.view.layoutIfNeeded()
         }
     }
-    
-}
-
-extension DetailViewController: UISheetPresentationControllerDelegate {
-    
-    func sheetPresentationControllerDidChangeSelectedDetentIdentifier(_ sheetPresentationController: UISheetPresentationController) {
-        let isCustomSmall = sheetPresentationController.selectedDetentIdentifier == .customSmall
-        switchLayout(isCustomSmall: isCustomSmall)
-    }
-    
-}
-
-extension UISheetPresentationController.Detent.Identifier {
-    
-    static let customSmall = UISheetPresentationController.Detent.Identifier("customSmall")
     
 }
