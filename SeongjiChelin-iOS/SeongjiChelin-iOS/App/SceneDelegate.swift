@@ -24,18 +24,23 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // 온보딩 표시 여부 확인
         let hasSeenOnboarding = UserDefaults.standard.bool(forKey: "hasSeenOnboarding")
         
-        if !hasSeenOnboarding {
-            // 온보딩을 보지 않았으면 온보딩 화면 표시
-            let onboardingVC = OnboardingViewController()
-            window?.rootViewController = onboardingVC
-        } else {
-            // 온보딩을 이미 봤으면 메인 화면으로 이동
-            let mainViewController = HomeViewController(viewModel: HomeViewModel())
-            let navigationController = UINavigationController(rootViewController: mainViewController)
-            window?.rootViewController = navigationController
+        window?.rootViewController = UIStoryboard(name: "LaunchScreen", bundle: nil).instantiateInitialViewController()
+        window?.makeKeyAndVisible()
+        
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) { [weak self] in
+            guard let self else { return }
+            if !hasSeenOnboarding {
+                // 온보딩을 보지 않았으면 온보딩 화면 표시
+                let onboardingVC = OnboardingViewController()
+                self.window?.rootViewController = onboardingVC
+            } else {
+                // 온보딩을 이미 봤으면 메인 화면으로 이동
+                let mainViewController = HomeViewController(viewModel: HomeViewModel())
+                let navigationController = UINavigationController(rootViewController: mainViewController)
+                self.window?.rootViewController = navigationController
+            }
         }
         
-        window?.makeKeyAndVisible()
     }
     
     func sceneDidDisconnect(_ scene: UIScene) {
