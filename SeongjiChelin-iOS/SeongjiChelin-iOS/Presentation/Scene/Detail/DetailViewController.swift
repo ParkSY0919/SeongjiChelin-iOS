@@ -19,6 +19,7 @@ final class DetailViewController: BaseViewController {
     private let scheduleView = SJWeeklyScheduleView()
     
     var onChangeState: (() -> ())?
+    var onDismiss: (() -> ())?
     private var isNoYoutube: Bool = false
     private let disposeBag = DisposeBag()
     private let viewModel: DetailViewModel
@@ -327,6 +328,7 @@ extension DetailViewController {
             sheet.detents = [.medium(), .large()]
             sheet.prefersGrabberVisible = true
             sheet.preferredCornerRadius = 20
+            sheet.delegate = self
         }
     }
     
@@ -455,6 +457,15 @@ extension DetailViewController {
         UIView.animate(withDuration: 0.5) { [weak self] in
             self?.view.layoutIfNeeded()
         }
+    }
+    
+}
+
+extension DetailViewController: UISheetPresentationControllerDelegate {
+    
+    func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
+        print("DetailViewController dismissed.")
+        onDismiss?()
     }
     
 }

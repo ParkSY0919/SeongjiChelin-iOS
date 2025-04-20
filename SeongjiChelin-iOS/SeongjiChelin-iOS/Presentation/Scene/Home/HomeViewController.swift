@@ -528,6 +528,10 @@ extension HomeViewController: GMSMapViewDelegate {
             let vm = DetailViewModel(restaurantInfo: targetRestaurant)
             let vc = DetailViewController(viewModel: vm)
             
+            vc.onDismiss = { [weak self] in
+                self?.resetSelectedMarker()
+            }
+            
             // 시트 표시
             self.present(vc, animated: true) { [weak self, tappedMarker] in
                 guard let self = self,
