@@ -20,12 +20,13 @@ final class HomeViewController: BaseViewController {
     private let viewModel: HomeViewModel
     private let selectedFilterSubject = PublishSubject<RestaurantThemeType?>()
     private var currentMarkers: [GMSMarker] = []
+    private var selectedMarker: GMSMarker?
     
     private let customNavBar = UIView()
     private let menuButton = UIButton()
     private let micButton = UIButton()
     private let searchTextField: UITextField = UITextField()
-    private let favoriteListButton = SJFavoriteButton(isHomeFavorite: true)
+    private let modeChangeButton = UIButton()
     
     private let scrollView = UIScrollView()
     private let restaurantStackView = UIStackView()
@@ -36,29 +37,42 @@ final class HomeViewController: BaseViewController {
     private let hongSeokCheonThemeButton = SJStoreFilterButton(theme: .hongSeokCheonTheme)
     private let baekJongWonThemeButton = SJStoreFilterButton(theme: .baekJongWonTheme)
     
-    private let camera = GMSCameraPosition.camera(withLatitude: -33.86, longitude: 151.20, zoom: 6.0)
-    private lazy var mapView = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
+    private lazy var mapView = GMSMapView(options: .init())
+    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: setupCollectionView())
+    
+    private var currentDetailViewController: DetailViewController?
     
     init(viewModel: HomeViewModel) {
         self.viewModel = viewModel
         super.init()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        print(#function)
+        viewModel.willAppearTrigger.onNext(())
+    }
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBar.isHidden = true
         
         setupNavMenuBar()
+        setupModeChangeButton()
         bind()
     }
     
     override func setHierarchy() {
         view.addSubview(mapView)
         
-        mapView.addSubviews(
+        view.addSubviews(
             customNavBar,
-            favoriteListButton,
-            scrollView
+            modeChangeButton,
+            scrollView,
+            collectionView
         )
         
         customNavBar.addSubviews(
@@ -85,13 +99,13 @@ final class HomeViewController: BaseViewController {
         }
         
         customNavBar.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(45)
+            $0.top.equalToSuperview().inset(55)
             $0.leading.equalToSuperview().inset(15)
-            $0.trailing.equalTo(favoriteListButton.snp.leading).offset(-15)
+            $0.trailing.equalTo(modeChangeButton.snp.leading).offset(-15)
             $0.height.equalToSuperview().multipliedBy(0.06)
         }
         
-        favoriteListButton.snp.makeConstraints {
+        modeChangeButton.snp.makeConstraints {
             $0.top.equalTo(customNavBar.snp.top)
             $0.trailing.equalToSuperview().inset(15)
             $0.height.equalToSuperview().multipliedBy(0.06)
@@ -126,16 +140,23 @@ final class HomeViewController: BaseViewController {
             $0.trailing.equalTo(micButton.snp.leading).offset(-6)
             $0.centerY.equalToSuperview()
         }
+        
+        collectionView.snp.makeConstraints {
+            $0.top.equalTo(scrollView.snp.bottom).offset(16)
+            $0.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(15)
+        }
     }
     
     override func setStyle() {
-        view.backgroundColor = .white
+        view.backgroundColor = .bg150
         
-        customNavBar.backgroundColor = .accentBeige
-        
-        scrollView.do {
-            $0.showsHorizontalScrollIndicator = false
+        mapView.do {
+            $0.delegate = self
+            $0.camera = GMSCameraPosition.camera(withLatitude: 37.5665, longitude: 126.9780, zoom: 12.0)
         }
+        
+        scrollView.showsHorizontalScrollIndicator = false
         
         restaurantStackView.do {
             $0.axis = .horizontal
@@ -143,23 +164,17 @@ final class HomeViewController: BaseViewController {
             $0.spacing = 8
             $0.distribution = .fillProportionally
         }
-    }
-    
-}
-
-private extension HomeViewController {
-    
-    func setupNavMenuBar() {
-        SideMenuManager.default.addScreenEdgePanGesturesToPresent(toView: self.view, forMenu: .left)
-        if let sideMenuNav = navigationController as? SideMenuNavigationController {
-            sideMenuNav.sideMenuDelegate = self
-        }
         
-        mapView.delegate = self
+        collectionView.do {
+            $0.register(HomeCollectionViewCell.self, forCellWithReuseIdentifier: HomeCollectionViewCell.identifier)
+            $0.isHidden = true
+            $0.showsVerticalScrollIndicator = false
+            $0.backgroundColor = .clear
+        }
         
         customNavBar.do {
             $0.backgroundColor = .bg100
-            $0.layer.cornerRadius = 8 // 동적대응되도록 추후 변경
+            $0.layer.cornerRadius = 8
         }
         
         menuButton.do {
@@ -174,16 +189,37 @@ private extension HomeViewController {
             let boldMenuImage = UIImage(systemName: "microphone", withConfiguration: boldConfig)
             $0.setImage(boldMenuImage, for: .normal)
             $0.tintColor = .text200
+            $0.isHidden = true
         }
         
         searchTextField.do {
-            $0.placeholder = "식당, 장소, 카테고리 등 검색"
+            $0.placeholder = "식당, 주소 등을 입력해주세요."
             $0.textAlignment = .left
         }
     }
     
+    
+    
+}
+
+private extension HomeViewController {
+    
+    func setupNavMenuBar() {
+        SideMenuManager.default.addScreenEdgePanGesturesToPresent(toView: self.view, forMenu: .left)
+        if let sideMenuNav = navigationController as? SideMenuNavigationController {
+            sideMenuNav.sideMenuDelegate = self
+        }
+        
+        // MenuViewController의 클로저 설정
+        if let menuVC = SideMenuManager.default.leftMenuNavigationController?.viewControllers.first as? MenuViewController {
+            menuVC.onMenuItemSelected = { [weak self] selectedItem in
+                self?.handleMenuSelection(selectedItem)
+            }
+        }
+    }
+    
     func bind() {
-        // 모든 필터 버튼의 tapSubject를 하나로 합칩니다.
+        // 모든 필터 버튼의 tapSubject를 하나로 머지
         let allFilterButtonTaps = Observable.merge(
             psyThemeButton.tapSubject,
             sungSiKyungThemeButton.tapSubject,
@@ -193,11 +229,14 @@ private extension HomeViewController {
             baekJongWonThemeButton.tapSubject
         )
         
-        // ViewModel의 Input 준비
+        /// Input 바인딩
         let input = HomeViewModel.Input(
             menuTapped: menuButton.rx.tap.asControlEvent(),
             micTapped: micButton.rx.tap.asControlEvent(),
-            selectedFilterTheme: selectedFilterSubject.asObservable()
+            modeChangeTapped: modeChangeButton.rx.tap,
+            listCellTapped: collectionView.rx.modelSelected((RestaurantTheme, Restaurant).self),
+            selectedFilterTheme: selectedFilterSubject.asObservable(),
+            searchTextFieldTapped: searchTextField.rx.controlEvent(.editingDidBegin)
         )
         
         allFilterButtonTaps
@@ -207,13 +246,16 @@ private extension HomeViewController {
             })
             .disposed(by: disposeBag)
         
-        
-        // --- Output 바인딩 ---
+        /// Output 바인딩
         let output = viewModel.transform(input: input)
         
         output.menuTrigger
             .drive(with: self, onNext: { owner, _ in
                 guard let menu = SideMenuManager.default.leftMenuNavigationController else { return }
+                if let detailVC = owner.currentDetailViewController,
+                   owner.presentedViewController === detailVC {
+                    owner.dismiss(animated: true)
+                }
                 owner.present(menu, animated: true, completion: nil)
             })
             .disposed(by: disposeBag)
@@ -224,12 +266,105 @@ private extension HomeViewController {
             })
             .disposed(by: disposeBag)
         
+        output.modeChangeTrigger
+            .drive(with: self) { owner, _ in
+                owner.modeChange()
+            }.disposed(by: disposeBag)
+        
+        output.listCellTrigger
+            .subscribe(with: self) { owner, tupleData in
+                print("cell이 클릭되었습니다")
+                let (_, restaurant) = tupleData
+                //                 현재 표시된 DetailViewController가 있는지 확인
+                if let detailVC = owner.currentDetailViewController,
+                   owner.presentedViewController === detailVC {
+                    detailVC.updateRestaurantInfo(restaurant)
+                } else {
+                    // 없으면 새로 생성해서 표시
+                    let vm = DetailViewModel(restaurantInfo: restaurant)
+                    let vc = DetailViewController(viewModel: vm)
+                    owner.present(vc, animated: true) { [weak self] in
+                        self?.currentDetailViewController = vc
+                    }
+                }
+            }.disposed(by: disposeBag)
+        
+        output.searchTextFieldTrigger
+            .drive(with: self) { owner, _ in
+                let vm = SearchViewModel()
+                let vc = SearchViewController(viewModel: vm)
+                print(owner.navigationController?.navigationBar == nil, "true 면 네브바 없는거")
+                owner.navigationController?.pushViewController(vc, animated: true)
+                print(owner.navigationController?.navigationBar == nil, "true 면 네브바 없는거")
+                print("케케몬")
+            }.disposed(by: disposeBag)
+        
         output.filteredList
             .drive(with: self, onNext: { owner, themes in
                 owner.updateMarkers(themes: themes)
             })
             .disposed(by: disposeBag)
+        
+        output.filteredCellList
+            .map { themes in
+                themes.flatMap { theme in
+                    theme.restaurants.map { restaurant in
+                        (theme, restaurant)
+                    }
+                }
+            }
+            .drive(collectionView.rx.items(cellIdentifier: HomeCollectionViewCell.identifier, cellType: HomeCollectionViewCell.self)) { item, data, cell in
+                let (theme, restaurant) = data
+                cell.configureCell(theme: theme, store: restaurant)
+            }
+            .disposed(by: disposeBag)
     }
+    
+    func setupModeChangeButton() {
+        modeChangeButton.do {
+            var buttonConfiguration = UIButton.Configuration.plain()
+            
+            buttonConfiguration.baseForegroundColor = .bg100
+            buttonConfiguration.background.backgroundColor = .primary200
+            
+            buttonConfiguration.imagePlacement = .top
+            buttonConfiguration.imagePadding = 4
+            buttonConfiguration.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
+                var outgoing = incoming
+                outgoing.font = UIFont.seongiFont(.body_bold_10)
+                outgoing.foregroundColor = .bg100
+                return outgoing
+            }
+            $0.configuration = buttonConfiguration
+            
+            let buttonStateHandler: UIButton.ConfigurationUpdateHandler = { button in
+                switch button.state {
+                case .normal:
+                    button.configuration?.title = "리스트"
+                    button.configuration?.image = UIImage(systemName: "list.star")
+                case .selected:
+                    button.configuration?.title = "지도"
+                    button.configuration?.image = UIImage(systemName: "map")
+                default:
+                    return
+                }
+            }
+            $0.configurationUpdateHandler = buttonStateHandler
+        }
+    }
+    
+    func setupCollectionView() -> UICollectionViewFlowLayout {
+        let layout = UICollectionViewFlowLayout()
+        layout.minimumLineSpacing = 14
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
+        let width = (ConstantLiterals.ScreenSize.width - 20)
+        layout.itemSize = CGSize(width: width, height: 200)
+        layout.scrollDirection = .vertical
+        
+        return layout
+    }
+    
+    
     
     func updateStoreFilterButtonUI(selectedThemeType: RestaurantThemeType?) {
         let allButtons = [psyThemeButton, sungSiKyungThemeButton, ttoGanJibThemeButton,
@@ -250,7 +385,6 @@ private extension HomeViewController {
         self.currentMarkers.forEach { i in
             i.map = nil
         }
-        
         var newMarkers: [GMSMarker] = []
         
         // 2. 마커 추가
@@ -297,60 +431,201 @@ private extension HomeViewController {
         mapView.animate(with: update)
     }
     
+    func modeChange(isListView: Bool = false) {
+        if let detailVC = currentDetailViewController,
+           presentedViewController === detailVC {
+            dismiss(animated: true)
+        }
+        var isListState = false
+        
+        if !isListView {
+            modeChangeButton.isSelected.toggle()
+            isListState = modeChangeButton.isSelected
+        } else {
+            modeChangeButton.isSelected = true
+            isListState = true
+        }
+        
+        UIView.animate(withDuration: 1.0) { [weak self] in
+            guard let self else { return }
+            
+            switch isListState == true {
+            case true:
+                self.mapView.isHidden = true
+                self.collectionView.isHidden = false
+            case false:
+                self.mapView.isHidden = false
+                self.collectionView.isHidden = true
+            }
+        }
+    }
+    
+    func handleMenuSelection(_ selectedItem: String) {
+        print(#function)
+        switch selectedItem {
+        case "홈":
+            print("홈홈홈")
+        case "나만의 식당":
+            let myRestaurantVC = MyRestaurantViewController(viewModel: MyRestaurantViewModel(repo: RestaurantRepository()))
+            self.navigationController?.pushViewController(myRestaurantVC, animated: true)
+        case "사용법":
+            let onboardingVC = OnboardingViewController()
+            UIView.animate(withDuration: 0.5) {
+                self.navigationController?.pushViewController(onboardingVC, animated: true)
+            }
+        case "정보 수정 신고":
+            let webVC = SJWebViewController(urlString: "https://notch-crate-349.notion.site/1d46931aa0158095b055d762d55f5d2a?pvs=4")
+            self.present(webVC, animated: true)
+        default:
+            break
+        }
+    }
+    
+    ///마커 표시 로직
+    private func selectMarker(_ marker: GMSMarker, restaurant: Restaurant) {
+        resetSelectedMarker()
+        
+        if let customIconView = marker.iconView as? CustomMarkerView {
+            customIconView.scaleUp()
+        }
+        //다른 마커 위에 보이도록 zIndex 설정
+         marker.zIndex = 1
+        
+        selectedMarker = marker
+    }
+    
+    ///현재 선택된 마커를 원상태
+    private func resetSelectedMarker() {
+        if let marker = selectedMarker {
+            if let customIconView = marker.iconView as? CustomMarkerView {
+                customIconView.resetScale()
+            }
+            //zIndex 초기화
+             marker.zIndex = 0
+        }
+        selectedMarker = nil
+    }
+    
 }
 
-@available(iOS 16.0, *)
 extension HomeViewController: GMSMapViewDelegate {
     
-    func showCustomHeightSheet(for restaurant: Restaurant) {
-        let vc = UIViewController()
-        vc.view.backgroundColor = .systemTeal // 다른 색으로 구분
-        vc.modalPresentationStyle = .pageSheet
-        
-        if let sheet = vc.sheetPresentationController {
-            let smallDetent = UISheetPresentationController.Detent.custom(identifier: .customSmall) { context in
-                return context.maximumDetentValue * 0.45
-            }
-            sheet.largestUndimmedDetentIdentifier = .customSmall
-            
-            sheet.detents = [smallDetent, .large()]
-            sheet.delegate = self
-            sheet.prefersGrabberVisible = true
-            sheet.selectedDetentIdentifier = .customSmall
-            
-        }
-        
-        present(vc, animated: true, completion: nil)
-    }
-    
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
-        if let userData = marker.userData as? [String: Any],
-           let restaurant = userData["restaurant"] as? Restaurant {
-            // 커스텀 높이 시트 함수
-            showCustomHeightSheet(for: restaurant)
-            
-            // 카메라 줌 업데이트
-//            let update = GMSCameraUpdate.setTarget(marker.position, zoom: 15)
-//            mapView.animate(with: update)
+        guard let userData = marker.userData as? [String: Any],
+              let restaurant = userData["restaurant"] as? Restaurant else {
+            resetSelectedMarker()
+            return true
         }
-        // 기본 동작 작동
-        return false
+        
+        
+        
+        // 시트를 표시하고 카메라를 조정하는 로직을 캡슐화
+        let presentAndAdjustCamera = { [weak self] (targetRestaurant: Restaurant, tappedMarker: GMSMarker) in
+            guard let self else { return }
+            
+            let vm = DetailViewModel(restaurantInfo: targetRestaurant)
+            let vc = DetailViewController(viewModel: vm)
+            
+            vc.onDismiss = { [weak self] in
+                self?.resetSelectedMarker()
+            }
+            
+            // 시트 표시
+            self.present(vc, animated: true) { [weak self, tappedMarker] in
+                guard let self = self,
+                      let presentedSheetView = vc.view,
+                      let window = self.view.window else {
+                    print("Error: Could not get self, presentedSheetView, or window.")
+                    self?.currentDetailViewController = vc
+                    return
+                }
+                
+                //1. 시트 뷰의 bounds를 윈도우 좌표계로 변환하여 프레임 얻기
+                let sheetFrameInWindow = presentedSheetView.convert(presentedSheetView.bounds, to: window)
+                let sheetTopY = sheetFrameInWindow.minY // 윈도우 기준 Y 좌표
+                print("Sheet Frame in Window (Completion): \(sheetFrameInWindow)")
+                
+                //2. 마커의 화면 좌표 얻기 (MapView 기준)
+                let markerPointOnMap = self.mapView.projection.point(for: tappedMarker.position)
+                let markerPointOnWindow = self.mapView.convert(markerPointOnMap, to: window)
+                let markerWindowY = markerPointOnWindow.y
+                
+                //마커와 시트뷰 사이 여백 보장
+                let desiredMarkerVisiblePadding: CGFloat = 50
+                let desiredMarkerVisibleY = sheetTopY - desiredMarkerVisiblePadding
+                
+                //마커가 detailVC에 가려진다면
+                if markerWindowY > desiredMarkerVisibleY {
+                    //그럼 맵뷰 카메라 이동
+                    let scrollAmountY = markerWindowY - desiredMarkerVisibleY
+                    let update = GMSCameraUpdate.scrollBy(x: 0, y: scrollAmountY)
+                    self.mapView.animate(with: update)
+                }
+                
+                self.currentDetailViewController = vc
+            }
+        }
+        
+        // 현재 표시된 DetailViewController가 있는지 확인
+        if let detailVC = currentDetailViewController, presentedViewController === detailVC {
+            print("Updating existing DetailViewController.")
+            detailVC.updateRestaurantInfo(restaurant)
+            DispatchQueue.main.async { [weak self] in
+                self?.adjustCameraForMarker(marker, relativeTo: detailVC.view)
+            }
+        } else {
+            print("Presenting new DetailViewController.")
+            presentAndAdjustCamera(restaurant, marker)
+        }
+        
+        selectMarker(marker, restaurant: restaurant)
+        
+        //기본 마커 탭 동작(카메라 자동 중앙 이동)을 막음
+        return true
+    }
+    
+    //카메라 조정을 위한 헬퍼 함수 (재사용 및 가독성 위해 분리)
+    private func adjustCameraForMarker(_ marker: GMSMarker, relativeTo sheetView: UIView) {
+        guard let window = view.window else {
+            print("Warning: Could not get window. Cannot adjust camera.")
+            return
+        }
+        
+        //시트의 화면 상단 Y 좌표 (Window 기준)
+        let sheetFrameInWindow = sheetView.convert(sheetView.bounds, to: window)
+        let sheetTopY = sheetFrameInWindow.minY
+        
+        //마커의 화면 좌표 (MapView 기준)
+        let markerPointOnMap = mapView.projection.point(for: marker.position)
+        let markerPointOnWindow = mapView.convert(markerPointOnMap, to: window)
+        let markerWindowY = markerPointOnWindow.y
+        
+        //마커가 보여야 할 최소 Y 좌표
+        let desiredMarkerVisiblePadding: CGFloat = 50
+        let desiredMarkerVisibleY = sheetTopY - desiredMarkerVisiblePadding
+        
+        //마커가 시트에 가려지는지 확인 및 스크롤
+        if markerWindowY > desiredMarkerVisibleY {
+            let scrollAmountY = markerWindowY - desiredMarkerVisibleY
+            let update = GMSCameraUpdate.scrollBy(x: 0, y: scrollAmountY)
+            print("Adjusting camera for marker. Scrolling map by \(scrollAmountY) points.")
+            mapView.animate(with: update)
+        }
+    }
+    
+    ///지도 탭 했을 시 sheet 닫기
+    func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
+        print("Map tapped at coordinate: \(coordinate)")
+        resetSelectedMarker()
+        //열려있는 DetailVC 닫기
+        if let detailVC = currentDetailViewController, presentedViewController === detailVC {
+            detailVC.dismiss(animated: true)
+            currentDetailViewController = nil
+        }
     }
     
 }
 
-extension HomeViewController: UISheetPresentationControllerDelegate {
-    
-    func sheetPresentationControllerDidChangeSelectedDetentIdentifier(_ sheetPresentationController: UISheetPresentationController) {
-            //크기 변경 됐을 경우
-            print(sheetPresentationController.selectedDetentIdentifier == .large ? "large" : "medium")
-        }
-}
-
-extension UISheetPresentationController.Detent.Identifier {
-    static let customSmall = UISheetPresentationController.Detent.Identifier("customSmall")
-    static let customFixed = UISheetPresentationController.Detent.Identifier("customFixed")
-}
 
 extension HomeViewController: SideMenuNavigationControllerDelegate {
     
@@ -359,7 +634,6 @@ extension HomeViewController: SideMenuNavigationControllerDelegate {
         UIView.animate(withDuration: 0.3) { [weak self] in
             self?.mapView.alpha = 0.6
         }
-        
     }
     
     func sideMenuWillDisappear(menu: SideMenuNavigationController, animated: Bool) {
@@ -370,3 +644,5 @@ extension HomeViewController: SideMenuNavigationControllerDelegate {
     }
     
 }
+
+

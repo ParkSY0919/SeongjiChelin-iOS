@@ -21,11 +21,26 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // SideMenu 초기 설정 호출
         SideMenuSetup.setupSideMenu()
         
-        let mainViewController = HomeViewController(viewModel: HomeViewModel())
-        let navigationController = UINavigationController(rootViewController: mainViewController)
+        // 온보딩 표시 여부 확인
+        let hasSeenOnboarding = UserDefaults.standard.bool(forKey: "hasSeenOnboarding")
         
-        window?.rootViewController = navigationController
+        window?.rootViewController = UIStoryboard(name: "LaunchScreen", bundle: nil).instantiateInitialViewController()
         window?.makeKeyAndVisible()
+        
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) { [weak self] in
+            guard let self else { return }
+            if !hasSeenOnboarding {
+                // 온보딩을 보지 않았으면 온보딩 화면 표시
+                let onboardingVC = OnboardingViewController()
+                self.window?.rootViewController = onboardingVC
+            } else {
+                // 온보딩을 이미 봤으면 메인 화면으로 이동
+                let mainViewController = HomeViewController(viewModel: HomeViewModel())
+                let navigationController = UINavigationController(rootViewController: mainViewController)
+                self.window?.rootViewController = navigationController
+            }
+        }
+        
     }
     
     func sceneDidDisconnect(_ scene: UIScene) {

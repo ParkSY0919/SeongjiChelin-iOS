@@ -20,20 +20,20 @@ final class MenuTableViewCell: BaseTableViewCell {
     override func setLayout() {
         titleLabel.snp.makeConstraints {
             $0.centerY.equalTo(contentView.safeAreaLayoutGuide)
-            $0.leading.equalTo(contentView.safeAreaLayoutGuide)
+            $0.horizontalEdges.equalTo(contentView.safeAreaLayoutGuide)
         }
     }
     
     override func setStyle() {
         titleLabel.setLabelUI(
             "",
-            font: .seongiFont(.body_regular_14),
-            textColor: .text100
+            font: .seongiFont(.body_black_14),
+            textColor: .primary200.withAlphaComponent(0.6)
         )
     }
     
     func configureMenuCell(title: String) {
-        
+        titleLabel.text = title
     }
     
 }

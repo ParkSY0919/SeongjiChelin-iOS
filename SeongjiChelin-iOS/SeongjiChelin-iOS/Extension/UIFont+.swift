@@ -13,13 +13,13 @@ extension UIFont {
         case body_regular_8, body_regular_10, body_regular_11, body_regular_12, body_regular_13, body_regular_14
         case body_bold_8, body_bold_10, body_bold_11, body_bold_12, body_bold_13, body_bold_14
         case body_black_8, body_black_10, body_black_11, body_black_12, body_black_13, body_black_14
-        case title_bold_20
+        case title_bold_16, title_bold_20
          
         var fontWeight: UIFont.Weight {
             switch self {
             case .body_regular_8, .body_regular_10, .body_regular_11, .body_regular_12, .body_regular_13, .body_regular_14:
                 return .regular
-            case .body_bold_8, .body_bold_10, .body_bold_11, .body_bold_12, .body_bold_13, .body_bold_14, .title_bold_20:
+            case .body_bold_8, .body_bold_10, .body_bold_11, .body_bold_12, .body_bold_13, .body_bold_14, .title_bold_16, .title_bold_20:
                 return .bold
             case .body_black_8, .body_black_10, .body_black_11, .body_black_12, .body_black_13, .body_black_14:
                 return .black
@@ -40,6 +40,8 @@ extension UIFont {
                 return 13
             case .body_regular_14, .body_bold_14, .body_black_14:
                 return 14
+            case .title_bold_16:
+                return 16
             case .title_bold_20:
                 return 20
             }

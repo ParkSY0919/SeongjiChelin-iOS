@@ -19,7 +19,7 @@ final class SJStoreFilterButton: UIButton {
     let tapSubject = PublishSubject<RestaurantThemeType?>()
     
     init(theme: RestaurantThemeType) {
-        self.image = theme.image
+        self.image = theme.madeImage
         self.themeType = theme
         
         super.init(frame: .zero)
@@ -30,7 +30,7 @@ final class SJStoreFilterButton: UIButton {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setSJStoreFilterButton() {
+    private func setSJStoreFilterButton() {
         var config = UIButton.Configuration.plain()
         config.title = themeType.rawValue
         config.image = self.image
@@ -46,17 +46,16 @@ final class SJStoreFilterButton: UIButton {
         let buttonStateHandler: UIButton.ConfigurationUpdateHandler = { button in
             switch button.state {
             case .normal:
-                button.configuration?.baseForegroundColor = .text100.withAlphaComponent(0.6)
-                button.configuration?.background.backgroundColor = .bg300
+                button.configuration?.baseForegroundColor = .bg300
+                button.configuration?.background.backgroundColor = .bg100
             case .selected:
                 button.configuration?.baseForegroundColor = .bg100
-                button.configuration?.background.backgroundColor = .primary200
+                button.configuration?.background.backgroundColor = self.themeType.color
             default:
                 return
             }
         }
         self.configurationUpdateHandler = buttonStateHandler
-        
         self.addTarget(
             self,
             action: #selector(SJStoreFilterButtonTapped),
