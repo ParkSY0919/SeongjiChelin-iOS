@@ -151,11 +151,12 @@ final class HomeViewController: BaseViewController {
     override func setStyle() {
         view.backgroundColor = .bg150
         
-        mapView.camera = GMSCameraPosition.camera(withLatitude: 37.5665, longitude: 126.9780, zoom: 12.0)
-        
-        scrollView.do {
-            $0.showsHorizontalScrollIndicator = false
+        mapView.do {
+            $0.delegate = self
+            $0.camera = GMSCameraPosition.camera(withLatitude: 37.5665, longitude: 126.9780, zoom: 12.0)
         }
+        
+        scrollView.showsHorizontalScrollIndicator = false
         
         restaurantStackView.do {
             $0.axis = .horizontal
@@ -169,30 +170,10 @@ final class HomeViewController: BaseViewController {
             $0.isHidden = true
             $0.backgroundColor = .clear
         }
-    }
-    
-}
-
-private extension HomeViewController {
-    
-    func setupNavMenuBar() {
-        SideMenuManager.default.addScreenEdgePanGesturesToPresent(toView: self.view, forMenu: .left)
-        if let sideMenuNav = navigationController as? SideMenuNavigationController {
-            sideMenuNav.sideMenuDelegate = self
-        }
-        
-        // MenuViewController의 클로저 설정
-        if let menuVC = SideMenuManager.default.leftMenuNavigationController?.viewControllers.first as? MenuViewController {
-            menuVC.onMenuItemSelected = { [weak self] selectedItem in
-                self?.handleMenuSelection(selectedItem)
-            }
-        }
-        
-        mapView.delegate = self
         
         customNavBar.do {
             $0.backgroundColor = .bg100
-            $0.layer.cornerRadius = 8 // 동적대응되도록 추후 변경
+            $0.layer.cornerRadius = 8
         }
         
         menuButton.do {
@@ -216,48 +197,24 @@ private extension HomeViewController {
         }
     }
     
-    func setupModeChangeButton() {
-        modeChangeButton.do {
-            var buttonConfiguration = UIButton.Configuration.plain()
-            
-            buttonConfiguration.baseForegroundColor = .bg100
-            buttonConfiguration.background.backgroundColor = .primary200
-            
-            buttonConfiguration.imagePlacement = .top
-            buttonConfiguration.imagePadding = 4
-            buttonConfiguration.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
-                var outgoing = incoming
-                outgoing.font = UIFont.seongiFont(.body_bold_10)
-                outgoing.foregroundColor = .bg100
-                return outgoing
-            }
-            $0.configuration = buttonConfiguration
-            
-            let buttonStateHandler: UIButton.ConfigurationUpdateHandler = { button in
-                switch button.state {
-                case .normal:
-                    button.configuration?.title = "리스트"
-                    button.configuration?.image = UIImage(systemName: "list.star")
-                case .selected:
-                    button.configuration?.title = "지도"
-                    button.configuration?.image = UIImage(systemName: "map")
-                default:
-                    return
-                }
-            }
-            $0.configurationUpdateHandler = buttonStateHandler
-        }
-    }
     
-    func setupCollectionView() -> UICollectionViewFlowLayout {
-        let layout = UICollectionViewFlowLayout()
-        layout.minimumLineSpacing = 14
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
-        let width = (ConstantLiterals.ScreenSize.width - 20)
-        layout.itemSize = CGSize(width: width, height: 200)
-        layout.scrollDirection = .vertical
+    
+}
+
+private extension HomeViewController {
+    
+    func setupNavMenuBar() {
+        SideMenuManager.default.addScreenEdgePanGesturesToPresent(toView: self.view, forMenu: .left)
+        if let sideMenuNav = navigationController as? SideMenuNavigationController {
+            sideMenuNav.sideMenuDelegate = self
+        }
         
-        return layout
+        // MenuViewController의 클로저 설정
+        if let menuVC = SideMenuManager.default.leftMenuNavigationController?.viewControllers.first as? MenuViewController {
+            menuVC.onMenuItemSelected = { [weak self] selectedItem in
+                self?.handleMenuSelection(selectedItem)
+            }
+        }
     }
     
     func bind() {
@@ -278,7 +235,7 @@ private extension HomeViewController {
             modeChangeTapped: modeChangeButton.rx.tap,
             listCellTapped: collectionView.rx.modelSelected((RestaurantTheme, Restaurant).self),
             selectedFilterTheme: selectedFilterSubject.asObservable(),
-            searchTextField: searchTextField.rx.text.orEmpty
+            searchTextFieldTapped: searchTextField.rx.controlEvent(.editingDidBegin)
         )
         
         allFilterButtonTaps
@@ -331,21 +288,15 @@ private extension HomeViewController {
                 }
             }.disposed(by: disposeBag)
         
-        
         output.searchTextFieldTrigger
-            .bind(with: self) { owner, text in
-                print("text: \(text)")
-                owner.modeChange(isListView: true)
+            .drive(with: self) { owner, _ in
+                let vm = SearchViewModel()
+                let vc = SearchViewController(viewModel: vm)
+                print(owner.navigationController?.navigationBar == nil, "true 면 네브바 없는거")
+                owner.navigationController?.pushViewController(vc, animated: true)
+                print(owner.navigationController?.navigationBar == nil, "true 면 네브바 없는거")
+                print("케케몬")
             }.disposed(by: disposeBag)
-        
-        searchTextField.rx.controlEvent(.editingDidEnd)
-            .subscribe(with: self) { owner, _ in
-                if owner.searchTextField.text?.isEmpty ?? true {
-                    print("Search text is empty.")
-                    owner.modeChange()
-                }
-            }
-            .disposed(by: disposeBag)
         
         output.filteredList
             .drive(with: self, onNext: { owner, themes in
@@ -367,6 +318,52 @@ private extension HomeViewController {
             }
             .disposed(by: disposeBag)
     }
+    
+    func setupModeChangeButton() {
+        modeChangeButton.do {
+            var buttonConfiguration = UIButton.Configuration.plain()
+            
+            buttonConfiguration.baseForegroundColor = .bg100
+            buttonConfiguration.background.backgroundColor = .primary200
+            
+            buttonConfiguration.imagePlacement = .top
+            buttonConfiguration.imagePadding = 4
+            buttonConfiguration.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
+                var outgoing = incoming
+                outgoing.font = UIFont.seongiFont(.body_bold_10)
+                outgoing.foregroundColor = .bg100
+                return outgoing
+            }
+            $0.configuration = buttonConfiguration
+            
+            let buttonStateHandler: UIButton.ConfigurationUpdateHandler = { button in
+                switch button.state {
+                case .normal:
+                    button.configuration?.title = "리스트"
+                    button.configuration?.image = UIImage(systemName: "list.star")
+                case .selected:
+                    button.configuration?.title = "지도"
+                    button.configuration?.image = UIImage(systemName: "map")
+                default:
+                    return
+                }
+            }
+            $0.configurationUpdateHandler = buttonStateHandler
+        }
+    }
+    
+    func setupCollectionView() -> UICollectionViewFlowLayout {
+        let layout = UICollectionViewFlowLayout()
+        layout.minimumLineSpacing = 14
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
+        let width = (ConstantLiterals.ScreenSize.width - 20)
+        layout.itemSize = CGSize(width: width, height: 200)
+        layout.scrollDirection = .vertical
+        
+        return layout
+    }
+    
+    
     
     func updateStoreFilterButtonUI(selectedThemeType: RestaurantThemeType?) {
         let allButtons = [psyThemeButton, sungSiKyungThemeButton, ttoGanJibThemeButton,
