@@ -21,6 +21,7 @@
 		9E03BCF82DABD9F60097AA7E /* SJWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E03BCF72DABD9F60097AA7E /* SJWebViewController.swift */; };
 		9E03BE002DB517050097AA7E /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E03BDFF2DB517050097AA7E /* SearchViewController.swift */; };
 		9E03BE022DB519EE0097AA7E /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E03BE012DB519EE0097AA7E /* SearchViewModel.swift */; };
+		9E1EFD202DBB2D850021DE73 /* AppUpdateChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1EFD1F2DBB2D850021DE73 /* AppUpdateChecker.swift */; };
 		9E4A572B2D9E98E700A538E3 /* MenuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4A572A2D9E98E700A538E3 /* MenuTableViewCell.swift */; };
 		9E4A572E2D9EA47300A538E3 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4A572D2D9EA47300A538E3 /* HomeViewModel.swift */; };
 		9E4A57342D9EB73E00A538E3 /* GooglePlaces in Frameworks */ = {isa = PBXBuildFile; productRef = 9E4A57332D9EB73E00A538E3 /* GooglePlaces */; };
@@ -106,6 +107,7 @@
 		9E03BCF72DABD9F60097AA7E /* SJWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SJWebViewController.swift; sourceTree = "<group>"; };
 		9E03BDFF2DB517050097AA7E /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		9E03BE012DB519EE0097AA7E /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
+		9E1EFD1F2DBB2D850021DE73 /* AppUpdateChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUpdateChecker.swift; sourceTree = "<group>"; };
 		9E4A572A2D9E98E700A538E3 /* MenuTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTableViewCell.swift; sourceTree = "<group>"; };
 		9E4A572D2D9EA47300A538E3 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		9E4A57352D9F8DDB00A538E3 /* RestaurantLiterals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantLiterals.swift; sourceTree = "<group>"; };
@@ -285,6 +287,7 @@
 				9E6F7D9C2D96DA72009F24FC /* CustomFormaterManager.swift */,
 				9E6F7D9D2D96DA72009F24FC /* Log.swift */,
 				9E7F116D2DA2A74D00693A4E /* UIAlertManager.swift */,
+				9E1EFD1F2DBB2D850021DE73 /* AppUpdateChecker.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -599,6 +602,7 @@
 				9E6F7DD52D96DD7B009F24FC /* TargetTypeProtocol.swift in Sources */,
 				9E03BCED2DAB7A770097AA7E /* MyRestaurantViewController.swift in Sources */,
 				9E03BCEE2DAB7A770097AA7E /* MyRestaurantViewModel.swift in Sources */,
+				9E1EFD202DBB2D850021DE73 /* AppUpdateChecker.swift in Sources */,
 				9E03BCEF2DAB7A770097AA7E /* MyRestaurantTableViewCell.swift in Sources */,
 				9EC0C3FF2DA6EE5F0037545A /* SJWeeklyScheduleView.swift in Sources */,
 				9E03BE002DB517050097AA7E /* SearchViewController.swift in Sources */,
