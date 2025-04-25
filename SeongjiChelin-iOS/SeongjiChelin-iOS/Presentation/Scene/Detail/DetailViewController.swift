@@ -452,11 +452,6 @@ extension DetailViewController {
                 }
             }
         }
-        
-        // 레이아웃 업데이트 강제 with 애니메이션
-        UIView.animate(withDuration: 0.5) { [weak self] in
-            self?.view.layoutIfNeeded()
-        }
     }
     
 }

@@ -50,7 +50,12 @@ final class SJButton: UIButton {
         var buttonConfiguration = UIButton.Configuration.plain()
         buttonConfiguration.background.backgroundColor = .primary100
         buttonConfiguration.baseForegroundColor = .bg100
+        buttonConfiguration.background.cornerRadius = type.cornerRadius
         self.configuration = buttonConfiguration
+        
+        let footImage = UIImage(resource: .foot).withRenderingMode(.alwaysTemplate).resized(to: CGSize(width: 26, height: 26))
+        let footFillImage = UIImage(resource: .footFill).withRenderingMode(.alwaysTemplate).resized(to: CGSize(width: 26, height: 26))
+        
         let buttonStateHandler: UIButton.ConfigurationUpdateHandler = { button in
             switch button.state {
             case .normal:
@@ -58,16 +63,14 @@ final class SJButton: UIButton {
                 case .favorite:
                     button.configuration?.image = UIImage(systemName: "bookmark")
                 case .foot:
-                    let image = UIImage(resource: .foot).withRenderingMode(.alwaysTemplate).resized(to: CGSize(width: 26, height: 26))
-                    button.configuration?.image = image
+                    button.configuration?.image = footImage
                 }
             case .selected:
                 switch self.type {
                 case .favorite:
                     button.configuration?.image = UIImage(systemName: "bookmark.fill")
                 case .foot:
-                    let image = UIImage(resource: .footFill).withRenderingMode(.alwaysTemplate).resized(to: CGSize(width: 26, height: 26))
-                    button.configuration?.image = image
+                    button.configuration?.image = footFillImage
                 }
             default:
                 return
@@ -76,7 +79,6 @@ final class SJButton: UIButton {
         self.configurationUpdateHandler = buttonStateHandler
         self.contentMode = .scaleAspectFit
         self.clipsToBounds = true
-        self.layer.cornerRadius = type.cornerRadius
         
         switch type {
         case .favorite:
