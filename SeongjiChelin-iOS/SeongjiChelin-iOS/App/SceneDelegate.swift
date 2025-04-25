@@ -18,29 +18,46 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(windowScene: windowScene)
         
-        // SideMenu 초기 설정 호출
-        SideMenuSetup.setupSideMenu()
-        
-        // 온보딩 표시 여부 확인
-        let hasSeenOnboarding = UserDefaults.standard.bool(forKey: "hasSeenOnboarding")
-        
+        //시작 화면을 먼저 표시
         window?.rootViewController = UIStoryboard(name: "LaunchScreen", bundle: nil).instantiateInitialViewController()
         window?.makeKeyAndVisible()
         
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) { [weak self] in
-            guard let self else { return }
-            if !hasSeenOnboarding {
-                // 온보딩을 보지 않았으면 온보딩 화면 표시
-                let onboardingVC = OnboardingViewController()
-                self.window?.rootViewController = onboardingVC
-            } else {
-                // 온보딩을 이미 봤으면 메인 화면으로 이동
-                let mainViewController = HomeViewController(viewModel: HomeViewModel())
-                let navigationController = UINavigationController(rootViewController: mainViewController)
-                self.window?.rootViewController = navigationController
+        //앱 업데이트 확인
+        checkAppVersionAndContinue(scene: scene)
+    }
+    
+    private func checkAppVersionAndContinue(scene: UIScene) {
+        // 앱 업데이트 확인
+        AppUpdateChecker.shared.checkForUpdate(completion: { [weak self] needsUpdate in
+            guard let self = self else { return }
+            
+            if !needsUpdate {
+                //업데이트가 필요 없는 경우 기존 로직 실행
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    self.continueToAppFlow()
+                }
             }
-        }
+            //업데이트가 필요한 경우는 AppUpdateChecker 내에서 알림이 표시됨
+        })
+    }
+    
+    private func continueToAppFlow() {
+        //SideMenu 초기 설정 호출
+        SideMenuSetup.setupSideMenu()
         
+        //온보딩 표시 여부 확인
+        let hasSeenOnboarding = UserDefaults.standard.bool(forKey: "hasSeenOnboarding")
+        
+        if !hasSeenOnboarding {
+            //온보딩을 보지 않았으면 온보딩 화면 표시
+            let onboardingVC = OnboardingViewController()
+            self.window?.rootViewController = onboardingVC
+        } else {
+            //온보딩을 이미 봤으면 메인 화면으로 이동
+            let mainViewController = HomeViewController(viewModel: HomeViewModel())
+            let navigationController = UINavigationController(rootViewController: mainViewController)
+            self.window?.rootViewController = navigationController
+        }
     }
     
     func sceneDidDisconnect(_ scene: UIScene) {
