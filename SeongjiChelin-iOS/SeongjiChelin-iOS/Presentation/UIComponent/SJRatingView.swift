@@ -26,8 +26,8 @@ final class SJRatingView: UIView {
     private let ratingView = UIStackView()
     private let starButtons: [UIButton] = (1...5).map { _ in
         return UIButton().then {
-            $0.setImage(UIImage(systemName: "star"), for: .normal)
-            $0.setImage(UIImage(systemName: "star.fill"), for: .selected)
+            $0.setImage(ImageLiterals.star, for: .normal)
+            $0.setImage(ImageLiterals.starFill, for: .selected)
             $0.tintColor = .accentPink
         }
     }

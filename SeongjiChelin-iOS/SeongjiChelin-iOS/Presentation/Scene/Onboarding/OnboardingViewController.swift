@@ -28,17 +28,17 @@ final class OnboardingViewController: BaseViewController {
     // 온보딩 페이지 데이터
     private let pages: [OnboardingPageViewController] = [
         OnboardingPageViewController(
-            image: UIImage(resource: .horizentalLogo),
+            image: ImageLiterals.horizentalLogo,
             title: "성지슐랭에 오신 것을 환영합니다!",
             description: "유명인과 주인장이 추천하는\n 숨겨진 맛집을 찾아 떠나볼까요? 🔎"
         ),
         OnboardingPageViewController(
-            image: UIImage(systemName: "map.fill"),
+            image: ImageLiterals.mapFill,
             title: "지도로 쉽게 맛집 탐색",
             description: "유명인 추천 맛집을 지도에서\n 한눈에 확인하고 방문해보세요! 🚗"
         ),
         OnboardingPageViewController(
-            image: UIImage(systemName: "bookmark.fill"),
+            image: ImageLiterals.bookmarkFill,
             title: "나만의 맛집 컬렉션",
             description: "방문한 곳과 마음에 드는 맛집을 저장하고,\n언제든 다시 찾아가세요! 📌"
         )

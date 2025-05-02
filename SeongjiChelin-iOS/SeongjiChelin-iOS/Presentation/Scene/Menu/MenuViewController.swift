@@ -116,7 +116,7 @@ final class MenuViewController: BaseViewController {
         }
         
         logoImageView.do {
-            $0.image = UIImage(resource: .horizentalLogo)
+            $0.image = ImageLiterals.horizentalLogo
             $0.contentMode = .scaleAspectFill
         }
         
@@ -133,7 +133,7 @@ final class MenuViewController: BaseViewController {
         }
         
         sirenImageView.do {
-            $0.image = UIImage(systemName: "light.beacon.min")
+            $0.image = ImageLiterals.siren
             $0.contentMode = .scaleAspectFill
             $0.tintColor = .primary300.withAlphaComponent(0.6)
         }

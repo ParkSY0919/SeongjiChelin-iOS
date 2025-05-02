@@ -85,7 +85,7 @@ final class SearchViewController: BaseViewController {
         view.backgroundColor = .white
         
         navBackBtn.do {
-            $0.setImage(UIImage(systemName: "arrow.left"), for: .normal)
+            $0.setImage(ImageLiterals.arrowLeft, for: .normal)
             $0.tintColor = .primary200
             $0.contentMode = .scaleAspectFill
         }

@@ -73,12 +73,12 @@ enum RestaurantThemeType: String, CaseIterable {
     
     var image: UIImage? {
         switch self {
-        case .psyTheme: UIImage(resource: .riceBowl).withRenderingMode(.alwaysTemplate)
-        case .sungSiKyungTheme: UIImage(systemName: "eyeglasses")
-        case .ttoGanJibTheme: UIImage(systemName: "figure.walk")
-        case .choizaLoadTheme: UIImage(systemName: "road.lanes")
-        case .hongSeokCheonTheme: UIImage(systemName: "person.2.fill")
-        case .baekJongWonTheme: UIImage(systemName: "cart")
+        case .psyTheme: ImageLiterals.riceBowl.withRenderingMode(.alwaysTemplate)
+        case .sungSiKyungTheme: ImageLiterals.eyeglasses
+        case .ttoGanJibTheme: ImageLiterals.figureWalk
+        case .choizaLoadTheme: ImageLiterals.roadLanes
+        case .hongSeokCheonTheme: ImageLiterals.person2Fill
+        case .baekJongWonTheme: ImageLiterals.cart
         }
     }
     

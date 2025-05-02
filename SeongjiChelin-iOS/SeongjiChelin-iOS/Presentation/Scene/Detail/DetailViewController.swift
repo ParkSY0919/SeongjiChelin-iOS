@@ -205,7 +205,7 @@ final class DetailViewController: BaseViewController {
         view.backgroundColor = .bg100
         
         dismissButton.do {
-            $0.setImage(UIImage(systemName: "xmark"), for: .normal)
+            $0.setImage(ImageLiterals.xmark, for: .normal)
             $0.tintColor = .text100
             $0.backgroundColor = .bg200
             $0.contentMode = .scaleAspectFit

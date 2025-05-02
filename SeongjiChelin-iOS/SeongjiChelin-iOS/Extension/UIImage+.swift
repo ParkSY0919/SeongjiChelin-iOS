@@ -21,7 +21,7 @@ extension UIImage {
     }
     
     static func riceImage(size: CGFloat = 13) -> UIImage {
-        let image = UIImage(resource: .riceBowl).withRenderingMode(.alwaysTemplate)
+        let image = ImageLiterals.riceBowl.withRenderingMode(.alwaysTemplate)
         
         let newSize = CGSize(width: size, height: size)
         UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0)
@@ -44,35 +44,35 @@ extension UIImage {
     
     static func eyeglassesImage(size: CGFloat = 10, color: UIColor = .gray) -> UIImage {
         let config = SFConfig(pointSize: size)
-        let image = UIImage(systemName: "eyeglasses", withConfiguration: config)?
+        let image = ImageLiterals.eyeglasses?.withConfiguration(config)
             .withRenderingMode(.alwaysTemplate)
         return image!
     }
     
     static func walkImage(size: CGFloat = 10) -> UIImage {
         let config = SFConfig(pointSize: size)
-        let image = UIImage(systemName: "figure.walk", withConfiguration: config)?
+        let image = ImageLiterals.figureWalk?.withConfiguration(config)
             .withRenderingMode(.alwaysTemplate)
         return image!
     }
     
     static func cartImage(size: CGFloat = 10, color: UIColor = .gray) -> UIImage {
         let config = SFConfig(pointSize: size)
-        let image = UIImage(systemName: "cart", withConfiguration: config)?
+        let image = ImageLiterals.cart?.withConfiguration(config)
             .withRenderingMode(.alwaysTemplate)
         return image!
     }
     
     static func roadImage(size: CGFloat = 10, color: UIColor = .gray) -> UIImage {
         let config = SFConfig(pointSize: size)
-        let image = UIImage(systemName: "road.lanes", withConfiguration: config)?
+        let image = ImageLiterals.roadLanes?.withConfiguration(config)
             .withRenderingMode(.alwaysTemplate)
         return image!
     }
     
     static func person2Image(size: CGFloat = 10, color: UIColor = .gray) -> UIImage {
         let config = SFConfig(pointSize: size)
-        let image = UIImage(systemName: "person.2.fill", withConfiguration: config)?
+        let image = ImageLiterals.person2Fill?.withConfiguration(config)
             .withRenderingMode(.alwaysTemplate)
         return image!
     }
