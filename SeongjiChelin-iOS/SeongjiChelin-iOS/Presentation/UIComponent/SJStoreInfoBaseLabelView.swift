@@ -21,11 +21,11 @@ final class SJStoreInfoBaseLabelView: UIView {
         
         var image: UIImage? {
             switch self {
-            case .address: UIImage(systemName: "map")
-            case .number: UIImage(systemName: "phone")
-            case .time: UIImage(systemName: "clock")
-            case .video: UIImage(systemName: "video")
-            case .parking: UIImage(systemName: "parkingsign.square")
+            case .address: ImageLiterals.map
+            case .number: ImageLiterals.phone
+            case .time: ImageLiterals.clock
+            case .video: ImageLiterals.video
+            case .parking: ImageLiterals.parkingsignSquare
             }
         }
         
@@ -107,7 +107,7 @@ final class SJStoreInfoBaseLabelView: UIView {
     
     func isNoYoutube(isValid: Bool) {
         titleLabel.text = isValid ? "추천 메뉴" : type.title
-        imageView.image = isValid ? UIImage(systemName: "hand.thumbsup") : type.image
+        imageView.image = isValid ? ImageLiterals.handThumbsup : type.image
     }
     
     required init?(coder: NSCoder) {

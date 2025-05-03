@@ -37,13 +37,13 @@ enum SJFilterType {
         
         switch self {
         case .all:
-            return UIImage(systemName: "list.bullet")?.withConfiguration(symbolConfig)
+            return ImageLiterals.listBullet?.withConfiguration(symbolConfig)
         case .visited:
-            return UIImage(resource: .footFill).withRenderingMode(.alwaysTemplate)
+            return ImageLiterals.footFill.withRenderingMode(.alwaysTemplate)
         case .favorite:
-            return UIImage(systemName: "bookmark.fill")?.withConfiguration(symbolConfig)
+            return ImageLiterals.bookmarkFill?.withConfiguration(symbolConfig)
         case .rated:
-            return UIImage(systemName: "star.fill")?.withConfiguration(symbolConfig)
+            return ImageLiterals.starFill?.withConfiguration(symbolConfig)
         }
     }
 }

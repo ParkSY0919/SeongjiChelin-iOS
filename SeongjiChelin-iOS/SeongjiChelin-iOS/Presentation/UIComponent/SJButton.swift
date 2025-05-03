@@ -53,22 +53,22 @@ final class SJButton: UIButton {
         buttonConfiguration.background.cornerRadius = type.cornerRadius
         self.configuration = buttonConfiguration
         
-        let footImage = UIImage(resource: .foot).withRenderingMode(.alwaysTemplate).resized(to: CGSize(width: 26, height: 26))
-        let footFillImage = UIImage(resource: .footFill).withRenderingMode(.alwaysTemplate).resized(to: CGSize(width: 26, height: 26))
+        let footImage = ImageLiterals.foot.resized(to: CGSize(width: 26, height: 26))
+        let footFillImage = ImageLiterals.footFill.withRenderingMode(.alwaysTemplate).resized(to: CGSize(width: 26, height: 26))
         
         let buttonStateHandler: UIButton.ConfigurationUpdateHandler = { button in
             switch button.state {
             case .normal:
                 switch self.type {
                 case .favorite:
-                    button.configuration?.image = UIImage(systemName: "bookmark")
+                    button.configuration?.image = ImageLiterals.bookmark
                 case .foot:
                     button.configuration?.image = footImage
                 }
             case .selected:
                 switch self.type {
                 case .favorite:
-                    button.configuration?.image = UIImage(systemName: "bookmark.fill")
+                    button.configuration?.image = ImageLiterals.bookmarkFill
                 case .foot:
                     button.configuration?.image = footFillImage
                 }

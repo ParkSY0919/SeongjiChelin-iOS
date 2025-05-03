@@ -50,7 +50,7 @@ final class EmptyRestaurantView: UIView {
         }
         
         imageView.do {
-            $0.image = UIImage(systemName: "fork.knife")
+            $0.image = ImageLiterals.forkKnife
             $0.tintColor = .bg300
             $0.contentMode = .scaleAspectFit
         }

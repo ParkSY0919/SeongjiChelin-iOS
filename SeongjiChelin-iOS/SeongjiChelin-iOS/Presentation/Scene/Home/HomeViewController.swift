@@ -179,14 +179,14 @@ final class HomeViewController: BaseViewController {
         
         menuButton.do {
             let boldConfig = UIImage.SymbolConfiguration(weight: .medium)
-            let boldMenuImage = UIImage(systemName: "line.horizontal.3", withConfiguration: boldConfig)
+            let boldMenuImage = ImageLiterals.lineHorizontal3?.withConfiguration(boldConfig)
             $0.setImage(boldMenuImage, for: .normal)
             $0.tintColor = .text200
         }
         
         micButton.do {
             let boldConfig = UIImage.SymbolConfiguration(weight: .bold)
-            let boldMenuImage = UIImage(systemName: "microphone", withConfiguration: boldConfig)
+            let boldMenuImage = ImageLiterals.microphone?.withConfiguration(boldConfig)
             $0.setImage(boldMenuImage, for: .normal)
             $0.tintColor = .text200
             $0.isHidden = true
@@ -341,10 +341,10 @@ private extension HomeViewController {
                 switch button.state {
                 case .normal:
                     button.configuration?.title = "리스트"
-                    button.configuration?.image = UIImage(systemName: "list.star")
+                    button.configuration?.image = ImageLiterals.listStar
                 case .selected:
                     button.configuration?.title = "지도"
-                    button.configuration?.image = UIImage(systemName: "map")
+                    button.configuration?.image = ImageLiterals.map
                 default:
                     return
                 }
