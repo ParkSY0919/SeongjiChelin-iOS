@@ -14,6 +14,8 @@ import Then
 
 final class SearchViewController: BaseViewController {
 
+    weak var coordinator: SearchCoordinator?
+    
     private let viewModel: SearchViewModel
     private let disposeBag = DisposeBag()
     
@@ -111,6 +113,15 @@ final class SearchViewController: BaseViewController {
         }
     }
     
+    @objc
+    private func backButtonTapped() {
+        coordinator?.didFinishSearch()
+        
+        if coordinator == nil {
+            navigationController?.popViewController(animated: true)
+        }
+    }
+    
 }
 
 private extension SearchViewController {
@@ -126,7 +137,7 @@ private extension SearchViewController {
         
         output.navBackButtonTrigger
             .drive(with: self, onNext: { owner, _ in
-                owner.navigationController?.popViewController(animated: true)
+                owner.backButtonTapped()
             }).disposed(by: disposeBag)
         
         output.returnKeyTrigger
