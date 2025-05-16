@@ -15,6 +15,9 @@ import Then
 
 final class OnboardingViewController: BaseViewController {
     
+    // Coordinator 패턴을 위한 delegate 추가
+    weak var delegate: OnboardingViewControllerDelegate?
+    
     private let viewModel = OnboardingViewModel()
     private let disposeBag = DisposeBag()
     private var currentPageIndex = 0
@@ -48,6 +51,18 @@ final class OnboardingViewController: BaseViewController {
         super.viewDidLoad()
         setupPageViewController()
         bind()
+        
+        // 네비게이션 컨트롤러의 뒤로가기 이벤트 감지
+        navigationController?.interactivePopGestureRecognizer?.delegate = self
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        // 뒤로가기 버튼이나 제스처로 화면이 사라질 때 delegate 호출
+        if isMovingFromParent {
+            delegate?.onboardingDidComplete()
+        }
     }
     
     // MARK: - Setup
@@ -171,22 +186,29 @@ final class OnboardingViewController: BaseViewController {
     }
     
     private func completeOnboarding() {
-        // 온보딩 완료 표시
+        // 온보딩 완료 표시 - UserDefaults에 저장
         UserDefaults.standard.set(true, forKey: "hasSeenOnboarding")
         
-        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-              let window = windowScene.windows.first else { return }
+        // Coordinator 패턴을 사용하여 온보딩 완료 알림
+        delegate?.onboardingDidComplete()
         
-        // 메인 화면으로 전환
-        let mainViewController = HomeViewController(viewModel: HomeViewModel())
-        let newRootVC = UINavigationController(rootViewController: mainViewController)
-        
-        UIView.transition(with: window,
-                          duration: 0.5,
-                          options: .transitionCrossDissolve,
-                          animations: { window.rootViewController = newRootVC },
-                          completion: nil)
-        window.makeKeyAndVisible()
+        // 기존 코드는 delegate가 없을 때만 실행
+        // Coordinator가 구현되지 않은 경우 기존 로직으로 대체
+        if delegate == nil {
+            guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                  let window = windowScene.windows.first else { return }
+            
+            // 메인 화면으로 전환
+            let mainViewController = HomeViewController(viewModel: HomeViewModel())
+            let newRootVC = UINavigationController(rootViewController: mainViewController)
+            
+            UIView.transition(with: window,
+                              duration: 0.5,
+                              options: .transitionCrossDissolve,
+                              animations: { window.rootViewController = newRootVC },
+                              completion: nil)
+            window.makeKeyAndVisible()
+        }
     }
     
 }
@@ -225,6 +247,18 @@ extension OnboardingViewController: UIPageViewControllerDataSource, UIPageViewCo
         }
     }
     
+}
+
+// MARK: - UIGestureRecognizerDelegate
+
+extension OnboardingViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        // 제스처 인식기가 시작될 때 온보딩 완료로 처리
+        if gestureRecognizer == navigationController?.interactivePopGestureRecognizer {
+            delegate?.onboardingDidComplete()
+        }
+        return true
+    }
 }
 
 final class OnboardingPageViewController: BaseViewController {
@@ -299,4 +333,3 @@ final class OnboardingPageViewController: BaseViewController {
     }
     
 }
-

@@ -30,6 +30,12 @@
 		9E4A573A2D9FAD6D00A538E3 /* SJButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4A57392D9FAD6D00A538E3 /* SJButton.swift */; };
 		9E4A573D2D9FB97100A538E3 /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = 9E4A573C2D9FB97100A538E3 /* Toast */; };
 		9E4A576D2DA253D800A538E3 /* SJCustomMarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4A576C2DA253D800A538E3 /* SJCustomMarkerView.swift */; };
+		9E4C7A4B2DD76265002F9768 /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4C7A472DD76265002F9768 /* HomeCoordinator.swift */; };
+		9E4C7A4C2DD76265002F9768 /* OnboardingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4C7A492DD76265002F9768 /* OnboardingCoordinator.swift */; };
+		9E4C7A4D2DD76265002F9768 /* MyRestaurantCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4C7A482DD76265002F9768 /* MyRestaurantCoordinator.swift */; };
+		9E4C7A4E2DD76265002F9768 /* SearchCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4C7A4A2DD76265002F9768 /* SearchCoordinator.swift */; };
+		9E4C7A4F2DD76265002F9768 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4C7A452DD76265002F9768 /* AppCoordinator.swift */; };
+		9E4C7A502DD76265002F9768 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4C7A462DD76265002F9768 /* Coordinator.swift */; };
 		9E6EC4172DA8F72600EE1DBA /* RestaurantTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E6EC4162DA8F72600EE1DBA /* RestaurantTable.swift */; };
 		9E6F7D7B2D96D70B009F24FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9E6F7D722D96D70B009F24FC /* Assets.xcassets */; };
 		9E6F7D7D2D96D70B009F24FC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9E6F7D752D96D70B009F24FC /* LaunchScreen.storyboard */; };
@@ -114,6 +120,12 @@
 		9E4A57372D9F988000A538E3 /* SJStoreFilterButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SJStoreFilterButton.swift; sourceTree = "<group>"; };
 		9E4A57392D9FAD6D00A538E3 /* SJButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SJButton.swift; sourceTree = "<group>"; };
 		9E4A576C2DA253D800A538E3 /* SJCustomMarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SJCustomMarkerView.swift; sourceTree = "<group>"; };
+		9E4C7A452DD76265002F9768 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
+		9E4C7A462DD76265002F9768 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
+		9E4C7A472DD76265002F9768 /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
+		9E4C7A482DD76265002F9768 /* MyRestaurantCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyRestaurantCoordinator.swift; sourceTree = "<group>"; };
+		9E4C7A492DD76265002F9768 /* OnboardingCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCoordinator.swift; sourceTree = "<group>"; };
+		9E4C7A4A2DD76265002F9768 /* SearchCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCoordinator.swift; sourceTree = "<group>"; };
 		9E6EC4162DA8F72600EE1DBA /* RestaurantTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantTable.swift; sourceTree = "<group>"; };
 		9E6F7CEA2D96D258009F24FC /* SeongjiChelin-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SeongjiChelin-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E6F7D712D96D70B009F24FC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -219,6 +231,19 @@
 			path = Home;
 			sourceTree = "<group>";
 		};
+		9E4C7A442DD76259002F9768 /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				9E4C7A462DD76265002F9768 /* Coordinator.swift */,
+				9E4C7A452DD76265002F9768 /* AppCoordinator.swift */,
+				9E4C7A472DD76265002F9768 /* HomeCoordinator.swift */,
+				9E4C7A482DD76265002F9768 /* MyRestaurantCoordinator.swift */,
+				9E4C7A492DD76265002F9768 /* OnboardingCoordinator.swift */,
+				9E4C7A4A2DD76265002F9768 /* SearchCoordinator.swift */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
 		9E6F7CE12D96D258009F24FC = {
 			isa = PBXGroup;
 			children = (
@@ -284,6 +309,7 @@
 		9E6F7D892D96D862009F24FC /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				9E4C7A442DD76259002F9768 /* Coordinator */,
 				9E6F7D9C2D96DA72009F24FC /* CustomFormaterManager.swift */,
 				9E6F7D9D2D96DA72009F24FC /* Log.swift */,
 				9E7F116D2DA2A74D00693A4E /* UIAlertManager.swift */,
@@ -571,6 +597,12 @@
 				9E6F7D9E2D96DA72009F24FC /* Log.swift in Sources */,
 				9E6F7E212D97A04F009F24FC /* BaseViewController.swift in Sources */,
 				9EC0C3FD2DA66BDF0037545A /* SJStoreInfoBaseLabelView.swift in Sources */,
+				9E4C7A4B2DD76265002F9768 /* HomeCoordinator.swift in Sources */,
+				9E4C7A4C2DD76265002F9768 /* OnboardingCoordinator.swift in Sources */,
+				9E4C7A4D2DD76265002F9768 /* MyRestaurantCoordinator.swift in Sources */,
+				9E4C7A4E2DD76265002F9768 /* SearchCoordinator.swift in Sources */,
+				9E4C7A4F2DD76265002F9768 /* AppCoordinator.swift in Sources */,
+				9E4C7A502DD76265002F9768 /* Coordinator.swift in Sources */,
 				9E6F7E222D97A04F009F24FC /* BaseTableViewCell.swift in Sources */,
 				9E6F7E242D97A04F009F24FC /* BaseCollectionViewCell.swift in Sources */,
 				9E6F7D9F2D96DA72009F24FC /* CustomFormaterManager.swift in Sources */,

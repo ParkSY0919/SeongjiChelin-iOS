@@ -6,58 +6,25 @@
 //
 
 import UIKit
+
 import SideMenu
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
-    
+    var appCoordinator: AppCoordinator?
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         window = UIWindow(windowScene: windowScene)
         
-        //시작 화면을 먼저 표시
-        window?.rootViewController = UIStoryboard(name: "LaunchScreen", bundle: nil).instantiateInitialViewController()
-        window?.makeKeyAndVisible()
+        // AppCoordinator 초기화 및 시작
+        let navController = UINavigationController()
+        navController.navigationBar.isHidden = true
         
-        //앱 업데이트 확인
-        checkAppVersionAndContinue(scene: scene)
-    }
-    
-    private func checkAppVersionAndContinue(scene: UIScene) {
-        // 앱 업데이트 확인
-        AppUpdateChecker.shared.checkForUpdate(completion: { [weak self] needsUpdate in
-            guard let self = self else { return }
-            
-            if !needsUpdate {
-                //업데이트가 필요 없는 경우 기존 로직 실행
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                    self.continueToAppFlow()
-                }
-            }
-            //업데이트가 필요한 경우는 AppUpdateChecker 내에서 알림이 표시됨
-        })
-    }
-    
-    private func continueToAppFlow() {
-        //SideMenu 초기 설정 호출
-        SideMenuSetup.setupSideMenu()
-        
-        //온보딩 표시 여부 확인
-        let hasSeenOnboarding = UserDefaults.standard.bool(forKey: "hasSeenOnboarding")
-        
-        if !hasSeenOnboarding {
-            //온보딩을 보지 않았으면 온보딩 화면 표시
-            let onboardingVC = OnboardingViewController()
-            self.window?.rootViewController = onboardingVC
-        } else {
-            //온보딩을 이미 봤으면 메인 화면으로 이동
-            let mainViewController = HomeViewController(viewModel: HomeViewModel())
-            let navigationController = UINavigationController(rootViewController: mainViewController)
-            self.window?.rootViewController = navigationController
-        }
+        appCoordinator = AppCoordinator(navigationController: navController, window: window!)
+        appCoordinator?.start()
     }
     
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -87,7 +54,5 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
     }
-    
-    
 }
 

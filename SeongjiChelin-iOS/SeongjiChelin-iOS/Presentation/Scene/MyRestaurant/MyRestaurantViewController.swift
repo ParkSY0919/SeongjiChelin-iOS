@@ -14,6 +14,8 @@ import Then
 
 final class MyRestaurantViewController: BaseViewController {
     
+    weak var coordinator: MyRestaurantCoordinator?
+    
     private let viewModel: MyRestaurantViewModel
     private let disposeBag = DisposeBag()
     private var currentFilterType: SJFilterType = .all
@@ -141,7 +143,7 @@ final class MyRestaurantViewController: BaseViewController {
         
         output.backButtonTrigger
             .drive(with: self) { owner, _ in
-                owner.navigationController?.popViewController(animated: true)
+                owner.backButtonTapped()
             }.disposed(by: disposeBag)
     }
     
@@ -165,6 +167,15 @@ final class MyRestaurantViewController: BaseViewController {
             self.present(detailVC, animated: true) { [weak self] in
                 self?.currentDetailViewController = detailVC
             }
+        }
+    }
+    
+    @objc
+    private func backButtonTapped() {
+        coordinator?.didFinishMyRestaurant()
+        
+        if coordinator == nil {
+            navigationController?.popViewController(animated: true)
         }
     }
     
