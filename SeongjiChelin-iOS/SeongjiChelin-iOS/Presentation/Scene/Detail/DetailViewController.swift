@@ -20,6 +20,10 @@ final class DetailViewController: BaseViewController {
     
     var onChangeState: (() -> ())?
     var onDismiss: (() -> ())?
+    
+    // Coordinator 패턴을 위한 속성 추가
+    weak var coordinator: Coordinator?
+    
     private var isNoYoutube: Bool = false
     private let disposeBag = DisposeBag()
     private let viewModel: DetailViewModel
@@ -317,6 +321,14 @@ final class DetailViewController: BaseViewController {
         }
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        // 뷰가 사라질 때 onDismiss 호출
+        if isBeingDismissed {
+            onDismiss?()
+        }
+    }
+    
 }
 
 extension DetailViewController {
@@ -359,10 +371,11 @@ extension DetailViewController {
                     Task {
                         do {
                             try await owner.playerViewController.player.load(source: .video(id: videoId))
-                            try await owner.playerViewController.player.pause()
+                            
                         } catch {
                             print("비디오 로드 실패: \(error)")
                         }
+                        try await owner.playerViewController.player.stop()
                     }
                 }
             }.disposed(by: disposeBag)

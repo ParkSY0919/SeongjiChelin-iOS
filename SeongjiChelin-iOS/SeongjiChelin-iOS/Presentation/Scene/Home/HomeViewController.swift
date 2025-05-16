@@ -22,6 +22,9 @@ final class HomeViewController: BaseViewController {
     private var currentMarkers: [GMSMarker] = []
     private var selectedMarker: GMSMarker?
     
+    // Coordinator 추가
+    weak var coordinator: HomeCoordinator?
+    
     private let customNavBar = UIView()
     private let menuButton = UIButton()
     private let micButton = UIButton()
@@ -52,9 +55,9 @@ final class HomeViewController: BaseViewController {
         
         print(#function)
         viewModel.willAppearTrigger.onNext(())
+        
+        SideMenuManager.default.addScreenEdgePanGesturesToPresent(toView: self.view, forMenu: .left)
     }
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -206,15 +209,9 @@ private extension HomeViewController {
     
     func setupNavMenuBar() {
         SideMenuManager.default.addScreenEdgePanGesturesToPresent(toView: self.view, forMenu: .left)
-        if let sideMenuNav = navigationController as? SideMenuNavigationController {
-            sideMenuNav.sideMenuDelegate = self
-        }
         
-        // MenuViewController의 클로저 설정
-        if let menuVC = SideMenuManager.default.leftMenuNavigationController?.viewControllers.first as? MenuViewController {
-            menuVC.onMenuItemSelected = { [weak self] selectedItem in
-                self?.handleMenuSelection(selectedItem)
-            }
+        if let sideMenuNav = SideMenuManager.default.leftMenuNavigationController {
+            sideMenuNav.sideMenuDelegate = self
         }
     }
     
@@ -251,12 +248,8 @@ private extension HomeViewController {
         
         output.menuTrigger
             .drive(with: self, onNext: { owner, _ in
-                guard let menu = SideMenuManager.default.leftMenuNavigationController else { return }
-                if let detailVC = owner.currentDetailViewController,
-                   owner.presentedViewController === detailVC {
-                    owner.dismiss(animated: true)
-                }
-                owner.present(menu, animated: true, completion: nil)
+                // SideMenu 표시 로직을 coordinator에 위임
+                owner.coordinator?.showSideMenu()
             })
             .disposed(by: disposeBag)
         
@@ -275,28 +268,20 @@ private extension HomeViewController {
             .subscribe(with: self) { owner, tupleData in
                 print("cell이 클릭되었습니다")
                 let (_, restaurant) = tupleData
-                //                 현재 표시된 DetailViewController가 있는지 확인
-                if let detailVC = owner.currentDetailViewController,
-                   owner.presentedViewController === detailVC {
-                    detailVC.updateRestaurantInfo(restaurant)
-                } else {
-                    // 없으면 새로 생성해서 표시
-                    let vm = DetailViewModel(restaurantInfo: restaurant)
-                    let vc = DetailViewController(viewModel: vm)
-                    owner.present(vc, animated: true) { [weak self] in
-                        self?.currentDetailViewController = vc
-                    }
+                
+                // Coordinator 패턴으로 DetailViewController 표시 위임
+                owner.coordinator?.showDetail(for: restaurant)
+                
+                // 현재 DetailViewController 추적을 위해 저장 (coordinator에서 관리할 수도 있으나, 이 클래스 내 참조가 필요할 수 있음)
+                if let presented = owner.presentedViewController as? DetailViewController {
+                    owner.currentDetailViewController = presented
                 }
             }.disposed(by: disposeBag)
         
         output.searchTextFieldTrigger
             .drive(with: self) { owner, _ in
-                let vm = SearchViewModel()
-                let vc = SearchViewController(viewModel: vm)
-                print(owner.navigationController?.navigationBar == nil, "true 면 네브바 없는거")
-                owner.navigationController?.pushViewController(vc, animated: true)
-                print(owner.navigationController?.navigationBar == nil, "true 면 네브바 없는거")
-                print("케케몬")
+                // Coordinator 패턴으로 SearchViewController 표시 위임
+                owner.coordinator?.showSearch()
             }.disposed(by: disposeBag)
         
         output.filteredList
@@ -461,24 +446,8 @@ private extension HomeViewController {
     }
     
     func handleMenuSelection(_ selectedItem: String) {
-        print(#function)
-        switch selectedItem {
-        case "홈":
-            print("홈홈홈")
-        case "나만의 식당":
-            let myRestaurantVC = MyRestaurantViewController(viewModel: MyRestaurantViewModel(repo: RestaurantRepository()))
-            self.navigationController?.pushViewController(myRestaurantVC, animated: true)
-        case "사용법":
-            let onboardingVC = OnboardingViewController()
-            UIView.animate(withDuration: 0.5) {
-                self.navigationController?.pushViewController(onboardingVC, animated: true)
-            }
-        case "정보 수정 신고":
-            let webVC = SJWebViewController(urlString: "https://notch-crate-349.notion.site/1d46931aa0158095b055d762d55f5d2a?pvs=4")
-            self.present(webVC, animated: true)
-        default:
-            break
-        }
+        // Coordinator에 메뉴 선택 처리 위임
+        coordinator?.didSelectMenuItem(selectedItem)
     }
     
     ///마커 표시 로직

@@ -13,24 +13,14 @@ import SideMenu
 import SnapKit
 import Then
 
-struct SideMenuSetup {
-    
-    static func setupSideMenu() {
-        let menuViewController = MenuViewController(viewModel: MenuViewModel())
-        
-        let menuNavigationController = SideMenuNavigationController(rootViewController: menuViewController)
-        SideMenuManager.default.leftMenuNavigationController = menuNavigationController
-        menuNavigationController.presentationStyle = .menuSlideIn
-        menuNavigationController.pushStyle = .default
-        menuNavigationController.presentDuration = 0.5
-        menuNavigationController.dismissDuration = 0.35
-    }
-    
-}
-
 final class MenuViewController: BaseViewController {
     
     // MARK: - Properties
+    
+    // Coordinator 패턴 사용을 위한 delegate 추가
+    weak var delegate: MenuViewControllerDelegate?
+    
+    // 기존 클로저는 하위 호환성을 위해 유지
     var onMenuItemSelected: ((String) -> Void)?
     
     private let disposeBag = DisposeBag()
@@ -149,11 +139,7 @@ final class MenuViewController: BaseViewController {
         }
     }
     
-}
-
-private extension MenuViewController {
-    
-    func bind() {
+    private func bind() {
         let input = MenuViewModel.Input(
             modelSelected: tableView.rx.modelSelected(String.self),
             infoLabelTapped: labelTapGesture.rx.event
@@ -174,15 +160,21 @@ private extension MenuViewController {
         output.selectedItemAction
             .drive(onNext: { [weak self] selectedItem in
                 guard let self else { return }
-                // 클로저를 통해 선택된 메뉴 항목 전달
-                self.onMenuItemSelected?(selectedItem)
-                self.dismiss(animated: true)
+                
+                // 메뉴 닫기
+                self.dismiss(animated: true) {
+                    self.delegate?.didSelectMenuItem(selectedItem)
+                    
+                    self.onMenuItemSelected?(selectedItem)
+                }
             })
             .disposed(by: disposeBag)
         
         output.infoLabelTrigger
             .drive(with: self, onNext: { owner, _ in
                 owner.dismiss(animated: true) {
+                    owner.delegate?.didSelectMenuItem("정보 수정 신고")
+                    
                     owner.onMenuItemSelected?("정보 수정 신고")
                 }
             }).disposed(by: disposeBag)
