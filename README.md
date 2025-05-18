@@ -31,6 +31,18 @@
 
 <br>
 
+## 🍚 주요 화면
+|   온보딩   |   사용법   |   홈(맵)   |   홈(리스트)   |
+| :-------------: | :-------------: | :-------------: | :-------------: |
+| <img src = "https://github.com/user-attachments/assets/a5eea9f1-e0d0-4870-b4c3-4cf8601b038b" width ="160">| <img src = "https://github.com/user-attachments/assets/7a2eb3cb-eec1-4b45-9f1f-02563f1d8862" width ="160">| <img src = "https://github.com/user-attachments/assets/691326bc-4f20-41a5-bf29-26fea9132949" width ="160">| <img src = "https://github.com/user-attachments/assets/22f9cdf6-8f11-4777-ab9b-53ed03ee0186" width ="160">|
+
+|   정보 수정 신고   |   상세보기(개발자 맛집)   |   상세보기(인플루언서 맛집)   |   나만의 식당   |
+| :-------------: | :-------------: | :-------------: | :-------------: |
+| <img src = "https://github.com/user-attachments/assets/c94978ea-fea3-4032-8eae-f68229ec94bf" width ="160">| <img src = "https://github.com/user-attachments/assets/fb16d0f6-f5a1-4a66-a6b0-bcaf5ead55ee" width ="160">| <img src = "https://github.com/user-attachments/assets/ecaad071-7dda-430d-9aa9-972a8bfbeb22" width ="160">| <img src = "https://github.com/user-attachments/assets/7310a8af-d59d-46dc-bbc0-264d805388df" width ="160">|
+
+
+<br>
+
 ## 🍚 주요 기능
 
 > 💡 성지슐랭 주요 기능
@@ -44,6 +56,7 @@
 > - 온보딩 화면을 통한 앱 사용법 안내 및 맛집 정보 수정 신고 기능
 
 <br>
+
 
 ## 🍚 기술 스택 및 내용
 
