@@ -16,7 +16,7 @@ final class SJRatingView: UIView {
     
     // MARK: - Properties
     
-    private let repo: RestaurantRepositoryProtocol = RestaurantRepository()
+//    private let repo: RestaurantRepositoryProtocol = RestaurantRepository()
     private var restaurantInfo: RestaurantTable?
     private let disposeBag = DisposeBag()
     

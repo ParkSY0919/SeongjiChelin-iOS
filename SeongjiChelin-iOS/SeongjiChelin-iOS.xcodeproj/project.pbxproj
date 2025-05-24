@@ -77,6 +77,7 @@
 		9E7F11692DA286E800693A4E /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 9E7F11682DA286E800693A4E /* RxSwift */; };
 		9E7F116C2DA286F600693A4E /* RxCombine in Frameworks */ = {isa = PBXBuildFile; productRef = 9E7F116B2DA286F600693A4E /* RxCombine */; };
 		9E7F116E2DA2A74D00693A4E /* UIAlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E7F116D2DA2A74D00693A4E /* UIAlertManager.swift */; };
+		9E98C9BE2DE181940030B06F /* RestaurantBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E98C9BD2DE181940030B06F /* RestaurantBridge.swift */; };
 		9EBD54D92D9DEE62005F4B8A /* SideMenu in Frameworks */ = {isa = PBXBuildFile; productRef = 9EBD54D82D9DEE62005F4B8A /* SideMenu */; };
 		9EBD54FE2D9E769D005F4B8A /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EBD54FD2D9E769D005F4B8A /* MenuViewController.swift */; };
 		9EBD55022D9E7951005F4B8A /* MenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EBD55012D9E7951005F4B8A /* MenuViewModel.swift */; };
@@ -158,6 +159,7 @@
 		9E7F115E2DA26FF300693A4E /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
 		9E7F11602DA2701700693A4E /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		9E7F116D2DA2A74D00693A4E /* UIAlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAlertManager.swift; sourceTree = "<group>"; };
+		9E98C9BD2DE181940030B06F /* RestaurantBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantBridge.swift; sourceTree = "<group>"; };
 		9EBD54FD2D9E769D005F4B8A /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		9EBD55012D9E7951005F4B8A /* MenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewModel.swift; sourceTree = "<group>"; };
 		9EBD55032D9E7A5D005F4B8A /* UILabel+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+.swift"; sourceTree = "<group>"; };
@@ -398,6 +400,7 @@
 			children = (
 				9E03BCE12DA8FFD60097AA7E /* RestaurantRepository.swift */,
 				9E6EC4162DA8F72600EE1DBA /* RestaurantTable.swift */,
+				9E98C9BD2DE181940030B06F /* RestaurantBridge.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -595,6 +598,7 @@
 				9E6F7D7F2D96D70B009F24FC /* AppDelegate.swift in Sources */,
 				9E6F7D852D96D7A6009F24FC /* Config.swift in Sources */,
 				9E6F7D9E2D96DA72009F24FC /* Log.swift in Sources */,
+				9E98C9BE2DE181940030B06F /* RestaurantBridge.swift in Sources */,
 				9E6F7E212D97A04F009F24FC /* BaseViewController.swift in Sources */,
 				9EC0C3FD2DA66BDF0037545A /* SJStoreInfoBaseLabelView.swift in Sources */,
 				9E4C7A4B2DD76265002F9768 /* HomeCoordinator.swift in Sources */,

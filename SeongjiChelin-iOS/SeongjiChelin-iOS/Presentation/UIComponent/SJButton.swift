@@ -38,7 +38,7 @@ final class SJButton: UIButton {
         self.type = type
         self.repo = repo
         super.init(frame: .zero)
-        repo.getFileURL()
+//        repo.getFileURL()
         setFavoriteButtonStyle()
     }
     
