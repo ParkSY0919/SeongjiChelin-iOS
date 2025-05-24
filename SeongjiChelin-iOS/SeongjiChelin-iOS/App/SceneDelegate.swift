@@ -19,12 +19,21 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(windowScene: windowScene)
         
+        // 메인 화면 설정 이전 브릿지 초기화
+        initializeAppData()
+        
         // AppCoordinator 초기화 및 시작
         let navController = UINavigationController()
         navController.navigationBar.isHidden = true
         
         appCoordinator = AppCoordinator(navigationController: navController, window: window!)
         appCoordinator?.start()
+    }
+    
+    private func initializeAppData() {
+        let repository = RestaurantRepository()
+        repository.initializeRestaurantBridges()
+        print("앱 데이터 초기화 완료")
     }
     
     func sceneDidDisconnect(_ scene: UIScene) {
