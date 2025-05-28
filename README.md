@@ -38,7 +38,7 @@
 
 |   정보 수정 신고   |   상세보기(개발자 맛집)   |   상세보기(인플루언서 맛집)   |   나만의 식당   |
 | :-------------: | :-------------: | :-------------: | :-------------: |
-| <img src = "https://github.com/user-attachments/assets/c94978ea-fea3-4032-8eae-f68229ec94bf" width ="160">| <img src = "https://github.com/user-attachments/assets/fb16d0f6-f5a1-4a66-a6b0-bcaf5ead55ee" width ="160">| <img src = "https://github.com/user-attachments/assets/ecaad071-7dda-430d-9aa9-972a8bfbeb22" width ="160">| <img src = "https://github.com/user-attachments/assets/7310a8af-d59d-46dc-bbc0-264d805388df" width ="160">|
+| <img src = "https://github.com/user-attachments/assets/c94978ea-fea3-4032-8eae-f68229ec94bf" width ="160">| <img src = "https://github.com/user-attachments/assets/10840e91-59b6-4fed-a575-935d91dfd613" width ="160">| <img src = "https://github.com/user-attachments/assets/3fda099f-b1dd-44f4-b3e9-a0d20830d210" width ="160">| <img src = "https://github.com/user-attachments/assets/7310a8af-d59d-46dc-bbc0-264d805388df" width ="160">|
 
 
 <br>
