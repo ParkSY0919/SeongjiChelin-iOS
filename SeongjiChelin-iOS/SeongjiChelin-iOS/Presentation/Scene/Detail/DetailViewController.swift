@@ -16,44 +16,71 @@ import YouTubePlayerKit
 
 final class DetailViewController: BaseViewController {
     
+    // MARK: - Properties
     private let scheduleView = SJWeeklyScheduleView()
     
-    var onChangeState: (() -> ())?
-    var onDismiss: (() -> ())?
+    var onChangeState: (() -> Void)?
+    var onDismiss: (() -> Void)?
     
-    // Coordinator 패턴을 위한 속성 추가
     weak var coordinator: Coordinator?
     
-    private var isNoYoutube: Bool = false
     private let disposeBag = DisposeBag()
     private let viewModel: DetailViewModel
     
-    private let dismissButton = UIButton()
+    // MARK: - UI Components
+    private lazy var dismissButton = UIButton().then {
+        $0.setImage(ImageLiterals.xmark, for: .normal)
+        $0.tintColor = .text100
+        $0.backgroundColor = .bg200
+        $0.contentMode = .scaleAspectFit
+        $0.layer.cornerRadius = 18
+    }
+    
     private let visitButton = SJButton(type: .foot, repo: RestaurantRepository())
     private let favoriteButton = SJButton(type: .favorite, repo: RestaurantRepository())
-    private let storeNameLabel = UILabel()
-    private let categoryLabel = UILabel()
-    private let addressToolLabel = SJStoreInfoBaseLabelView(type: .address)
-    private let storeAddressLabel = UILabel()
-    private let numberToolLabel = SJStoreInfoBaseLabelView(type: .number)
-    private let storeNumberLabel = UILabel()
     
-    private let parkingToolLabel = SJStoreInfoBaseLabelView(type: .parking)
-    private let parkingLabel = UILabel()
+    // 식당 정보 표시 UI들 그룹화
+    private struct StoreInfoViews {
+        let nameLabel = UILabel()
+        let categoryLabel = UILabel()
+        let addressToolLabel = SJStoreInfoBaseLabelView(type: .address)
+        let addressLabel = UILabel()
+        let numberToolLabel = SJStoreInfoBaseLabelView(type: .number)
+        let numberLabel = UILabel()
+        let parkingToolLabel = SJStoreInfoBaseLabelView(type: .parking)
+        let parkingLabel = UILabel()
+        let openingHoursToolLabel = SJStoreInfoBaseLabelView(type: .time)
+        let openingHoursLabel = UILabel()
+        let menusToolLabel = SJStoreInfoBaseLabelView(type: .video)
+        let menusLabel = UILabel()
+        let nearWeatherLabel = UILabel()
+        let nearWeatherImageView = UIImageView()
+    }
     
-    private let openingHoursToolLabel = SJStoreInfoBaseLabelView(type: .time)
-    private let openingHoursLabel = UILabel()
+    private let storeInfo = StoreInfoViews()
     
-    private let menusToolLabel = SJStoreInfoBaseLabelView(type: .video)
-    private let menusLabel = UILabel()
+    // YouTube 관련 뷰들
+    private struct YouTubeViews {
+        let container = UIView()
+        let loadingIndicator = UIActivityIndicatorView(style: .medium)
+    }
     
-    private let nearWeatherLabel = UILabel()
-    private let nearWeatherImageView = UIImageView()
-    private let youtubePlayerContainer = UIView()
-    
+    private let youtubeViews = YouTubeViews()
     private lazy var playerViewController = YouTubePlayerViewController(player: viewModel.youtubePlayer)
-    private let loadingIndicator = UIActivityIndicatorView(style: .medium)
     
+    // MARK: - State
+    private var currentSheetState: SheetState = .medium {
+        didSet {
+            guard oldValue != currentSheetState else { return }
+            updateLayoutForSheetState()
+        }
+    }
+    
+    private enum SheetState {
+        case medium, large
+    }
+    
+    // MARK: - Lifecycle
     init(viewModel: DetailViewModel) {
         self.viewModel = viewModel
         super.init()
@@ -61,49 +88,86 @@ final class DetailViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        setSheet()
-        bind()
+        setupSheet()
+        setupBindings()
+        setupYouTubePlayer()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
-        if let sheet = self.sheetPresentationController {
-            let isCustomSmall = sheet.selectedDetentIdentifier == .medium
-            switchLayout(isCustomSmall: isCustomSmall)
+        updateSheetState()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        if isBeingDismissed {
+            onDismiss?()
         }
     }
     
+    // MARK: - Setup Methods
     override func setHierarchy() {
         view.addSubviews(
             dismissButton,
             visitButton,
             favoriteButton,
-            storeNameLabel,
-            categoryLabel,
-            addressToolLabel,
-            storeAddressLabel,
-            numberToolLabel,
-            storeNumberLabel,
-            parkingToolLabel,
-            parkingLabel,
-            openingHoursToolLabel,
-            openingHoursLabel,
-            menusToolLabel,
-            menusLabel,
-            nearWeatherLabel,
-            nearWeatherImageView,
-            youtubePlayerContainer,
+            storeInfo.nameLabel,
+            storeInfo.categoryLabel,
+            storeInfo.addressToolLabel,
+            storeInfo.addressLabel,
+            storeInfo.numberToolLabel,
+            storeInfo.numberLabel,
+            storeInfo.parkingToolLabel,
+            storeInfo.parkingLabel,
+            storeInfo.openingHoursToolLabel,
+            storeInfo.openingHoursLabel,
+            storeInfo.menusToolLabel,
+            storeInfo.menusLabel,
+            storeInfo.nearWeatherLabel,
+            storeInfo.nearWeatherImageView,
+            youtubeViews.container,
             scheduleView
         )
+        
+        setupYouTubeHierarchy()
+    }
+    
+    private func setupYouTubeHierarchy() {
+        addChild(playerViewController)
+        youtubeViews.container.addSubviews(
+            youtubeViews.loadingIndicator,
+            playerViewController.view
+        )
+        playerViewController.didMove(toParent: self)
     }
     
     override func setLayout() {
+        setupConstraints()
+    }
+    
+    private func setupConstraints() {
+        // 기본 버튼 레이아웃
+        setupButtonConstraints()
+        
+        // 스토어 정보 레이아웃
+        setupStoreInfoConstraints()
+        
+        // 스케줄 뷰 레이아웃
+        scheduleView.snp.makeConstraints {
+            $0.top.equalTo(storeInfo.openingHoursLabel.snp.bottom).offset(30)
+            $0.horizontalEdges.equalToSuperview().inset(20)
+            $0.height.equalTo(120)
+        }
+        
+        // YouTube 플레이어 레이아웃
+        setupYouTubeConstraints()
+    }
+    
+    private func setupButtonConstraints() {
         dismissButton.snp.makeConstraints {
             $0.centerY.equalTo(favoriteButton.snp.centerY)
             $0.trailing.equalTo(view.safeAreaLayoutGuide).inset(20)
-            $0.size.equalTo(favoriteButton.snp.size)
+            $0.size.equalTo(36)
         }
         
         favoriteButton.snp.makeConstraints {
@@ -117,363 +181,397 @@ final class DetailViewController: BaseViewController {
             $0.trailing.equalTo(favoriteButton.snp.leading).offset(-10)
             $0.size.equalTo(favoriteButton.snp.size)
         }
-        
-        storeNameLabel.snp.makeConstraints {
+    }
+    
+    private func setupStoreInfoConstraints() {
+        // 스토어 이름과 카테고리
+        storeInfo.nameLabel.snp.makeConstraints {
             $0.bottom.equalTo(favoriteButton.snp.bottom)
             $0.leading.equalTo(view.safeAreaLayoutGuide).inset(20)
         }
-
-        categoryLabel.snp.makeConstraints {
-            $0.bottom.equalTo(storeNameLabel.snp.bottom)
-            $0.leading.equalTo(storeNameLabel.snp.trailing).offset(10)
+        
+        storeInfo.categoryLabel.snp.makeConstraints {
+            $0.bottom.equalTo(storeInfo.nameLabel.snp.bottom)
+            $0.leading.equalTo(storeInfo.nameLabel.snp.trailing).offset(10)
             $0.trailing.lessThanOrEqualTo(visitButton.snp.leading).offset(-10)
             $0.width.greaterThanOrEqualTo(30).priority(.required)
         }
         
-        addressToolLabel.snp.makeConstraints {
-            $0.top.equalTo(storeNameLabel.snp.bottom).offset(30)
-            $0.leading.equalTo(storeNameLabel.snp.leading)
+        // 주소 정보
+        storeInfo.addressToolLabel.snp.makeConstraints {
+            $0.top.equalTo(storeInfo.nameLabel.snp.bottom).offset(30)
+            $0.leading.equalTo(storeInfo.nameLabel.snp.leading)
         }
         
-        storeAddressLabel.snp.makeConstraints {
-            $0.top.equalTo(addressToolLabel.snp.top).offset(2)
-            $0.leading.equalTo(addressToolLabel.snp.trailing)
+        storeInfo.addressLabel.snp.makeConstraints {
+            $0.top.equalTo(storeInfo.addressToolLabel.snp.top).offset(2)
+            $0.leading.equalTo(storeInfo.addressToolLabel.snp.trailing)
             $0.trailing.equalTo(favoriteButton.snp.trailing)
         }
         
-        numberToolLabel.snp.makeConstraints {
-            //주소가 길어지면 길어진 label에 맞춰야 하기에
-            $0.top.equalTo(storeAddressLabel.snp.bottom).offset(10)
-            $0.leading.equalTo(addressToolLabel.snp.leading)
+        // 연락처 정보
+        storeInfo.numberToolLabel.snp.makeConstraints {
+            $0.top.equalTo(storeInfo.addressLabel.snp.bottom).offset(15)
+            $0.leading.equalTo(storeInfo.addressToolLabel.snp.leading)
         }
         
-        storeNumberLabel.snp.makeConstraints {
-            $0.top.equalTo(numberToolLabel.snp.top).offset(2)
-            $0.leading.equalTo(numberToolLabel.snp.trailing)
+        storeInfo.numberLabel.snp.makeConstraints {
+            $0.top.equalTo(storeInfo.numberToolLabel.snp.top).offset(2)
+            $0.leading.equalTo(storeInfo.numberToolLabel.snp.trailing)
         }
         
-        parkingToolLabel.snp.makeConstraints {
-            $0.top.equalTo(storeNumberLabel.snp.bottom).offset(10)
-            $0.leading.equalTo(addressToolLabel.snp.leading)
+        // 주차 정보
+        storeInfo.parkingToolLabel.snp.makeConstraints {
+            $0.top.equalTo(storeInfo.numberLabel.snp.bottom).offset(15)
+            $0.leading.equalTo(storeInfo.addressToolLabel.snp.leading)
         }
         
-        parkingLabel.snp.makeConstraints {
-            $0.top.equalTo(parkingToolLabel.snp.top).offset(2)
-            $0.leading.equalTo(parkingToolLabel.snp.trailing)
+        storeInfo.parkingLabel.snp.makeConstraints {
+            $0.top.equalTo(storeInfo.parkingToolLabel.snp.top).offset(2)
+            $0.leading.equalTo(storeInfo.parkingToolLabel.snp.trailing)
         }
         
-        openingHoursToolLabel.snp.makeConstraints {
-            $0.top.equalTo(parkingLabel.snp.bottom).offset(10)
-            $0.leading.equalTo(addressToolLabel.snp.leading)
+        // 영업 시간 정보
+        storeInfo.openingHoursToolLabel.snp.makeConstraints {
+            $0.top.equalTo(storeInfo.parkingLabel.snp.bottom).offset(15)
+            $0.leading.equalTo(storeInfo.addressToolLabel.snp.leading)
         }
         
-        openingHoursLabel.snp.makeConstraints {
-            $0.top.equalTo(openingHoursToolLabel.snp.top).offset(2)
-            $0.leading.equalTo(openingHoursToolLabel.snp.trailing)
+        storeInfo.openingHoursLabel.snp.makeConstraints {
+            $0.top.equalTo(storeInfo.openingHoursToolLabel.snp.top).offset(2)
+            $0.leading.equalTo(storeInfo.openingHoursToolLabel.snp.trailing)
             $0.trailing.equalTo(favoriteButton.snp.trailing)
         }
-        
-        scheduleView.snp.makeConstraints {
-            $0.top.equalTo(openingHoursLabel.snp.bottom).offset(20)
-            $0.horizontalEdges.equalToSuperview().inset(20)
-            $0.height.equalTo(120)
-        }
-        
-        menusToolLabel.snp.makeConstraints {
-            $0.top.equalTo(scheduleView.snp.bottom).offset(20)
-            $0.leading.equalTo(addressToolLabel.snp.leading)
-        }
-        
-        menusLabel.snp.makeConstraints {
-            $0.top.equalTo(menusToolLabel.snp.top).offset(4)
-            $0.leading.equalTo(menusToolLabel.snp.trailing)
-            $0.trailing.equalTo(view.safeAreaLayoutGuide).inset(20)
-        }
-        
-        addChild(playerViewController)
-        
-        youtubePlayerContainer.addSubviews(loadingIndicator, playerViewController.view)
-        
-        loadingIndicator.snp.makeConstraints {
+    }
+    
+    private func setupYouTubeConstraints() {
+        youtubeViews.loadingIndicator.snp.makeConstraints {
             $0.center.equalToSuperview()
         }
         
         playerViewController.view.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
-        
-        playerViewController.didMove(toParent: self)
     }
     
     override func setStyle() {
         view.backgroundColor = .bg100
-        
-        dismissButton.do {
-            $0.setImage(ImageLiterals.xmark, for: .normal)
-            $0.tintColor = .text100
-            $0.backgroundColor = .bg200
-            $0.contentMode = .scaleAspectFit
-            $0.layer.cornerRadius = 35/2
-        }
-        
-        youtubePlayerContainer.do {
+        setupUIStyles()
+    }
+    
+    private func setupUIStyles() {
+        // YouTube 컨테이너 스타일
+        youtubeViews.container.do {
             $0.backgroundColor = .bg200
             $0.isHidden = true
         }
         
-        loadingIndicator.do {
-            $0.hidesWhenStopped = true // 멈추면 자동으로 숨김
+        // 로딩 인디케이터 스타일
+        youtubeViews.loadingIndicator.do {
+            $0.hidesWhenStopped = true
             $0.color = .primary300
         }
         
-        storeNumberLabel.do {
-            let gesture = UITapGestureRecognizer(target: self, action: #selector(handleStoreInfoLabelTap))
-            $0.isUserInteractionEnabled = true
-            $0.addGestureRecognizer(gesture)
-        }
+        // 전화번호 탭 제스처
+        setupPhoneNumberTapGesture()
         
-        storeNameLabel.setLabelUI("", font: .seongiFont(.title_bold_20), textColor: .primary200)
-        storeNumberLabel.setLabelUI("", font: .seongiFont(.body_bold_12), textColor: .marker4)
+        // 라벨 스타일 설정
+        setupLabelStyles()
+    }
+    
+    private func setupPhoneNumberTapGesture() {
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(handlePhoneNumberTap))
+        storeInfo.numberLabel.isUserInteractionEnabled = true
+        storeInfo.numberLabel.addGestureRecognizer(gesture)
+    }
+    
+    private func setupLabelStyles() {
+        storeInfo.nameLabel.setLabelUI(
+            "",
+            font: .seongiFont(.title_bold_20),
+            textColor: .primary200
+        )
         
-        [categoryLabel, storeAddressLabel, parkingLabel, openingHoursLabel, menusLabel].forEach { i in
-            i.setLabelUI(
+        storeInfo.numberLabel.setLabelUI(
+            "",
+            font: .seongiFont(.body_bold_12),
+            textColor: .marker4
+        )
+        
+        [
+            storeInfo.categoryLabel,
+            storeInfo.addressLabel,
+            storeInfo.parkingLabel,
+            storeInfo.openingHoursLabel,
+            storeInfo.menusLabel
+        ].forEach {
+            $0.setLabelUI(
                 "",
                 font: .seongiFont(.body_bold_12),
                 textColor: .accentPink,
                 numberOfLines: 3
             )
         }
-        
     }
     
-    /// restaurant 정보 업데이트
+    // MARK: - Setup Methods
+    private func setupSheet() {
+        guard let sheet = sheetPresentationController else { return }
+        sheet.selectedDetentIdentifier = .medium
+        sheet.largestUndimmedDetentIdentifier = .medium
+        sheet.detents = [.medium(), .large()]
+        sheet.prefersGrabberVisible = true
+        sheet.preferredCornerRadius = 20
+        sheet.delegate = self
+    }
+    
+    private func setupYouTubePlayer() {
+        // YouTube 플레이어 상태 관찰
+        viewModel.youtubePlayer.statePublisher.asObservable()
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] state in
+                self?.handleYouTubePlayerState(state)
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    private func setupBindings() {
+        let input = DetailViewModel.Input(dismissTapped: dismissButton.rx.tap)
+        let output = viewModel.transform(input: input)
+        
+        // 버튼 상태 변경 콜백
+        [favoriteButton, visitButton].forEach { button in
+            button.onChangeState = { [weak self] in
+                self?.onChangeState?()
+            }
+        }
+        
+        // ViewModel 출력 바인딩
+        bindViewModelOutputs(output)
+    }
+    
+    private func bindViewModelOutputs(_ output: DetailViewModel.Output) {
+        output.dismissTrigger
+            .drive(with: self) { owner, _ in
+                owner.dismiss(animated: true)
+            }
+            .disposed(by: disposeBag)
+        
+        output.restaurantInfo
+            .drive(with: self) { owner, restaurant in
+                owner.configureDetailView(restaurant: restaurant)
+            }
+            .disposed(by: disposeBag)
+        
+        output.youtubeInfo
+            .drive(with: self) { owner, videoId in
+                owner.handleYouTubeVideoLoad(videoId)
+            }
+            .disposed(by: disposeBag)
+    }
+    
+    // MARK: - YouTube Handling
+    private func handleYouTubeVideoLoad(_ videoId: String?) {
+        guard let videoId = videoId, !videoId.isEmpty else { return }
+        
+        Task {
+            do {
+                try await playerViewController.player.load(source: .video(id: videoId))
+                try await playerViewController.player.stop()
+            } catch {
+                print("비디오 로드 실패: \(error)")
+            }
+        }
+    }
+    
+    private func handleYouTubePlayerState(_ state: YouTubePlayer.State) {
+        switch state {
+        case .idle:
+            youtubeViews.loadingIndicator.startAnimating()
+            playerViewController.view.isHidden = true
+        case .ready:
+            youtubeViews.loadingIndicator.stopAnimating()
+            playerViewController.view.isHidden = false
+        case .error(let error):
+            print("YouTube Player error: \(error)")
+            youtubeViews.loadingIndicator.stopAnimating()
+            playerViewController.view.isHidden = false
+        }
+    }
+    
+    // MARK: - Restaurant Info Configuration
     func updateRestaurantInfo(_ restaurant: Restaurant) {
         viewModel.updateRestaurantInfo(restaurant)
     }
     
-    //TODO: 추후 각 데이터 바인딩 수정
     private func configureDetailView(restaurant: Restaurant) {
-        let isYoutubeIdNil = restaurant.youtubeId == nil
-        isNoYoutube = isYoutubeIdNil
-        menusToolLabel.isNoYoutube(isValid: isYoutubeIdNil)
+        configureBasicInfo(restaurant)
+        configureBusinessHours(restaurant)
+        configureButtons(restaurant)
+        configureYouTubeVisibility(restaurant)
+        updateLayoutForSheetState()
+    }
+    
+    private func configureBasicInfo(_ restaurant: Restaurant) {
+        storeInfo.nameLabel.text = restaurant.name
+        storeInfo.categoryLabel.text = restaurant.category
+        storeInfo.addressLabel.text = restaurant.address
+        storeInfo.numberLabel.text = restaurant.number
+        storeInfo.parkingLabel.text = restaurant.amenities
+        storeInfo.menusLabel.text = restaurant.menus.joined(separator: ", ")
+    }
+    
+    private func configureBusinessHours(_ restaurant: Restaurant) {
+        let status = restaurant.checkStoreStatus()
+        storeInfo.openingHoursLabel.text = status.displayText
+        storeInfo.openingHoursLabel.textColor = status.textColor
         
-        storeNameLabel.text = restaurant.name
-        categoryLabel.text = restaurant.category
-        storeAddressLabel.text = restaurant.address
-        storeNumberLabel.text = restaurant.number
-        parkingLabel.text = restaurant.amenities
-        menusLabel.text = restaurant.menus.map(\.self).joined(separator: ", ")
-        
-        openingHoursLabel.do {
-            let status = restaurant.checkStoreStatus()
-            $0.text = status.displayText
-            $0.textColor = status.textColor
-        }
-        
+        let holidayIndex = CustomFormatterManager.shared.weekdayString(from: restaurant.closedDays) ?? -1
+        scheduleView.updateSchedule(businessHours: restaurant.businessHours, holidayIndex: holidayIndex - 1)
+    }
+    
+    private func configureButtons(_ restaurant: Restaurant) {
         visitButton.configureWithRestaurant(restaurant: restaurant)
         favoriteButton.configureWithRestaurant(restaurant: restaurant)
+    }
+    
+    private func configureYouTubeVisibility(_ restaurant: Restaurant) {
+        let hasYouTube = restaurant.youtubeId != nil
+        storeInfo.menusToolLabel.isNoYoutube(isValid: !hasYouTube)
+    }
+    
+    // MARK: - Sheet State Management
+    private func updateSheetState() {
+        guard let sheet = sheetPresentationController else { return }
+        let newState: SheetState = sheet.selectedDetentIdentifier == .medium ? .medium : .large
+        currentSheetState = newState
+    }
+    
+    private func updateLayoutForSheetState() {
+        let isMedium = currentSheetState == .medium
         
-        let holidyIndes = CustomFormatterManager.shared.weekdayString(from: restaurant.closedDays) ?? -1
-        print("holidyIndes: \(holidyIndes)")
-        scheduleView.updateSchedule(businessHours: restaurant.businessHours, holidayIndex: holidyIndes-1)
+        // UI 요소 표시/숨김
+        [dismissButton, storeInfo.menusToolLabel, storeInfo.menusLabel].forEach {
+            $0.isHidden = isMedium
+        }
         
-        nearWeatherLabel.text = "🌡️ 현재 근처 날씨: " + "맑음"
+        let hasYouTube = viewModel.restaurantInfo.youtubeId != nil
+        youtubeViews.container.isHidden = isMedium || !hasYouTube
         
-        if let sheet = self.sheetPresentationController {
-            let isCustomSmall = sheet.selectedDetentIdentifier == .medium
-            switchLayout(isCustomSmall: isCustomSmall)
+        updateConstraintsForSheetState(isMedium: isMedium, hasYouTube: hasYouTube)
+    }
+    
+    private func updateConstraintsForSheetState(isMedium: Bool, hasYouTube: Bool) {
+        if isMedium {
+            setupMediumStateConstraints()
+        } else {
+            setupLargeStateConstraints(hasYouTube: hasYouTube)
+        }
+    }
+    
+    private func setupMediumStateConstraints() {
+        favoriteButton.snp.remakeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide).inset(20)
+            $0.trailing.equalTo(view.safeAreaLayoutGuide).inset(20)
+            $0.size.equalTo(36)
+        }
+        
+        storeInfo.nameLabel.snp.remakeConstraints {
+            $0.bottom.equalTo(favoriteButton.snp.bottom)
+            $0.leading.equalTo(view.safeAreaLayoutGuide).inset(20)
+        }
+        
+        storeInfo.categoryLabel.snp.remakeConstraints {
+            $0.bottom.equalTo(storeInfo.nameLabel.snp.bottom)
+            $0.leading.equalTo(storeInfo.nameLabel.snp.trailing).offset(10)
+            $0.trailing.lessThanOrEqualTo(visitButton.snp.leading).offset(-10)
+            $0.width.greaterThanOrEqualTo(30).priority(.required)
+        }
+        
+        youtubeViews.container.snp.remakeConstraints {
+            $0.top.equalTo(scheduleView.snp.bottom).offset(30)
+            $0.horizontalEdges.equalToSuperview().inset(20)
+            $0.height.equalTo(0)
+        }
+    }
+    
+    private func setupLargeStateConstraints(hasYouTube: Bool) {
+        favoriteButton.snp.remakeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide).inset(20)
+            $0.trailing.equalTo(dismissButton.snp.leading).offset(-10)
+            $0.size.equalTo(36)
+        }
+        
+        storeInfo.nameLabel.snp.remakeConstraints {
+            $0.top.equalTo(favoriteButton.snp.bottom).offset(14)
+            $0.leading.equalTo(view.safeAreaLayoutGuide).inset(20)
+        }
+        
+        storeInfo.categoryLabel.snp.remakeConstraints {
+            $0.bottom.equalTo(storeInfo.nameLabel.snp.bottom)
+            $0.leading.equalTo(storeInfo.nameLabel.snp.trailing).offset(10)
+            $0.trailing.lessThanOrEqualTo(view.safeAreaLayoutGuide).inset(20)
+            $0.width.greaterThanOrEqualTo(30).priority(.required)
+        }
+        
+        if hasYouTube {
+            youtubeViews.container.snp.remakeConstraints {
+                $0.top.equalTo(scheduleView.snp.bottom).offset(30)
+                $0.horizontalEdges.equalToSuperview().inset(20)
+                $0.height.equalTo(youtubeViews.container.snp.width).multipliedBy(9.0/16.0)
+            }
+            
+            setupMenusConstraintsForLargeState()
+        }
+    }
+    
+    private func setupMenusConstraintsForLargeState() {
+        storeInfo.menusToolLabel.snp.remakeConstraints {
+            $0.top.equalTo(youtubeViews.container.snp.bottom).offset(10)
+            $0.leading.equalTo(youtubeViews.container.snp.leading)
+            $0.width.equalTo(150)
+        }
+        
+        storeInfo.menusLabel.snp.remakeConstraints {
+            $0.top.equalTo(storeInfo.menusToolLabel.snp.top).offset(4)
+            $0.leading.equalTo(storeInfo.menusToolLabel.snp.trailing)
+            $0.trailing.equalTo(view.safeAreaLayoutGuide).inset(20)
         }
     }
     
     @objc
-    private func handleStoreInfoLabelTap(_ gesture: UITapGestureRecognizer) {
-        guard gesture.state == .ended else { return }
-        guard let phoneNumber = storeNumberLabel.text else { return }
-        if storeNumberLabel.text == "등록된 연락처가 없습니다." { return }
-        
-        
-        if phoneNumber != "등록된 연락처가 없습니다." && !phoneNumber.isEmpty {
-            makePhoneCall(phoneNumber: phoneNumber)
-        } else {
-            print("전화번호 정보가 없거나 유효하지 않습니다.")
-            let alert = UIAlertManager.shared.showAlert(title: "통화 연결 실패", message: "연락처 정보가 없습니다.")
-            present(alert, animated: true)
+    private func handlePhoneNumberTap() {
+        guard let phoneNumber = storeInfo.numberLabel.text,
+              phoneNumber != "등록된 연락처가 없습니다.",
+              !phoneNumber.isEmpty else {
+            showAlert(title: "통화 연결 실패", message: "연락처 정보가 없습니다.")
+            return
         }
+        
+        makePhoneCall(phoneNumber: phoneNumber)
     }
     
     private func makePhoneCall(phoneNumber: String) {
         let cleanedPhoneNumber = phoneNumber.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
         
-        guard let phoneUrl = URL(string: "telprompt://\(cleanedPhoneNumber)") else {
-            print("🚨 유효하지 않은 전화번호 URL 형식입니다.")
-            
-            let alert = UIAlertManager.shared.showAlert(title: "통화 연결 실패", message: "전화번호 형식이 올바르지 않습니다.")
-            present(alert, animated: true)
+        guard let phoneUrl = URL(string: "telprompt://\(cleanedPhoneNumber)"),
+              UIApplication.shared.canOpenURL(phoneUrl) else {
+            showAlert(title: "통화 연결 실패", message: "전화번호 형식이 올바르지 않거나 통화가 불가능합니다.")
             return
         }
         
-        if UIApplication.shared.canOpenURL(phoneUrl) {
-            UIApplication.shared.open(phoneUrl, options: [:], completionHandler: nil)
-        } else {
-            print("🚨 전화를 걸 수 없습니다. (기기 또는 번호 문제)")
-            let alert = UIAlertManager.shared.showAlert(title: "통화 연결 실패", message: "이 기기에서는 전화를 걸 수 없거나 번호에 문제가 있습니다.")
-            present(alert, animated: true)
-        }
+        UIApplication.shared.open(phoneUrl)
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        // 뷰가 사라질 때 onDismiss 호출
-        if isBeingDismissed {
-            onDismiss?()
-        }
+    private func showAlert(title: String, message: String) {
+        let alert = UIAlertManager.shared.showAlert(title: title, message: message)
+        present(alert, animated: true)
     }
-    
 }
 
-extension DetailViewController {
-    
-    private func setSheet() {
-        if let sheet = self.sheetPresentationController {
-            sheet.selectedDetentIdentifier = .medium
-            sheet.largestUndimmedDetentIdentifier = .medium
-            sheet.detents = [.medium(), .large()]
-            sheet.prefersGrabberVisible = true
-            sheet.preferredCornerRadius = 20
-            sheet.delegate = self
-        }
-    }
-    
-    private func bind() {
-        let input = DetailViewModel.Input(dismissTapped: dismissButton.rx.tap)
-        
-        let output = viewModel.transform(input: input)
-        
-        [favoriteButton, visitButton].forEach { [weak self] i in
-            i.onChangeState = {
-                self?.onChangeState?()
-            }
-        }
-        
-        output.dismissTrigger
-            .drive(with: self) { owner, _ in
-                owner.dismiss(animated: true)
-            }.disposed(by: disposeBag)
-        
-        output.restaurantInfo
-            .drive(with: self) { owner, restaurant in
-                owner.configureDetailView(restaurant: restaurant)
-            }.disposed(by: disposeBag)
-        
-        output.youtubeInfo
-            .drive(with: self) { owner, videoId in
-                if let videoId, !videoId.isEmpty {
-                    Task {
-                        do {
-                            try await owner.playerViewController.player.load(source: .video(id: videoId))
-                            
-                        } catch {
-                            print("비디오 로드 실패: \(error)")
-                        }
-                        try await owner.playerViewController.player.stop()
-                    }
-                }
-            }.disposed(by: disposeBag)
-        
-        let stateObservable: Observable<YouTubePlayer.State> = viewModel.youtubePlayer.statePublisher.asObservable()
-        
-        stateObservable
-            .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] state in
-                guard let self = self else { return }
-                print("Player state changed (Rx): \(state)")
-                switch state {
-                case .idle:
-                    print("로딩 중")
-                    self.loadingIndicator.startAnimating()
-                    self.playerViewController.view.isHidden = true
-                case .ready:
-                    print("준비 완료")
-                    self.loadingIndicator.stopAnimating()
-                    self.playerViewController.view.isHidden = false
-                case .error(let error):
-                    print("Player error (Rx): \(error)")
-                    self.loadingIndicator.stopAnimating()
-                    self.playerViewController.view.isHidden = false
-                }
-            })
-            .disposed(by: disposeBag)
-    }
-    
-    private func switchLayout(isCustomSmall: Bool) {
-        print("isCustomSmall: \(isCustomSmall)")
-        
-        [dismissButton, menusToolLabel, menusLabel].forEach { i in
-            i.isHidden = isCustomSmall
-        }
-        youtubePlayerContainer.isHidden = isCustomSmall || isNoYoutube
-        
-        
-        if isCustomSmall {
-            favoriteButton.snp.remakeConstraints {
-                $0.top.equalTo(view.safeAreaLayoutGuide).inset(20)
-                $0.trailing.equalTo(view.safeAreaLayoutGuide).inset(20)
-                $0.size.equalTo(36)
-            }
-            
-            storeNameLabel.snp.remakeConstraints {
-                $0.bottom.equalTo(favoriteButton.snp.bottom)
-                $0.leading.equalTo(view.safeAreaLayoutGuide).inset(20)
-            }
-
-            categoryLabel.snp.remakeConstraints {
-                $0.bottom.equalTo(storeNameLabel.snp.bottom)
-                $0.leading.equalTo(storeNameLabel.snp.trailing).offset(10)
-                $0.trailing.lessThanOrEqualTo(visitButton.snp.leading).offset(-10)
-                $0.width.greaterThanOrEqualTo(30).priority(.required)
-            }
-            
-            youtubePlayerContainer.snp.remakeConstraints {
-                $0.top.equalTo(menusLabel.snp.bottom).offset(20)
-                $0.horizontalEdges.equalToSuperview().inset(20)
-                $0.height.equalTo(0)
-            }
-        } else {
-            favoriteButton.snp.remakeConstraints {
-                $0.top.equalTo(view.safeAreaLayoutGuide).inset(20)
-                $0.trailing.equalTo(dismissButton.snp.leading).offset(-10)
-                $0.size.equalTo(36)
-            }
-            
-            storeNameLabel.snp.remakeConstraints {
-                $0.top.equalTo(favoriteButton.snp.bottom).offset(14)
-                $0.leading.equalTo(view.safeAreaLayoutGuide).inset(20)
-            }
-
-            categoryLabel.snp.remakeConstraints {
-                $0.bottom.equalTo(storeNameLabel.snp.bottom)
-                $0.leading.equalTo(storeNameLabel.snp.trailing).offset(10)
-                $0.trailing.lessThanOrEqualTo(view.safeAreaLayoutGuide).inset(20)
-                $0.width.greaterThanOrEqualTo(30).priority(.required)
-            }
-            
-            if !isNoYoutube {
-                youtubePlayerContainer.snp.remakeConstraints {
-                    $0.top.equalTo(menusLabel.snp.bottom).offset(10)
-                    $0.horizontalEdges.equalToSuperview().inset(20)
-                    $0.height.equalTo(youtubePlayerContainer.snp.width).multipliedBy(9.0/16.0)
-                }
-            }
-        }
-    }
-    
-}
-
+// MARK: - UISheetPresentationControllerDelegate
 extension DetailViewController: UISheetPresentationControllerDelegate {
-    
     func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
-        print("DetailViewController dismissed.")
         onDismiss?()
     }
-    
 }
