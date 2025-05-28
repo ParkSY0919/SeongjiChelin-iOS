@@ -317,10 +317,22 @@ final class DetailViewController: BaseViewController {
     // MARK: - Setup Methods
     private func setupSheet() {
         guard let sheet = sheetPresentationController else { return }
-        sheet.selectedDetentIdentifier = .medium
-        sheet.largestUndimmedDetentIdentifier = .medium
-        sheet.detents = [.medium(), .large()]
-        sheet.prefersGrabberVisible = true
+        
+        if viewModel.restaurantInfo.themeType == .psyTheme {
+            print("주인장 테마")
+            // 주인장 테마일 때는 medium 고정
+            sheet.selectedDetentIdentifier = .medium
+            sheet.largestUndimmedDetentIdentifier = .medium
+            sheet.detents = [.medium()]
+            sheet.prefersGrabberVisible = false
+        } else {
+            // 일반 테마일 때는 기존 동작
+            sheet.selectedDetentIdentifier = .medium
+            sheet.largestUndimmedDetentIdentifier = .medium
+            sheet.detents = [.medium(), .large()]
+            sheet.prefersGrabberVisible = true
+        }
+        
         sheet.preferredCornerRadius = 20
         sheet.delegate = self
     }
