@@ -64,7 +64,6 @@ final class SJStoreInfoBaseLabelView: UIView {
     
     private func setLayout() {
         self.snp.makeConstraints {
-            //TODO: 추후 동적 값으로 수정
             $0.width.equalTo(150)
         }
         
