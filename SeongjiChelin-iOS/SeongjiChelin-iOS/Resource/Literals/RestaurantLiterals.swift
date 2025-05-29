@@ -885,6 +885,7 @@ extension Restaurant {
         case closed(openTime: String)
         case breakTime(openTime: String)
         case holidayClosed
+        case allTimeOpen
         
         var displayText: String {
             switch self {
@@ -896,12 +897,14 @@ extension Restaurant {
                 return "휴무일"
             case .breakTime(let openTime):
                 return "브레이크 타임 \(openTime)에 영업재개"
+            case .allTimeOpen:
+                return "24시간 영업"
             }
         }
         
         var textColor: UIColor {
             switch self {
-            case .open:
+            case .open, .allTimeOpen:
                 return .영업중
             case .closed:
                 return .영업종료
@@ -932,6 +935,10 @@ extension Restaurant {
         // 3. 휴무일인 경우
         if todayHoursStr == "휴무" {
             return .holidayClosed
+        }
+        
+        if todayHoursStr == "00:00 - 24:00" {
+            return .allTimeOpen
         }
         
         // 4. 영업시간 파싱
