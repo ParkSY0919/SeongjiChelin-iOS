@@ -9,7 +9,7 @@
 > 💡 About 성지슐랭
 >
 > - 서비스 소개
->   - 인플루언서와 앱 개발자 추천 맛집을 지도로 탐색하고, 방문과 찜한 곳을 관리하는 서비스 앱입니다.
+>   - 맛집 유튜버와 '성지슐랭' 개발자의 추천 맛집들을 둘러볼 수 있는 서비스 앱
 > - 개발 인원
 >   - 1인 프로젝트
 > - 개발 기간
@@ -32,33 +32,37 @@
 <br>
 
 ## 🍚 주요 화면
-|   온보딩   |   사용법   |   홈(맵)   |   홈(리스트)   |
-| :-------------: | :-------------: | :-------------: | :-------------: |
-| <img src = "https://github.com/user-attachments/assets/a5eea9f1-e0d0-4870-b4c3-4cf8601b038b" width ="160">| <img src = "https://github.com/user-attachments/assets/7a2eb3cb-eec1-4b45-9f1f-02563f1d8862" width ="160">| <img src = "https://github.com/user-attachments/assets/691326bc-4f20-41a5-bf29-26fea9132949" width ="160">| <img src = "https://github.com/user-attachments/assets/22f9cdf6-8f11-4777-ab9b-53ed03ee0186" width ="160">|
 
-|   정보 수정 신고   |   상세보기(개발자 맛집)   |   상세보기(인플루언서 맛집)   |   나만의 식당   |
-| :-------------: | :-------------: | :-------------: | :-------------: |
-| <img src = "https://github.com/user-attachments/assets/c94978ea-fea3-4032-8eae-f68229ec94bf" width ="160">| <img src = "https://github.com/user-attachments/assets/10840e91-59b6-4fed-a575-935d91dfd613" width ="160">| <img src = "https://github.com/user-attachments/assets/3fda099f-b1dd-44f4-b3e9-a0d20830d210" width ="160">| <img src = "https://github.com/user-attachments/assets/7310a8af-d59d-46dc-bbc0-264d805388df" width ="160">|
+|                                                   온보딩                                                   |                                                   사용법                                                   |                                                   홈(맵)                                                   |                                                 홈(리스트)                                                 |
+| :--------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------: |
+| <img src = "https://github.com/user-attachments/assets/a5eea9f1-e0d0-4870-b4c3-4cf8601b038b" width ="160"> | <img src = "https://github.com/user-attachments/assets/7a2eb3cb-eec1-4b45-9f1f-02563f1d8862" width ="160"> | <img src = "https://github.com/user-attachments/assets/691326bc-4f20-41a5-bf29-26fea9132949" width ="160"> | <img src = "https://github.com/user-attachments/assets/22f9cdf6-8f11-4777-ab9b-53ed03ee0186" width ="160"> |
 
+|                                               정보 수정 신고                                               |                                           상세보기(개발자 맛집)                                            |                                         상세보기(인플루언서 맛집)                                          |                                                나만의 식당                                                 |
+| :--------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------: |
+| <img src = "https://github.com/user-attachments/assets/c94978ea-fea3-4032-8eae-f68229ec94bf" width ="160"> | <img src = "https://github.com/user-attachments/assets/10840e91-59b6-4fed-a575-935d91dfd613" width ="160"> | <img src = "https://github.com/user-attachments/assets/3fda099f-b1dd-44f4-b3e9-a0d20830d210" width ="160"> | <img src = "https://github.com/user-attachments/assets/7310a8af-d59d-46dc-bbc0-264d805388df" width ="160"> |
 
 <br>
 
 ## 🍚 주요 기능
 
-> 💡 성지슐랭 주요 기능
+> ### 맛집 탐색 기능
 >
 > - 구글 맵 기반 맛집 위치 표시 및 탐색
-> - 테마별 맛집 필터링 (PSY(개발자), 성시경, 최자로드, 홍석천이원일 등)
-> - 지도/리스트 기반 인터페이스 전환 기능
-> - 맛집 상세 정보 및 전화 연결 기능
-> - 맛집 검색 기능
-> - 방문 및 즐겨찾기 맛집 저장, 관리
-> - 온보딩 화면을 통한 앱 사용법 안내 및 맛집 정보 수정 신고 기능
+> - 지도/리스트 뷰 전환으로 사용자 선호에 따른 탐색 지원
+>
+> ### 맛집 관리 기능
+>
+> - 맛집 방문 및 즐겨찾기 등록으로 개인화된 맛집 리스트 구성
+> - 온보딩을 통한 앱 사용법 안내 및 정보 수정 신고
+>
+> ### 맛집 필터링 및 정보 기능
+>
+> - 테마별 맛집 필터링 [psy(개발자), 성시경 등 6개 테마]
+> - 맛집 상베 정보 및 영업시간 확인과 유튜브 리뷰 영상 연동
 
 <br>
 
-
-## 🍚 기술 스택 및 내용
+## 🍚 기술 스택
 
 > Framework: `UIKit`, `CoreLocation`
 >
@@ -68,14 +72,23 @@
 >
 > Reactive Programming: `RxSwift`
 >
-> Library: `Alamofire`, `GoogleMaps`, `RealmSwift`, `SideMenu`, `SnapKit`, `Then`, `YouTubePlayerKit` ..
+> Library: `Alamofire`, `GoogleMaps`, `RealmSwift`, `SideMenu`, `SnapKit`, `Then`, `YouTubePlayerKit`
 
-- ViewModel과 Input/Output 패턴으로 테마별 필터링 및 지도/리스트 뷰 전환 시 복잡한 상태를 효율적으로 관리하고, 단방향 데이터 흐름을 구성하여 안정성을 확보했습니다.
-- 지도 위에 테마별 맛집 위치를 표시하고 지도/리스트 뷰 간 전환 기능을 구현하여 사용자가 원하는 방식으로 맛집을 탐색할 수 있도록 했습니다.
-- RestaurantRepository를 통해 Realm 데이터 접근 및 테마별 맛집 필터링 로직을 캡슐화하여 비즈니스 로직과 데이터 접근 로직을 분리했습니다.
-- RealmSwift를 활용해 사용자별 '방문', '즐겨찾기', '평점' 데이터를 효율적으로 저장 및 관리하고, 복잡한 테마별 맛집 데이터 필터링을 구현했습니다.
-- CustomMarkerView, SJStoreFilterButton 등 커스텀 컴포넌트를 개발하여 유튜버 테마별 시각적 아이덴티티를 일관되게 적용하고 사용자 경험을 향상시켰습니다.
-- 커스텀 마커 개발을 통한 시각화와 시트 표시 시, adjustCameraForMarker 함수로 마커의 가려짐 여부를 판별하여 카메라를 동적 조정했습니다. 마커 선택 시 동작하는 애니메이션과 GMSMapView 연동으로 사용자 인터랙션과 UX를 향상시켰습니다.
-- YouTubePlayerKit과 RxCombine을 활용해 YouTubePlayer 상태를 반응형 스트림으로 관리하고, BehaviorRelay와 Driver로 UI와 비디오 상태를 실시간 동기화하였으며, 로딩 상태와 에러 처리를 반영해 사용자 경험을 향상시켰습니다.
+## 🍚 사용 기술 내용
 
-<br>
+### 구조 관련 고려사항
+
+- 지도/리스트 뷰 전환과 다중 필터 적용 시 발생하는 복잡한 상태 변화를 체계적으로 관리하기 위해 ViewModel과 Input/Output 패턴을 도입했고, 사용자 액션을 Input으로, UI 상태를 Output으로 명확히 분리하여 단방향 데이터 흐름을 구축함으로써 상태 예측 가능성과 디버깅 효율성을 향상시켰습니다.
+- 식당 마스터 데이터(Restaurant)와 사용자별 활동 데이터(RestaurantTable)를 분리하되, 효율적인 조인 연산을 위해 RestaurantBridge 중간 테이블을 도입했으며, LinkingObjects를 활용한 역방향 참조로 사용자별 데이터 접근을 최적화했고, 더불어 복합 필터링 쿼리에서 자주 사용되는 themePrefix와 category 필드에 인덱싱을 적용하여 복합 필터링 쿼리 성능을 향상시켰습니다.
+- 화면 전환 로직이 복잡해지면서 View Controller 간 의존성이 증가하는 문제를 해결하기 위해 Coordinator 패턴을 도입했고, 각 화면의 네비게이션 플로우를 전담하는 Coordinator 클래스(HomeCoordinator 등)를 구현하여 View Controller는 화면 표시에만 집중하고 화면 전환은 Coordinator가 관리하도록 책임을 명확히 분리했습니다. Child Coordinator 관리 시스템으로 메모리 누수를 방지하면서도, 새로운 화면 플로우 추가나 기존 플로우 수정 시 View Controller 코드 변경 없이 Coordinator만 수정하면 되는 유연한 구조를 구축했습니다.
+
+### 기능 관련 고려사항
+
+- 사용자의 탐색 패턴을 고려하여 지도 뷰에서는 위치 기반의 직관적 탐색을, 리스트 뷰에서는 상세 정보 기반의 체계적 탐색을 제공하도록 설계했으며, 두 뷰 간 전환 시 선택된 필터를 유지하여 컨텍스트가 끊기지 않는 매끄러운 사용자 경험을 구현했습니다.
+- 하단 시트가 마커를 가리는 UX 문제를 해결하기 위해 마커의 스크린 좌표와 시트 높이를 실시간으로 계산하는 adjustCameraForMarker 로직을 구현했고, GMSMapView의 animate(with:) 메서드와 GMSCameraUpdate를 활용해 자연스러운 카메라 이동을 구현함으로써 정보 가시성과 지도 조작의 연속성을 모두 확보했습니다.
+- YouTube 영상 재생 시 발생하는 다양한 상태(로딩, 재생, 일시정지, 에러)를 BehaviorRelay로 추적하고, 이를 Driver로 변환하여 UI 업데이트의 안정성을 보장했으며, 네트워크 불안정 상황에서의 에러 핸들링과 재시도 로직을 구현하여 끊김 없는 영상 시청 경험을 제공했습니다.
+
+### 기타 고려사항
+
+- 성지슐랭의 아이덴티티 구현을 위해 테마별 고유한 색상과 아이콘을 일관되게 적용하고자 커스텀 컴포넌트를 설계했고, CustomMarkerView에서는 선택 시 1.3배 스케일 애니메이션과 그림자 효과를 적용하여 시각적 계층구조를 명확히 표시했으며, SJStoreFilterButton에서는 ConfigurationUpdateHandler를 활용해 선택 상태에 따른 테마 컬러 전환과 isUserInteractionEnabled 제어를 통한 중복 탭 방지 로직을 구현함으로써 앱 전체에서 통일된 브랜드 경험을 제공하면서도 안정적인 인터랙션을 보장했습니다.
+  <br>
