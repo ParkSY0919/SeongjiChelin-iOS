@@ -15,13 +15,13 @@ final class AppUpdateChecker {
     
     func checkForUpdate(completion: @escaping (Bool) -> Void) {
         //현재 앱 버전 가져오기
-        guard let currentVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String,
-              let appID = Bundle.main.infoDictionary?["CFBundleIdentifier"] as? String else {
+        guard let currentVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String else {
             completion(false)
             return
         }
         
         //App Store에서 앱 정보 가져오기
+        let appID = Config.appID
         let appStoreURL = "https://itunes.apple.com/lookup?bundleId=\(appID)"
         
         guard let url = URL(string: appStoreURL) else {
@@ -102,8 +102,9 @@ final class AppUpdateChecker {
         
         //업데이트 버튼
         let updateAction = UIAlertAction(title: "업데이트", style: .default) { _ in
-            if let appID = Bundle.main.infoDictionary?["CFBundleIdentifier"] as? String,
-               let url = URL(string: "itms-apps://itunes.apple.com/app/\(appID)") {
+            let appStoreID = Config.appID
+            
+            if let url = URL(string: "itms-apps://itunes.apple.com/app/id\(appStoreID)") {
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
                 
                 //강제 업데이트인 경우 앱 종료
