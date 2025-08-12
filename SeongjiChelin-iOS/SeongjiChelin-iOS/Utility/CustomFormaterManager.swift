@@ -31,15 +31,46 @@ final class CustomFormatterManager {
         return formatter
     }
     
-    // 요일 변환을 위한 메소드 추가
+    // 요일 변환을 위한 메소드 추가 (UI 표시용)
     func weekdayString(from date: Date) -> String? {
         let weekday = Calendar.current.component(.weekday, from: date)
-        let weekdayMap = [1: "월", 2: "화", 3: "수", 4: "목", 5: "금", 6: "토", 7: "일"]
+        let weekdayMap = [
+            1: StringLiterals.shared.sunday,    // 1 = 일요일
+            2: StringLiterals.shared.monday,    // 2 = 월요일  
+            3: StringLiterals.shared.tuesday,   // 3 = 화요일
+            4: StringLiterals.shared.wednesday, // 4 = 수요일
+            5: StringLiterals.shared.thursday,  // 5 = 목요일
+            6: StringLiterals.shared.friday,    // 6 = 금요일
+            7: StringLiterals.shared.saturday   // 7 = 토요일
+        ]
+        return weekdayMap[weekday]
+    }
+    
+    // businessHours 데이터 키를 위한 메소드 추가 (항상 한글)
+    func weekdayDataKey(from date: Date) -> String? {
+        let weekday = Calendar.current.component(.weekday, from: date)
+        let weekdayMap = [
+            1: "일",  // 1 = 일요일
+            2: "월",  // 2 = 월요일
+            3: "화",  // 3 = 화요일
+            4: "수",  // 4 = 수요일
+            5: "목",  // 5 = 목요일
+            6: "금",  // 6 = 금요일
+            7: "토"   // 7 = 토요일
+        ]
         return weekdayMap[weekday]
     }
     
     func weekdayString(from dateString: String) -> Int? {
-        let weekdayMap = ["월": 1, "화": 2, "수": 3, "목": 4, "금": 5, "토": 6, "일": 7]
+        let weekdayMap = [
+            StringLiterals.shared.monday: 1,
+            StringLiterals.shared.tuesday: 2,
+            StringLiterals.shared.wednesday: 3,
+            StringLiterals.shared.thursday: 4,
+            StringLiterals.shared.friday: 5,
+            StringLiterals.shared.saturday: 6,
+            StringLiterals.shared.sunday: 7
+        ]
         return weekdayMap[dateString]
     }
     

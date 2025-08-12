@@ -31,11 +31,11 @@ final class SJStoreInfoBaseLabelView: UIView {
         
         var title: String {
             switch self {
-            case .address: "주소"
-            case .number: "연락처"
-            case .time: "영업 여부"
-            case .video: "영상 속 메뉴"
-            case .parking: "편의시설"
+            case .address: StringLiterals.shared.address
+            case .number: StringLiterals.shared.contact
+            case .time: StringLiterals.shared.businessStatus
+            case .video: StringLiterals.shared.menuInVideo
+            case .parking: StringLiterals.shared.amenities
             }
         }
     }
@@ -94,7 +94,10 @@ final class SJStoreInfoBaseLabelView: UIView {
         titleLabel.setLabelUI(
             type.title,
             font: .seongiFont(.body_bold_12),
-            textColor: .accentPink
+            textColor: .accentPink,
+            numberOfLines: 1,
+            adjustsFontSizeToFitWidth: true,
+            minimumScaleFactor: 0.7
         )
         
         cologneLabel.setLabelUI(
@@ -105,7 +108,15 @@ final class SJStoreInfoBaseLabelView: UIView {
     }
     
     func isNoYoutube(isValid: Bool) {
-        titleLabel.text = isValid ? "추천 메뉴" : type.title
+        let newText = isValid ? StringLiterals.shared.recommendedMenu : type.title
+        titleLabel.setLabelUI(
+            newText,
+            font: .seongiFont(.body_bold_12),
+            textColor: .accentPink,
+            numberOfLines: 1,
+            adjustsFontSizeToFitWidth: true,
+            minimumScaleFactor: 0.7
+        )
         imageView.image = isValid ? ImageLiterals.handThumbsup : type.image
     }
     

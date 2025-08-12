@@ -391,7 +391,7 @@ final class DetailViewController: BaseViewController {
                 try await playerViewController.player.load(source: .video(id: videoId))
                 try await playerViewController.player.stop()
             } catch {
-                print("비디오 로드 실패: \(error)")
+                print("비디오 로드 실패: \(error.localizedDescription)")
             }
         }
     }
@@ -554,21 +554,35 @@ final class DetailViewController: BaseViewController {
     @objc
     private func handlePhoneNumberTap() {
         guard let phoneNumber = storeInfo.numberLabel.text,
-              phoneNumber != "등록된 연락처가 없습니다.",
+              phoneNumber != StringLiterals.shared.noContactInfo,
               !phoneNumber.isEmpty else {
-            showAlert(title: "통화 연결 실패", message: "연락처 정보가 없습니다.")
+            showAlert(title: StringLiterals.shared.callFailedTitle, message: StringLiterals.shared.noContactMessage)
             return
         }
         
         makePhoneCall(phoneNumber: phoneNumber)
     }
     
+    private func isValidPhoneNumber(_ phoneNumber: String) -> Bool {
+        let cleanedNumber = phoneNumber.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
+        return cleanedNumber.count >= 10 && cleanedNumber.count <= 15
+    }
+    
     private func makePhoneCall(phoneNumber: String) {
         let cleanedPhoneNumber = phoneNumber.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
         
-        guard let phoneUrl = URL(string: "telprompt://\(cleanedPhoneNumber)"),
-              UIApplication.shared.canOpenURL(phoneUrl) else {
-            showAlert(title: "통화 연결 실패", message: "전화번호 형식이 올바르지 않거나 통화가 불가능합니다.")
+        guard isValidPhoneNumber(phoneNumber) else {
+            showAlert(title: StringLiterals.shared.callFailedTitle, message: StringLiterals.shared.invalidFormatMessage)
+            return
+        }
+        
+        guard let phoneUrl = URL(string: "telprompt://\(cleanedPhoneNumber)") else {
+            showAlert(title: StringLiterals.shared.callFailedTitle, message: StringLiterals.shared.formatErrorMessage)
+            return
+        }
+        
+        guard UIApplication.shared.canOpenURL(phoneUrl) else {
+            showAlert(title: StringLiterals.shared.callFailedTitle, message: StringLiterals.shared.deviceNotSupportedMessage)
             return
         }
         

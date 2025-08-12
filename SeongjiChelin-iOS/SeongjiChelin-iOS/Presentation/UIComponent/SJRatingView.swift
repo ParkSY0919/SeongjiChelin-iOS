@@ -104,9 +104,13 @@ final class SJRatingView: UIView {
         layer.cornerRadius = 16
         
         titleLabel.do {
-            $0.text = "이 식당은 어떠셨나요?"
-            $0.font = .seongiFont(.title_bold_16)
-            $0.textColor = .text100
+            $0.setMultilingualText(
+                StringLiterals.shared.howWasRestaurant,
+                font: .seongiFont(.title_bold_16),
+                textColor: .text100,
+                alignment: .center,
+                maxLines: 2
+            )
         }
         
         ratingView.do {
@@ -127,13 +131,16 @@ final class SJRatingView: UIView {
             $0.layer.cornerRadius = 8
             $0.font = .seongiFont(.body_regular_14)
             $0.textColor = .text100
-            $0.text = "리뷰를 작성해주세요 (선택사항)"
+            $0.text = StringLiterals.shared.writeReviewPlaceholder
             $0.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
         }
         
         saveButton.do {
-            $0.setTitle("저장하기", for: .normal)
+            $0.setTitle(StringLiterals.shared.save, for: .normal)
             $0.setTitleColor(.bg100, for: .normal)
+            $0.titleLabel?.font = .seongiFont(.body_bold_14)
+            $0.titleLabel?.adjustsFontSizeToFitWidth = true
+            $0.titleLabel?.minimumScaleFactor = 0.8
             $0.backgroundColor = .primary100
             $0.layer.cornerRadius = 8
         }
@@ -158,7 +165,7 @@ final class SJRatingView: UIView {
                 guard let self = self, let restaurant = self.restaurantInfo else { return }
                 
                 let currentRating = Double(self.starButtons.filter { $0.isSelected }.count)
-                let reviewText = self.reviewTextView.text == "리뷰를 작성해주세요 (선택사항)" ? nil : self.reviewTextView.text
+                let reviewText = self.reviewTextView.text == StringLiterals.shared.writeReviewPlaceholder ? nil : self.reviewTextView.text
                 
                 // 리뷰 및 평점 저장
                 

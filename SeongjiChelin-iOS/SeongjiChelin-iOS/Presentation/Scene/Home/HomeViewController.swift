@@ -196,7 +196,7 @@ final class HomeViewController: BaseViewController {
         }
         
         searchTextField.do {
-            $0.placeholder = "식당, 주소 등을 입력해주세요."
+            $0.placeholder = StringLiterals.shared.searchPlaceholder
             $0.textAlignment = .left
         }
     }
@@ -325,10 +325,10 @@ private extension HomeViewController {
             let buttonStateHandler: UIButton.ConfigurationUpdateHandler = { button in
                 switch button.state {
                 case .normal:
-                    button.configuration?.title = "리스트"
+                    button.configuration?.title = StringLiterals.shared.listView
                     button.configuration?.image = ImageLiterals.listStar
                 case .selected:
-                    button.configuration?.title = "지도"
+                    button.configuration?.title = StringLiterals.shared.mapView
                     button.configuration?.image = ImageLiterals.map
                 default:
                     return

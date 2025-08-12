@@ -22,13 +22,13 @@ enum SJFilterType {
     var title: String {
         switch self {
         case .all:
-            return "전체"
+            return StringLiterals.shared.all
         case .visited:
-            return "방문한 곳"
+            return StringLiterals.shared.visited
         case .favorite:
-            return "저장한 곳"
+            return StringLiterals.shared.saved
         case .rated:
-            return "리뷰남긴 곳"
+            return StringLiterals.shared.reviewed
         }
     }
     
@@ -74,6 +74,11 @@ final class SJFilterView: UIView {
                 outgoing.foregroundColor = .text100
                 return outgoing
             }
+            
+            // 다국어 텍스트 길이 대응
+            config.titleLineBreakMode = .byTruncatingTail
+            button.titleLabel?.adjustsFontSizeToFitWidth = true
+            button.titleLabel?.minimumScaleFactor = 0.7
             config.baseForegroundColor = .primary100
             config.imagePadding = 3
             config.cornerStyle = .capsule

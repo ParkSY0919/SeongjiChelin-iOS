@@ -87,7 +87,7 @@ final class MyRestaurantViewController: BaseViewController {
         view.backgroundColor = .bg150
         
         titleLabel.do {
-            $0.text = "나만의 식당"
+            $0.text = StringLiterals.shared.myRestaurants
             $0.font = .seongiFont(.title_bold_20)
             $0.textColor = .text100
         }

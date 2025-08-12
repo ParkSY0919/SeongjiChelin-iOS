@@ -99,7 +99,7 @@ final class SearchViewController: BaseViewController {
         }
         
         navTextField.do {
-            $0.placeholder = "식당, 주소 등을 입력해주세요."
+            $0.placeholder = StringLiterals.shared.searchPlaceholder
             $0.font = .seongiFont(.body_regular_14)
             $0.textColor = .text200
             $0.textAlignment = .left

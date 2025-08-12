@@ -26,7 +26,11 @@ final class MenuViewModel: ViewModelProtocol {
         let infoLabelTrigger: Driver<UITapGestureRecognizer>
     }
 
-    private let menuItemsRelay = BehaviorRelay<[String]>(value: ["홈", "나만의 식당", "사용법"])
+    private let menuItemsRelay = BehaviorRelay<[String]>(value: [
+        StringLiterals.shared.home, 
+        StringLiterals.shared.myRestaurants, 
+        StringLiterals.shared.howToUse
+    ])
 
     func transform(input: Input) -> Output {
         let menuItemsDriver = menuItemsRelay.asDriver()

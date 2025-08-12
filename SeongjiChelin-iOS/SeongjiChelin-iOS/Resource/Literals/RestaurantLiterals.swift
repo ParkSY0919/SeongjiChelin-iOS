@@ -128,7 +128,7 @@ struct RestaurantLiterals {
                     "목": "11:30 - 20:35",
                     "금": "11:30 - 20:35",
                     "토": "11:30 - 20:35",
-                    "일": "휴무"
+                    "일": StringLiterals.shared.closed
                 ],
                 amenities: "주차 X / 화장실 O",
                 latitude: 37.5929970946678,
@@ -164,13 +164,13 @@ struct RestaurantLiterals {
                 storeID: "psyTheme_훗카이도 부타동 스미레",
                 name: "훗카이도 부타동 스미레",
                 category: "일식",
-                number: "등록된 연락처가 없습니다.",
+                number: StringLiterals.shared.noContactInfo,
                 address: "서울특별시 서대문구 연세로4길 61",
                 menus: ["삼겹 부타동"],
                 closedDays: "월",
                 breakTime: "14:30 - 17:00",
                 businessHours: [
-                    "월": "휴무",
+                    "월": StringLiterals.shared.closed,
                     "화": "11:30 - 20:00",
                     "수": "11:30 - 20:00",
                     "목": "11:30 - 20:00",
@@ -218,7 +218,7 @@ struct RestaurantLiterals {
                 closedDays: "월",
                 breakTime: nil,
                 businessHours: [
-                    "월": "휴무",
+                    "월": StringLiterals.shared.closed,
                     "화": "16:00 - 00:00",
                     "수": "16:00 - 00:00",
                     "목": "16:00 - 00:00",
@@ -304,7 +304,7 @@ struct RestaurantLiterals {
                     "목": "11:00 - 15:30",
                     "금": "11:00 - 15:30",
                     "토": "11:00 - 15:30",
-                    "일": "휴무"
+                    "일": StringLiterals.shared.closed
                 ],
                 amenities: "주차 X / 화장실 O",
                 latitude: 38.1953880677414,
@@ -316,7 +316,7 @@ struct RestaurantLiterals {
                 storeID: "sungSiKyungTheme_먹거리집",
                 name: "먹거리집",
                 category: "한식",
-                number: "등록된 연락처가 없습니다.",
+                number: StringLiterals.shared.noContactInfo,
                 address: "서울 중랑구 면목로91길 8 1층",
                 menus: ["수육", "내장", "제육볶음", "순대국"],
                 closedDays: "",
@@ -373,7 +373,7 @@ struct RestaurantLiterals {
                     "월": "09:00 - 20:00",
                     "화": "09:00 - 20:00",
                     "수": "09:00 - 20:00",
-                    "목": "휴무",
+                    "목": StringLiterals.shared.closed,
                     "금": "09:00 - 20:00",
                     "토": "09:00 - 20:00",
                     "일": "09:00 - 20:00"
@@ -388,7 +388,7 @@ struct RestaurantLiterals {
                 storeID: "sungSiKyungTheme_충북 원조 순대국밥",
                 name: "충북 원조 순대국밥",
                 category: "한식",
-                number: "등록된 연락처가 없습니다.",
+                number: StringLiterals.shared.noContactInfo,
                 address: "서울 동작구 서달로14길 16 1층",
                 menus: ["막창전골", "순대"],
                 closedDays: "",
@@ -480,7 +480,7 @@ struct RestaurantLiterals {
                     "목": "15:30 - 24:00",
                     "금": "15:30 - 24:00",
                     "토": "15:30 - 24:00",
-                    "일": "휴무"
+                    "일": StringLiterals.shared.closed
                 ],
                 amenities: "주차 x / 화장실 O",
                 latitude: 35.885531706055,
@@ -504,7 +504,7 @@ struct RestaurantLiterals {
                     "목": "10:30 - 20:00",
                     "금": "10:30 - 20:00",
                     "토": "10:30 - 20:00",
-                    "일": "휴무"
+                    "일": StringLiterals.shared.closed
                 ],
                 amenities: "주차 x / 화장실 O",
                 latitude: 36.9734239530015,
@@ -552,7 +552,7 @@ struct RestaurantLiterals {
                     "목": "11:30 - 21:00",
                     "금": "11:30 - 21:00",
                     "토": "11:30 - 21:30",
-                    "일": "휴무"
+                    "일": StringLiterals.shared.closed
                 ],
                 amenities: "주차 x / 화장실 O",
                 latitude: 37.5544519990868,
@@ -584,7 +584,7 @@ struct RestaurantLiterals {
                     "목": "17:00 - 01:00",
                     "금": "17:00 - 01:00",
                     "토": "17:00 - 01:00",
-                    "일": "휴무"
+                    "일": StringLiterals.shared.closed
                 ],
                 amenities: "주차 x / 화장실 O",
                 latitude: 37.5425431587763,
@@ -603,7 +603,7 @@ struct RestaurantLiterals {
                 breakTime: nil,
                 businessHours: [
                     "월": "16:00 - 22:00",
-                    "화": "휴무",
+                    "화": StringLiterals.shared.closed,
                     "수": "16:00 - 22:00",
                     "목": "16:00 - 22:00",
                     "금": "16:00 - 22:00",
@@ -632,7 +632,7 @@ struct RestaurantLiterals {
                     "목": "10:00 - 22:00",
                     "금": "10:00 - 22:00",
                     "토": "10:00 - 22:00",
-                    "일": "휴무"
+                    "일": StringLiterals.shared.closed
                 ],
                 amenities: "주차 x / 화장실 O",
                 latitude: 37.5686824540468,
@@ -688,7 +688,7 @@ struct RestaurantLiterals {
                     "목": "11:30 - 24:00",
                     "금": "11:30 - 24:00",
                     "토": "11:30 - 24:00",
-                    "일": "휴무"
+                    "일": StringLiterals.shared.closed
                 ],
                 amenities: "주차 x / 화장실 O",
                 latitude: 37.5353741059467,
@@ -712,7 +712,7 @@ struct RestaurantLiterals {
                     "목": "10:00 - 20:00",
                     "금": "10:00 - 20:00",
                     "토": "10:00 - 20:00",
-                    "일": "휴무"
+                    "일": StringLiterals.shared.closed
                 ],
                 amenities: "주차 O / 화장실 O",
                 latitude: 37.5207908297398,
@@ -811,7 +811,7 @@ struct RestaurantLiterals {
                 breakTime: nil,
                 businessHours: [
                     "월": "11:00 - 18:00",
-                    "화": "휴무",
+                    "화": StringLiterals.shared.closed,
                     "수": "11:00 - 18:00",
                     "목": "11:00 - 18:00",
                     "금": "11:00 - 18:00",
@@ -840,7 +840,7 @@ struct RestaurantLiterals {
                     "목": "17:00 - 22:00",
                     "금": "17:00 - 22:00",
                     "토": "11:00 - 22:30",
-                    "일": "휴무"
+                    "일": StringLiterals.shared.closed
                 ],
                 amenities: "주차 x / 화장실 O",
                 latitude: 36.973723104947,
@@ -890,15 +890,15 @@ extension Restaurant {
         var displayText: String {
             switch self {
             case .open(let closeTime):
-                return "영업 중 \(closeTime)에 영업종료"
+                return "금일 \(closeTime)까지 영업"
             case .closed(let openTime):
-                return "영업 종료 \(openTime)에 영업시작"
+                return "금일 종료: \(openTime) 오픈"
             case .holidayClosed:
-                return "휴무일"
+                return StringLiterals.shared.holidayClosedStatus
             case .breakTime(let openTime):
-                return "브레이크 타임 \(openTime)에 영업재개"
+                return "브레이크타임: (\(openTime) 재오픈)"
             case .allTimeOpen:
-                return "24시간 영업"
+                return StringLiterals.shared.allTimeOpen
             }
         }
         
@@ -923,7 +923,7 @@ extension Restaurant {
         
         // 1. 현재 요일과 시간 확인
         let today = Date()
-        guard let todayWeekday = formatterManager.weekdayString(from: today) else {
+        guard let todayWeekday = formatterManager.weekdayDataKey(from: today) else {
             return .closed(openTime: "")
         }
         
@@ -933,7 +933,7 @@ extension Restaurant {
         }
         
         // 3. 휴무일인 경우
-        if todayHoursStr == "휴무" {
+        if todayHoursStr == StringLiterals.shared.closed {
             return .holidayClosed
         }
         

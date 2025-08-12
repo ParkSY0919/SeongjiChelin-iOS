@@ -129,10 +129,12 @@ final class MenuViewController: BaseViewController {
         }
         
         infoSuggestCorrectionLabel.do {
-            $0.setLabelUI(
-                "정보 수정 신고",
+            $0.setMultilingualText(
+                StringLiterals.shared.reportCorrection,
                 font: .seongiFont(.body_black_14),
-                textColor: .primary200.withAlphaComponent(0.6)
+                textColor: .primary200.withAlphaComponent(0.6),
+                alignment: .center,
+                maxLines: 2
             )
             $0.addGestureRecognizer(labelTapGesture)
             $0.isUserInteractionEnabled = true
@@ -173,9 +175,9 @@ final class MenuViewController: BaseViewController {
         output.infoLabelTrigger
             .drive(with: self, onNext: { owner, _ in
                 owner.dismiss(animated: true) {
-                    owner.delegate?.didSelectMenuItem("정보 수정 신고")
+                    owner.delegate?.didSelectMenuItem(StringLiterals.shared.reportCorrection)
                     
-                    owner.onMenuItemSelected?("정보 수정 신고")
+                    owner.onMenuItemSelected?(StringLiterals.shared.reportCorrection)
                 }
             }).disposed(by: disposeBag)
     }

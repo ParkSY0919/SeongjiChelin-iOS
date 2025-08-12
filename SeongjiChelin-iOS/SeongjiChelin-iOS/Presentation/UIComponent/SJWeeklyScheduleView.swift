@@ -14,7 +14,15 @@ final class SJWeeklyScheduleView: UIView {
     
     //헤더 (요일) 레이블
     private let weekdayLabels: [UILabel] = {
-        let days = ["월", "화", "수", "목", "금", "토", "일"]
+        let days = [
+            StringLiterals.shared.monday,
+            StringLiterals.shared.tuesday,
+            StringLiterals.shared.wednesday,
+            StringLiterals.shared.thursday,
+            StringLiterals.shared.friday,
+            StringLiterals.shared.saturday,
+            StringLiterals.shared.sunday
+        ]
         return days.map { day in
             return UILabel().then {
                 $0.text = day
@@ -158,19 +166,25 @@ final class SJWeeklyScheduleView: UIView {
             $0.layer.borderColor = UIColor.primary200.cgColor
         }
         
-        regularLabel.setLabelUI(
-            "정기",
-            font: .seongiFont(.body_bold_12),
-            textColor: .primary300,
-            alignment: .center
-        )
+        regularLabel.do {
+            $0.text = StringLiterals.shared.regularHours
+            $0.font = .seongiFont(.body_bold_12)
+            $0.textColor = .primary300
+            $0.textAlignment = .center
+            $0.adjustsFontSizeToFitWidth = true
+            $0.minimumScaleFactor = 0.8
+            $0.numberOfLines = 1
+        }
         
-        sundayLabel.setLabelUI(
-            "휴무",
-            font: .seongiFont(.body_bold_12),
-            textColor: .primary300,
-            alignment: .center
-        )
+        sundayLabel.do {
+            $0.text = StringLiterals.shared.closed
+            $0.font = .seongiFont(.body_bold_12)
+            $0.textColor = .primary300
+            $0.textAlignment = .center
+            $0.adjustsFontSizeToFitWidth = true
+            $0.minimumScaleFactor = 0.8
+            $0.numberOfLines = 1
+        }
         
         dividerLine.backgroundColor = .primary200
     }
@@ -182,6 +196,12 @@ final class SJWeeklyScheduleView: UIView {
         if holidayIndex < 0 {
             regularLabel.isHidden = true
             sundayLabel.isHidden = true
+            
+            // 모든 레이블 보이게 초기화
+            for i in 0..<openTimeLabels.count {
+                openTimeLabels[i].isHidden = false
+                closeTimeLabels[i].isHidden = false
+            }
         } else {
             regularLabel.isHidden = false
             sundayLabel.isHidden = false
@@ -205,30 +225,63 @@ final class SJWeeklyScheduleView: UIView {
                 $0.height.equalTo(20)
                 $0.leading.equalTo(regularLabel.snp.leading)
             }
-        }
-        
-        // 모든 레이블 보이게 초기화
-        for i in 0..<openTimeLabels.count {
-            openTimeLabels[i].isHidden = false
-            closeTimeLabels[i].isHidden = false
-        }
-        
-        // 휴무일 레이블 숨기기
-        if holidayIndex >= 0 && holidayIndex < openTimeLabels.count {
+            
+            // 모든 레이블 보이게 초기화
+            for i in 0..<openTimeLabels.count {
+                openTimeLabels[i].isHidden = false
+                closeTimeLabels[i].isHidden = false
+            }
+            
+            // 휴무일에 해당하는 openTimeLabels과 closeTimeLabels 숨기기
             openTimeLabels[holidayIndex].isHidden = true
             closeTimeLabels[holidayIndex].isHidden = true
         }
         
-        // 요일 매핑 - openTimeLabels 및 closeTimeLabels의 인덱스와 businessHours 딕셔너리의 키 매핑
-        let weekdayMapping = ["월", "화", "수", "목", "금", "토", "일"]
+        // 요일 매핑 - UI 표시용과 데이터 키 매핑
+        let uiWeekdays = [
+            StringLiterals.shared.monday,
+            StringLiterals.shared.tuesday,
+            StringLiterals.shared.wednesday,
+            StringLiterals.shared.thursday,
+            StringLiterals.shared.friday,
+            StringLiterals.shared.saturday,
+            StringLiterals.shared.sunday
+        ]  // ["월", "화", ...]
+        let dataKeys = ["월", "화", "수", "목", "금", "토", "일"]  // 데이터 키는 항상 한글
         
         // 영업 시간 업데이트
-        for (index, weekday) in weekdayMapping.enumerated() {
-            if let businessHour = businessHours[weekday] {
-                if businessHour == "휴무" {
-                    openTimeLabels[index].isHidden = true
-                    closeTimeLabels[index].isHidden = true
+        for index in 0..<min(uiWeekdays.count, dataKeys.count) {
+            let dataKey = dataKeys[index]
+            
+            // 휴무일인 경우 건너뛰기 (regularLabel과 sundayLabel이 표시됨)
+            if holidayIndex >= 0 && index == holidayIndex {
+                continue
+            }
+            
+            if let businessHour = businessHours[dataKey] {
+                if businessHour == StringLiterals.shared.closed {
+                    // 일반 휴무일 - openTimeLabels와 closeTimeLabels에 표시
+                    openTimeLabels[index].isHidden = false
+                    closeTimeLabels[index].isHidden = false
+                    
+                    // openTimeLabels에는 "정기" 표시
+                    openTimeLabels[index].text = StringLiterals.shared.regularHours
+                    openTimeLabels[index].font = .seongiFont(.body_bold_12)
+                    openTimeLabels[index].textColor = .primary300
+                    
+                    // closeTimeLabels에는 "휴무" 표시
+                    closeTimeLabels[index].text = StringLiterals.shared.closed
+                    closeTimeLabels[index].font = .seongiFont(.body_bold_12)
+                    closeTimeLabels[index].textColor = .primary300
                 } else {
+                    // 영업일 - 시간 표시
+                    openTimeLabels[index].isHidden = false
+                    closeTimeLabels[index].isHidden = false
+                    openTimeLabels[index].textColor = .accentPink  // 원래 색상으로 복원
+                    openTimeLabels[index].font = .seongiFont(.body_regular_12)  // 원래 폰트로 복원
+                    closeTimeLabels[index].textColor = .accentPink
+                    closeTimeLabels[index].font = .seongiFont(.body_regular_12)
+                    
                     // "시작시간 - 종료시간" 형식에서 분리
                     let times = businessHour.components(separatedBy: " - ")
                     if times.count == 2 {
@@ -237,9 +290,19 @@ final class SJWeeklyScheduleView: UIView {
                     }
                 }
             } else {
-                // 해당 요일 정보가 없는 경우
-                openTimeLabels[index].isHidden = true
-                closeTimeLabels[index].isHidden = true
+                // 해당 요일 정보가 없는 경우 - 휴무로 처리
+                openTimeLabels[index].isHidden = false
+                closeTimeLabels[index].isHidden = false
+                
+                // openTimeLabels에는 "정기" 표시
+                openTimeLabels[index].text = StringLiterals.shared.regularHours
+                openTimeLabels[index].font = .seongiFont(.body_bold_12)
+                openTimeLabels[index].textColor = .primary300
+                
+                // closeTimeLabels에는 "휴무" 표시
+                closeTimeLabels[index].text = StringLiterals.shared.closed
+                closeTimeLabels[index].font = .seongiFont(.body_bold_12)
+                closeTimeLabels[index].textColor = .primary300
             }
         }
         

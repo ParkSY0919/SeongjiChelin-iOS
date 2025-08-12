@@ -46,7 +46,7 @@ final class AppCoordinator: Coordinator {
         // 온보딩 표시 여부 확인
         let hasSeenOnboarding = UserDefaults.standard.bool(forKey: "hasSeenOnboarding")
         
-        if !hasSeenOnboarding {
+        if hasSeenOnboarding {
             showOnboarding()
         } else {
             showHome()

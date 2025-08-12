@@ -1,0 +1,102 @@
+/* 
+  Localizable.strings
+  SeongjiChelin-iOS
+
+  Created by 박신영 on 8/12/25.
+  
+*/
+
+//Localizable(en)
+
+// MARK: - Common
+"취소" = "Cancel";
+"확인" = "Done";
+"저장하기" = "Save";
+"나중에" = "Later";
+"업데이트" = "Update";
+"다음" = "Next";
+"건너뛰기" = "Skip";
+"출발하기" = "Get Started";
+"추가" = "Add";
+"해제" = "Remove";
+"성공" = "Success";
+"실패" = "Failed";
+"앱" = "App";
+
+// MARK: - Onboarding
+"성지슐랭에 오신 것을 환영합니다!" = "Welcome to Holy Restaurant Guide!";
+"유명인과 주인장이 추천하는\n 숨겨진 맛집을 찾아 떠나볼까요? 🔎" = "Discover hidden gems recommended by\ncelebrities and local owners! 🔎";
+"지도로 쉽게 맛집 탐색" = "Easy Restaurant Discovery with Map";
+"유명인 추천 맛집을 지도에서\n 한눈에 확인하고 방문해보세요! 🚗" = "Find celebrity-recommended restaurants\non the map at a glance! 🚗";
+"나만의 맛집 컬렉션" = "Your Personal Restaurant Collection";
+"방문한 곳과 마음에 드는 맛집을 저장하고,\n언제든 다시 찾아가세요! 📌" = "Save visited and favorite restaurants,\nand revisit them anytime! 📌";
+
+// MARK: - Filter
+"전체" = "All";
+"방문한 곳" = "Visited";
+"저장한 곳" = "Saved";
+"리뷰남긴 곳" = "Reviewed";
+
+// MARK: - Restaurant
+"주소" = "Address";
+"연락처" = "Contact";
+"영업 여부" = "Business Hours";
+"영상 속 메뉴" = "Menu in Video";
+"편의시설" = "Amenities";
+"등록된 연락처가 없습니다." = "No contact information available.";
+"휴무" = "Closed";
+"추천 메뉴" = "Recommended Menu";
+
+// MARK: - Phone
+"통화 연결 실패" = "Call Connection Failed";
+"연락처 정보가 없습니다." = "No contact information available.";
+"올바른 전화번호 형식이 아닙니다." = "Invalid phone number format.";
+"전화번호 형식을 처리할 수 없습니다." = "Unable to process phone number format.";
+"이 기기에서는 전화 기능을 사용할 수 없습니다." = "Phone functionality is not available on this device.";
+
+// MARK: - Review
+"이 식당은 어떠셨나요?" = "How was this restaurant?";
+"리뷰를 작성해주세요 (선택사항)" = "Write a review (optional)";
+
+// MARK: - Menu
+"홈" = "Home";
+"나만의 식당" = "My Restaurants";
+"사용법" = "How to Use";
+"정보 수정 신고" = "Report Information";
+
+// MARK: - UI
+"리스트" = "List";
+"지도" = "Map";
+"식당, 주소 등을 입력해주세요." = "Enter restaurant name, address, etc.";
+
+// MARK: - Empty State
+"저장된 식당이 없습니다" = "No saved restaurants";
+"식당을 방문하거나 즐겨찾기에 추가해보세요" = "Visit restaurants or add them to favorites";
+
+// MARK: - Days
+"월" = "Mon";
+"화" = "Tue";
+"수" = "Wed";
+"목" = "Thu";
+"금" = "Fri";
+"토" = "Sat";
+"일" = "Sun";
+
+// MARK: - Business Status
+"정기" = "Regular";
+"휴무" = "Closed";
+"휴무일" = "Holiday";
+"24시간 영업" = "Open 24 Hours";
+
+// MARK: - Favorites
+"즐겨찾기 추가 성공" = "Successfully added to favorites";
+"즐겨찾기 해제 성공" = "Successfully removed from favorites";
+"즐겨찾기 추가 실패" = "Failed to add to favorites";
+"즐겨찾기 해제 실패" = "Failed to remove from favorites";
+
+// MARK: - Debug
+"주인장 테마" = "Owner Theme";
+"브릿지 초기화 성공" = "Bridge initialization successful";
+"브릿지 초기화 실패" = "Bridge initialization failed";
+"앱 데이터 초기화 완료" = "App data initialization complete";
+"실패" = "Failed";
