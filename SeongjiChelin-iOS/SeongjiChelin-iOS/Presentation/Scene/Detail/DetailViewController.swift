@@ -563,12 +563,26 @@ final class DetailViewController: BaseViewController {
         makePhoneCall(phoneNumber: phoneNumber)
     }
     
+    private func isValidPhoneNumber(_ phoneNumber: String) -> Bool {
+        let cleanedNumber = phoneNumber.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
+        return cleanedNumber.count >= 10 && cleanedNumber.count <= 15
+    }
+    
     private func makePhoneCall(phoneNumber: String) {
         let cleanedPhoneNumber = phoneNumber.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
         
-        guard let phoneUrl = URL(string: "telprompt://\(cleanedPhoneNumber)"),
-              UIApplication.shared.canOpenURL(phoneUrl) else {
-            showAlert(title: "통화 연결 실패", message: "전화번호 형식이 올바르지 않거나 통화가 불가능합니다.")
+        guard isValidPhoneNumber(phoneNumber) else {
+            showAlert(title: "통화 연결 실패", message: "올바른 전화번호 형식이 아닙니다.")
+            return
+        }
+        
+        guard let phoneUrl = URL(string: "telprompt://\(cleanedPhoneNumber)") else {
+            showAlert(title: "통화 연결 실패", message: "전화번호 형식을 처리할 수 없습니다.")
+            return
+        }
+        
+        guard UIApplication.shared.canOpenURL(phoneUrl) else {
+            showAlert(title: "통화 연결 실패", message: "이 기기에서는 전화 기능을 사용할 수 없습니다.")
             return
         }
         
