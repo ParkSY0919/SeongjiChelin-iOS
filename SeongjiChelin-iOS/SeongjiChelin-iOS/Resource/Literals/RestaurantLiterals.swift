@@ -890,13 +890,13 @@ extension Restaurant {
         var displayText: String {
             switch self {
             case .open(let closeTime):
-                return "오늘 \(closeTime)까지 영업"
+                return "금일 \(closeTime)까지 영업"
             case .closed(let openTime):
-                return "\(openTime)에 연다"
+                return "금일 종료: \(openTime) 오픈"
             case .holidayClosed:
                 return StringLiterals.shared.holidayClosedStatus
             case .breakTime(let openTime):
-                return "브레이크타임 (\(openTime)에 연다)"
+                return "브레이크타임: (\(openTime) 재오픈)"
             case .allTimeOpen:
                 return StringLiterals.shared.allTimeOpen
             }

@@ -196,6 +196,12 @@ final class SJWeeklyScheduleView: UIView {
         if holidayIndex < 0 {
             regularLabel.isHidden = true
             sundayLabel.isHidden = true
+            
+            // 모든 레이블 보이게 초기화
+            for i in 0..<openTimeLabels.count {
+                openTimeLabels[i].isHidden = false
+                closeTimeLabels[i].isHidden = false
+            }
         } else {
             regularLabel.isHidden = false
             sundayLabel.isHidden = false
@@ -219,16 +225,17 @@ final class SJWeeklyScheduleView: UIView {
                 $0.height.equalTo(20)
                 $0.leading.equalTo(regularLabel.snp.leading)
             }
+            
+            // 모든 레이블 보이게 초기화
+            for i in 0..<openTimeLabels.count {
+                openTimeLabels[i].isHidden = false
+                closeTimeLabels[i].isHidden = false
+            }
+            
+            // 휴무일에 해당하는 openTimeLabels과 closeTimeLabels 숨기기
+            openTimeLabels[holidayIndex].isHidden = true
+            closeTimeLabels[holidayIndex].isHidden = true
         }
-        
-        // 모든 레이블 보이게 초기화
-        for i in 0..<openTimeLabels.count {
-            openTimeLabels[i].isHidden = false
-            closeTimeLabels[i].isHidden = false
-        }
-        
-        // 정기 휴무일 처리는 이미 위에서 처리됨 (StringLiterals.shared.closed)
-        // 별도의 휴무일 레이블 숨기기는 제거
         
         // 요일 매핑 - UI 표시용과 데이터 키 매핑
         let uiWeekdays = [
@@ -245,14 +252,20 @@ final class SJWeeklyScheduleView: UIView {
         // 영업 시간 업데이트
         for index in 0..<min(uiWeekdays.count, dataKeys.count) {
             let dataKey = dataKeys[index]
+            
+            // 휴무일인 경우 건너뛰기 (regularLabel과 sundayLabel이 표시됨)
+            if holidayIndex >= 0 && index == holidayIndex {
+                continue
+            }
+            
             if let businessHour = businessHours[dataKey] {
                 if businessHour == StringLiterals.shared.closed {
-                    // 휴무일 - "정기"와 "휴무" 표시
+                    // 일반 휴무일 - openTimeLabels와 closeTimeLabels에 표시
                     openTimeLabels[index].isHidden = false
                     closeTimeLabels[index].isHidden = false
                     
                     // openTimeLabels에는 "정기" 표시
-                    openTimeLabels[index].text = StringLiterals.BusinessStatus.regularHours
+                    openTimeLabels[index].text = StringLiterals.shared.regularHours
                     openTimeLabels[index].font = .seongiFont(.body_bold_12)
                     openTimeLabels[index].textColor = .primary300
                     
@@ -282,7 +295,7 @@ final class SJWeeklyScheduleView: UIView {
                 closeTimeLabels[index].isHidden = false
                 
                 // openTimeLabels에는 "정기" 표시
-                openTimeLabels[index].text = StringLiterals.BusinessStatus.regularHours
+                openTimeLabels[index].text = StringLiterals.shared.regularHours
                 openTimeLabels[index].font = .seongiFont(.body_bold_12)
                 openTimeLabels[index].textColor = .primary300
                 
