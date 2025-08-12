@@ -108,9 +108,9 @@ final class SJButton: UIButton {
         ) { isSuccess in
             switch isSuccess {
             case true:
-                print("즐겨찾기 \(self.isSelected ? "추가" : "해제") 성공")
+                print(!self.isSelected ? StringLiterals.shared.favRemoveSuccess : StringLiterals.shared.favAddSuccess)
             case false:
-                print("즐겨찾기 \(self.isSelected ? "추가" : "해제") 실패")
+                print(!self.isSelected ? StringLiterals.shared.favRemoveFailed : StringLiterals.shared.favAddFailed)
                 self.isSelected.toggle() //실패 시 상태 되돌리기
             }
         }
@@ -134,9 +134,9 @@ final class SJButton: UIButton {
         ) { isSuccess in
             switch isSuccess {
             case true:
-                print("즐겨찾기 \(self.isSelected ? "추가" : "해제") 성공")
+                print(!self.isSelected ? "방문 해제 성공" : "방문 추가 성공")
             case false:
-                print("즐겨찾기 \(self.isSelected ? "추가" : "해제") 실패")
+                print(!self.isSelected ? "방문 해제 실패" : "방문 추가 실패")
                 self.isSelected.toggle() //실패 시 상태 되돌리기
             }
         }

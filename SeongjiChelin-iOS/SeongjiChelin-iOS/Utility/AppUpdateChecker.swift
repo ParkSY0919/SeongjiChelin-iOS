@@ -92,16 +92,16 @@ final class AppUpdateChecker {
     }
     
     private func showUpdateAlert(appStoreVersion: String, forceUpdate: Bool) {
-        let appName = Bundle.main.infoDictionary?["CFBundleDisplayName"] as? String ?? "앱"
+        let appName = Bundle.main.infoDictionary?["CFBundleDisplayName"] as? String ?? StringLiterals.shared.app
         
         let alertController = UIAlertController(
-            title: "\(appName) 업데이트",
-            message: "새로운 버전(\(appStoreVersion))이 출시되었습니다. 업데이트 후 이용해주세요.",
+            title: "\(appName) \(StringLiterals.shared.update)",
+            message: "새로운 버전 \(appStoreVersion)이 출시되었습니다.",
             preferredStyle: .alert
         )
         
         //업데이트 버튼
-        let updateAction = UIAlertAction(title: "업데이트", style: .default) { _ in
+        let updateAction = UIAlertAction(title: StringLiterals.shared.update, style: .default) { _ in
             let appStoreID = Config.appID
             
             if let url = URL(string: "itms-apps://itunes.apple.com/app/id\(appStoreID)") {
@@ -118,7 +118,7 @@ final class AppUpdateChecker {
         
         //강제 업데이트가 아닌 경우 나중에 버튼 추가
         if !forceUpdate {
-            let laterAction = UIAlertAction(title: "나중에", style: .cancel, handler: nil)
+            let laterAction = UIAlertAction(title: StringLiterals.shared.later, style: .cancel, handler: nil)
             alertController.addAction(laterAction)
         }
         

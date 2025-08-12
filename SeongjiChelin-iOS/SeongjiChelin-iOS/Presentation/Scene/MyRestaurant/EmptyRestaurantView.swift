@@ -56,13 +56,13 @@ final class EmptyRestaurantView: UIView {
         }
         
         titleLabel.do {
-            $0.text = "저장된 식당이 없습니다"
+            $0.text = StringLiterals.shared.noSavedRestaurants
             $0.font = .seongiFont(.title_bold_16)
             $0.textColor = .text100
         }
         
         descriptionLabel.do {
-            $0.text = "식당을 방문하거나 즐겨찾기에 추가해보세요"
+            $0.text = StringLiterals.shared.addRestaurantsSuggestion
             $0.font = .seongiFont(.body_regular_14)
             $0.textColor = .text200
             $0.numberOfLines = 0

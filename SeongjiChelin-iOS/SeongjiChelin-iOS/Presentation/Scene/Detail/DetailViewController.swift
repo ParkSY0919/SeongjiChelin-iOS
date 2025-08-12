@@ -391,7 +391,7 @@ final class DetailViewController: BaseViewController {
                 try await playerViewController.player.load(source: .video(id: videoId))
                 try await playerViewController.player.stop()
             } catch {
-                print("비디오 로드 실패: \(error)")
+                print("비디오 로드 실패: \(error.localizedDescription)")
             }
         }
     }
@@ -554,9 +554,9 @@ final class DetailViewController: BaseViewController {
     @objc
     private func handlePhoneNumberTap() {
         guard let phoneNumber = storeInfo.numberLabel.text,
-              phoneNumber != "등록된 연락처가 없습니다.",
+              phoneNumber != StringLiterals.shared.noContactInfo,
               !phoneNumber.isEmpty else {
-            showAlert(title: "통화 연결 실패", message: "연락처 정보가 없습니다.")
+            showAlert(title: StringLiterals.shared.callFailedTitle, message: StringLiterals.shared.noContactMessage)
             return
         }
         
@@ -572,17 +572,17 @@ final class DetailViewController: BaseViewController {
         let cleanedPhoneNumber = phoneNumber.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
         
         guard isValidPhoneNumber(phoneNumber) else {
-            showAlert(title: "통화 연결 실패", message: "올바른 전화번호 형식이 아닙니다.")
+            showAlert(title: StringLiterals.shared.callFailedTitle, message: StringLiterals.shared.invalidFormatMessage)
             return
         }
         
         guard let phoneUrl = URL(string: "telprompt://\(cleanedPhoneNumber)") else {
-            showAlert(title: "통화 연결 실패", message: "전화번호 형식을 처리할 수 없습니다.")
+            showAlert(title: StringLiterals.shared.callFailedTitle, message: StringLiterals.shared.formatErrorMessage)
             return
         }
         
         guard UIApplication.shared.canOpenURL(phoneUrl) else {
-            showAlert(title: "통화 연결 실패", message: "이 기기에서는 전화 기능을 사용할 수 없습니다.")
+            showAlert(title: StringLiterals.shared.callFailedTitle, message: StringLiterals.shared.deviceNotSupportedMessage)
             return
         }
         

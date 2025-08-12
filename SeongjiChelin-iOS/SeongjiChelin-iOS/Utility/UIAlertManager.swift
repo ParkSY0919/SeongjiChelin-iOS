@@ -16,9 +16,9 @@ final class UIAlertManager {
     func showAlert(title: String, message: String, cancelFunc: Bool? = false) -> UIAlertController {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         if cancelFunc == true {
-            alert.addAction(UIAlertAction(title: "취소", style: .destructive))
+            alert.addAction(UIAlertAction(title: StringLiterals.shared.cancel, style: .destructive))
         }
-        alert.addAction(UIAlertAction(title: "확인", style: .default))
+        alert.addAction(UIAlertAction(title: StringLiterals.shared.confirm, style: .default))
         
         return alert
     }

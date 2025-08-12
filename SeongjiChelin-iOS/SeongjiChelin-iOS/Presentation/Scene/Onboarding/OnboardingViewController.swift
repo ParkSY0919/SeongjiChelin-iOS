@@ -32,18 +32,18 @@ final class OnboardingViewController: BaseViewController {
     private let pages: [OnboardingPageViewController] = [
         OnboardingPageViewController(
             image: ImageLiterals.horizentalLogo,
-            title: "성지슐랭에 오신 것을 환영합니다!",
-            description: "유명인과 주인장이 추천하는\n 숨겨진 맛집을 찾아 떠나볼까요? 🔎"
+            title: StringLiterals.shared.welcomeTitle,
+            description: StringLiterals.shared.welcomeDescription
         ),
         OnboardingPageViewController(
             image: ImageLiterals.mapFill,
-            title: "지도로 쉽게 맛집 탐색",
-            description: "유명인 추천 맛집을 지도에서\n 한눈에 확인하고 방문해보세요! 🚗"
+            title: StringLiterals.shared.mapExploreTitle,
+            description: StringLiterals.shared.mapExploreDescription
         ),
         OnboardingPageViewController(
             image: ImageLiterals.bookmarkFill,
-            title: "나만의 맛집 컬렉션",
-            description: "방문한 곳과 마음에 드는 맛집을 저장하고,\n언제든 다시 찾아가세요! 📌"
+            title: StringLiterals.shared.collectionTitle,
+            description: StringLiterals.shared.collectionDescription
         )
     ]
     
@@ -114,22 +114,28 @@ final class OnboardingViewController: BaseViewController {
         }
         
         skipButton.do {
-            $0.setTitle("건너뛰기", for: .normal)
+            $0.setTitle(StringLiterals.shared.skip, for: .normal)
             $0.setTitleColor(.primary200, for: .normal)
             $0.titleLabel?.font = .seongiFont(.title_bold_16)
+            $0.titleLabel?.adjustsFontSizeToFitWidth = true
+            $0.titleLabel?.minimumScaleFactor = 0.8
         }
         
         nextButton.do {
-            $0.setTitle("다음", for: .normal)
+            $0.setTitle(StringLiterals.shared.next, for: .normal)
             $0.setTitleColor(.primary200, for: .normal)
             $0.titleLabel?.font = .seongiFont(.title_bold_16)
+            $0.titleLabel?.adjustsFontSizeToFitWidth = true
+            $0.titleLabel?.minimumScaleFactor = 0.8
             $0.isHidden = false
         }
         
         startButton.do {
-            $0.setTitle("출발하기", for: .normal)
+            $0.setTitle(StringLiterals.shared.start, for: .normal)
             $0.setTitleColor(.primary200, for: .normal)
             $0.titleLabel?.font = .seongiFont(.title_bold_16)
+            $0.titleLabel?.adjustsFontSizeToFitWidth = true
+            $0.titleLabel?.minimumScaleFactor = 0.8
             $0.isHidden = true
         }
         

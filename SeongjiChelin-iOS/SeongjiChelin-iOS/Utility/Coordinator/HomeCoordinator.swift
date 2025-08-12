@@ -143,17 +143,17 @@ extension HomeCoordinator: MenuViewControllerDelegate {
     func didSelectMenuItem(_ menuItem: String) {
         // 메뉴 선택 시 한 번만 처리되도록 함
         switch menuItem {
-        case "홈":
+        case StringLiterals.shared.home:
             // 현재 화면이 이미 홈이므로 아무것도 하지 않음
             break
-        case "나만의 식당":
+        case StringLiterals.shared.myRestaurants:
             // 메뉴에서 화면 전환 시 중복 방지를 위해 childCoordinators 확인
             if !childCoordinators.contains(where: { $0 is MyRestaurantCoordinator }) {
                 showMyRestaurant()
             }
-        case "사용법":
+        case StringLiterals.shared.howToUse:
             showOnboarding()
-        case "정보 수정 신고":
+        case StringLiterals.shared.reportCorrection:
             showInfoReport()
         default:
             break
