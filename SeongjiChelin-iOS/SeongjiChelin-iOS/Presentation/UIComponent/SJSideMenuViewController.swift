@@ -17,7 +17,7 @@ protocol SJSideMenuDelegate: AnyObject {
     func sideMenuDidDisappear()
 }
 
-final class SJSideMenuViewController: UIViewController {
+final class SJSideMenuViewController: BaseViewController {
 
     // MARK: - Properties
 
@@ -36,14 +36,9 @@ final class SJSideMenuViewController: UIViewController {
     init(contentViewController: UIViewController, menuWidth: CGFloat = UIScreen.main.bounds.width * 0.8) {
         self.contentViewController = contentViewController
         self.transitionDelegate = SJSideMenuTransitionDelegate(menuWidth: menuWidth)
-        super.init(nibName: nil, bundle: nil)
-
+        super.init()
         modalPresentationStyle = .custom
         transitioningDelegate = transitionDelegate
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 
     // MARK: - Lifecycle
@@ -78,7 +73,7 @@ final class SJSideMenuViewController: UIViewController {
 
     // MARK: - Setup
 
-    private func setHierarchy() {
+    override func setHierarchy() {
         view.addSubview(containerView)
 
         addChild(contentViewController)
@@ -86,7 +81,7 @@ final class SJSideMenuViewController: UIViewController {
         contentViewController.didMove(toParent: self)
     }
 
-    private func setLayout() {
+    override func setLayout() {
         containerView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
@@ -96,7 +91,7 @@ final class SJSideMenuViewController: UIViewController {
         }
     }
 
-    private func setStyle() {
+    override func setStyle() {
         view.do {
             $0.backgroundColor = .bg100
         }
@@ -133,7 +128,7 @@ final class SJSideMenuViewController: UIViewController {
     // MARK: - Private Methods
 
     @objc private func handleEdgePan(_ gesture: UIScreenEdgePanGestureRecognizer) {
-        guard let attachedVC = attachedViewController else { return }
+        guard attachedViewController != nil else { return }
 
         let translation = gesture.translation(in: gesture.view)
         let percent = translation.x / (gesture.view?.bounds.width ?? 1)

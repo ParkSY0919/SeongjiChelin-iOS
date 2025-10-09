@@ -10,7 +10,6 @@ import UIKit
 // MARK: - SJSideMenuPresentationController
 
 final class SJSideMenuPresentationController: UIPresentationController {
-
     private let dimmingView = UIView()
     private let menuWidth: CGFloat
 
@@ -31,7 +30,8 @@ final class SJSideMenuPresentationController: UIPresentationController {
         dimmingView.addGestureRecognizer(tapGesture)
     }
 
-    @objc private func handleDimmingViewTap() {
+    @objc
+    private func handleDimmingViewTap() {
         presentedViewController.dismiss(animated: true)
     }
 
@@ -78,7 +78,6 @@ final class SJSideMenuPresentationController: UIPresentationController {
 // MARK: - SJSideMenuAnimator
 
 final class SJSideMenuAnimator: NSObject, UIViewControllerAnimatedTransitioning {
-
     private let isPresenting: Bool
     private let duration: TimeInterval
 
@@ -149,10 +148,10 @@ final class SJSideMenuAnimator: NSObject, UIViewControllerAnimatedTransitioning 
     }
 }
 
+
 // MARK: - SJSideMenuTransitionDelegate
 
 final class SJSideMenuTransitionDelegate: NSObject, UIViewControllerTransitioningDelegate {
-
     private let menuWidth: CGFloat
 
     init(menuWidth: CGFloat = UIScreen.main.bounds.width * 0.8) {
