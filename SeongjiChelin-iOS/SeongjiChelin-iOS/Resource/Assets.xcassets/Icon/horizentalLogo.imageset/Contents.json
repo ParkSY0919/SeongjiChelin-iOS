@@ -32,6 +32,24 @@
       "idiom" : "universal",
       "locale" : "en",
       "scale" : "3x"
+    },
+    {
+      "filename" : "Logo_Hor_jp.png",
+      "idiom" : "universal",
+      "locale" : "ja",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "Logo_Hor_jp@2x.png",
+      "idiom" : "universal",
+      "locale" : "ja",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "Logo_Hor_jp@3x.png",
+      "idiom" : "universal",
+      "locale" : "ja",
+      "scale" : "3x"
     }
   ],
   "info" : {

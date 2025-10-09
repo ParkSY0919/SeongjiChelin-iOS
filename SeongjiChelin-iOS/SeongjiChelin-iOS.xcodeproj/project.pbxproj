@@ -117,6 +117,8 @@
 		9E03BDFF2DB517050097AA7E /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		9E03BE012DB519EE0097AA7E /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		9E1EFD1F2DBB2D850021DE73 /* AppUpdateChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUpdateChecker.swift; sourceTree = "<group>"; };
+		9E412DE42E97CCFD0058A95A /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		9E412DE52E97CCFD0058A95A /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9E4728C02E4B3DA60000CF24 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9E4728C22E4B3DAD0000CF24 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9E4728CE2E4B5A560000CF24 /* Secret.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secret.xcconfig; sourceTree = "<group>"; };
@@ -541,6 +543,7 @@
 				en,
 				Base,
 				ko,
+				ja,
 			);
 			mainGroup = 9E6F7CE12D96D258009F24FC;
 			minimizedProjectReferenceProxies = 1;
@@ -659,6 +662,7 @@
 			children = (
 				9E4728C02E4B3DA60000CF24 /* ko */,
 				9E4728C22E4B3DAD0000CF24 /* en */,
+				9E412DE52E97CCFD0058A95A /* ja */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -669,6 +673,7 @@
 				9E6F7D742D96D70B009F24FC /* Base */,
 				9E472B142E4B65C70000CF24 /* en */,
 				9E472B162E4B65C80000CF24 /* ko */,
+				9E412DE42E97CCFD0058A95A /* ja */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -803,6 +808,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -859,6 +865,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
