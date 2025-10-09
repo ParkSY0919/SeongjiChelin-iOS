@@ -86,6 +86,8 @@
 		9EC0C3FB2DA6646B0037545A /* HomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EC0C3FA2DA6646B0037545A /* HomeCollectionViewCell.swift */; };
 		9EC0C3FD2DA66BDF0037545A /* SJStoreInfoBaseLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EC0C3FC2DA66BDF0037545A /* SJStoreInfoBaseLabelView.swift */; };
 		9EC0C3FF2DA6EE5F0037545A /* SJWeeklyScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EC0C3FE2DA6EE5F0037545A /* SJWeeklyScheduleView.swift */; };
+		9EEFE24E2E97C069005D247D /* SJSideMenuTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EEFE24C2E97C069005D247D /* SJSideMenuTransition.swift */; };
+		9EEFE24F2E97C069005D247D /* SJSideMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EEFE24D2E97C069005D247D /* SJSideMenuViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -171,6 +173,8 @@
 		9EC0C3FA2DA6646B0037545A /* HomeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewCell.swift; sourceTree = "<group>"; };
 		9EC0C3FC2DA66BDF0037545A /* SJStoreInfoBaseLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SJStoreInfoBaseLabelView.swift; sourceTree = "<group>"; };
 		9EC0C3FE2DA6EE5F0037545A /* SJWeeklyScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SJWeeklyScheduleView.swift; sourceTree = "<group>"; };
+		9EEFE24C2E97C069005D247D /* SJSideMenuTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SJSideMenuTransition.swift; sourceTree = "<group>"; };
+		9EEFE24D2E97C069005D247D /* SJSideMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SJSideMenuViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -438,6 +442,8 @@
 		9E6F7E192D979FD7009F24FC /* UIComponent */ = {
 			isa = PBXGroup;
 			children = (
+				9EEFE24C2E97C069005D247D /* SJSideMenuTransition.swift */,
+				9EEFE24D2E97C069005D247D /* SJSideMenuViewController.swift */,
 				9E4A57372D9F988000A538E3 /* SJStoreFilterButton.swift */,
 				9E4A57392D9FAD6D00A538E3 /* SJButton.swift */,
 				9E4A576C2DA253D800A538E3 /* SJCustomMarkerView.swift */,
@@ -603,6 +609,8 @@
 				9E6F7E242D97A04F009F24FC /* BaseCollectionViewCell.swift in Sources */,
 				9E6F7D9F2D96DA72009F24FC /* CustomFormaterManager.swift in Sources */,
 				9E4A576D2DA253D800A538E3 /* SJCustomMarkerView.swift in Sources */,
+				9EEFE24E2E97C069005D247D /* SJSideMenuTransition.swift in Sources */,
+				9EEFE24F2E97C069005D247D /* SJSideMenuViewController.swift in Sources */,
 				9E4A57382D9F988000A538E3 /* SJStoreFilterButton.swift in Sources */,
 				9EBD54FE2D9E769D005F4B8A /* MenuViewController.swift in Sources */,
 				9E7F116E2DA2A74D00693A4E /* UIAlertManager.swift in Sources */,

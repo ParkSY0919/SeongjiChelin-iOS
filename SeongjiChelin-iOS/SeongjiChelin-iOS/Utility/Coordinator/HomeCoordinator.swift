@@ -7,12 +7,15 @@
 
 import UIKit
 
-import SideMenu
+import GoogleMaps
+
+// import SideMenu // 커스텀 SideMenu로 대체
 
 final class HomeCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []
     var navigationController: UINavigationController
-    private var menuNavigationController: SideMenuNavigationController?
+    // private var menuNavigationController: SideMenuNavigationController? // 커스텀 SideMenu로 대체
+    private var customSideMenuViewController: SJSideMenuViewController?
     private var isOnboardingActive = false // 온보딩 상태 추적
     
     init(navigationController: UINavigationController) {
@@ -26,35 +29,46 @@ final class HomeCoordinator: Coordinator {
         navigationController.setViewControllers([homeVC], animated: true)
         setupSideMenu()
     }
-    
+
     private func setupSideMenu() {
         let menuViewController = MenuViewController(viewModel: MenuViewModel())
         menuViewController.delegate = self
-        
-        let menuNavigationController = SideMenuNavigationController(rootViewController: menuViewController)
-        self.menuNavigationController = menuNavigationController
-        
-        menuNavigationController.leftSide = true
-        menuNavigationController.presentationStyle = .menuSlideIn
-        menuNavigationController.pushStyle = .default
-        menuNavigationController.presentDuration = 0.5
-        menuNavigationController.dismissDuration = 0.35
-        
-        // 시스템 전역 설정
-        SideMenuManager.default.leftMenuNavigationController = menuNavigationController
-        SideMenuManager.default.rightMenuNavigationController = nil // 오른쪽 메뉴 비활성화
-        
+
+        // 커스텀 SideMenu 생성
+        let sideMenuVC = SJSideMenuViewController(contentViewController: menuViewController)
+        sideMenuVC.delegate = self
+        self.customSideMenuViewController = sideMenuVC
+
         // 홈 화면에 제스처 추가
         if let homeVC = navigationController.viewControllers.first as? HomeViewController {
-            SideMenuManager.default.addScreenEdgePanGesturesToPresent(toView: homeVC.view, forMenu: .left)
+            sideMenuVC.attachToViewController(homeVC)
         }
+
+        // 기존 SideMenu 라이브러리 코드 주석처리
+        // let menuNavigationController = SideMenuNavigationController(rootViewController: menuViewController)
+        // self.menuNavigationController = menuNavigationController
+        //
+        // menuNavigationController.leftSide = true
+        // menuNavigationController.presentationStyle = .menuSlideIn
+        // menuNavigationController.pushStyle = .default
+        // menuNavigationController.presentDuration = 0.5
+        // menuNavigationController.dismissDuration = 0.35
+        //
+        // // 시스템 전역 설정
+        // SideMenuManager.default.leftMenuNavigationController = menuNavigationController
+        // SideMenuManager.default.rightMenuNavigationController = nil // 오른쪽 메뉴 비활성화
+        //
+        // // 홈 화면에 제스처 추가
+        // if let homeVC = navigationController.viewControllers.first as? HomeViewController {
+        //     SideMenuManager.default.addScreenEdgePanGesturesToPresent(toView: homeVC.view, forMenu: .left)
+        // }
     }
     
     func showSideMenu() {
         if isOnboardingActive {
             return
         }
-        
+
         // 현재 표시된 DetailViewController가 있으면 먼저 닫음
         if let presentedVC = navigationController.presentedViewController {
             presentedVC.dismiss(animated: true) { [weak self] in
@@ -64,18 +78,22 @@ final class HomeCoordinator: Coordinator {
             presentSideMenu()
         }
     }
-    
+
     private func presentSideMenu() {
-        // 기존 메뉴 인스턴스가 없거나 문제가 있으면 다시 설정
-        if menuNavigationController == nil {
-            setupSideMenu()
-        }
-        
-        // SideMenu 방향 재확인
-        menuNavigationController?.leftSide = true
-        
-        guard let menuNav = menuNavigationController else { return }
-        navigationController.present(menuNav, animated: true)
+        // 커스텀 SideMenu 표시
+        customSideMenuViewController?.show()
+
+        // 기존 SideMenu 라이브러리 코드 주석처리
+        // // 기존 메뉴 인스턴스가 없거나 문제가 있으면 다시 설정
+        // if menuNavigationController == nil {
+        //     setupSideMenu()
+        // }
+        //
+        // // SideMenu 방향 재확인
+        // menuNavigationController?.leftSide = true
+        //
+        // guard let menuNav = menuNavigationController else { return }
+        // navigationController.present(menuNav, animated: true)
     }
     
     func showDetail(for restaurant: Restaurant) {
@@ -124,18 +142,26 @@ extension HomeCoordinator: OnboardingViewControllerDelegate {
         // 온보딩이 완료되면 홈 화면으로 돌아감
         navigationController.popToRootViewController(animated: true)
         isOnboardingActive = false
-        
-        // SideMenu 완전히 재설정 - 온보딩 이후 SideMenu 문제 해결
+
+        // 커스텀 SideMenu 재설정
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
             guard let self = self else { return }
-            self.menuNavigationController = nil
+            self.customSideMenuViewController = nil
             self.setupSideMenu()
-            
-            // HomeViewController의 제스처 재설정
-            if let homeVC = self.navigationController.viewControllers.first as? HomeViewController {
-                SideMenuManager.default.addScreenEdgePanGesturesToPresent(toView: homeVC.view, forMenu: .left)
-            }
         }
+
+        // 기존 SideMenu 라이브러리 코드 주석처리
+        // // SideMenu 완전히 재설정 - 온보딩 이후 SideMenu 문제 해결
+        // DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+        //     guard let self = self else { return }
+        //     self.menuNavigationController = nil
+        //     self.setupSideMenu()
+        //
+        //     // HomeViewController의 제스처 재설정
+        //     if let homeVC = self.navigationController.viewControllers.first as? HomeViewController {
+        //         SideMenuManager.default.addScreenEdgePanGesturesToPresent(toView: homeVC.view, forMenu: .left)
+        //     }
+        // }
     }
 }
 
@@ -191,4 +217,32 @@ protocol SearchCoordinatorDelegate: AnyObject {
 
 protocol MyRestaurantCoordinatorDelegate: AnyObject {
     func didFinish(_ coordinator: Coordinator)
+}
+
+// MARK: - SJSideMenu Delegate
+
+extension HomeCoordinator: SJSideMenuDelegate {
+    func sideMenuWillAppear() {
+        print("커스텀 사이드 메뉴가 나타날 예정입니다.")
+        if let homeVC = navigationController.viewControllers.first as? HomeViewController {
+            homeVC.view.subviews.compactMap { $0 as? GMSMapView }.first?.alpha = 0.6
+        }
+    }
+
+    func sideMenuDidAppear() {
+        print("커스텀 사이드 메뉴가 나타났습니다.")
+    }
+
+    func sideMenuWillDisappear() {
+        print("커스텀 사이드 메뉴가 사라질 예정입니다.")
+    }
+
+    func sideMenuDidDisappear() {
+        print("커스텀 사이드 메뉴가 사라졌습니다.")
+        if let homeVC = navigationController.viewControllers.first as? HomeViewController {
+            UIView.animate(withDuration: 0.3) {
+                homeVC.view.subviews.compactMap { $0 as? GMSMapView }.first?.alpha = 1.0
+            }
+        }
+    }
 } 
