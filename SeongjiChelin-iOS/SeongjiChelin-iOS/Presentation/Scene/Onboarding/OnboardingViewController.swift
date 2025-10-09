@@ -9,7 +9,6 @@ import UIKit
 
 import RxCocoa
 import RxSwift
-import SideMenu
 import SnapKit
 import Then
 
