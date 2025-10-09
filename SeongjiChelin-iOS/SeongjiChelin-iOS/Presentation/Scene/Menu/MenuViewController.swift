@@ -9,7 +9,6 @@ import UIKit
 
 import RxCocoa
 import RxSwift
-// import SideMenu // 커스텀 SideMenu로 대체
 import SnapKit
 import Then
 
@@ -59,7 +58,7 @@ final class MenuViewController: BaseViewController {
     
     override func setLayout() {
         logoImageView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).offset(20)
+            $0.top.equalTo(view.safeAreaLayoutGuide).offset(10)
             $0.leading.equalTo(view.safeAreaLayoutGuide).inset(18)
             $0.width.equalTo(110)
             $0.height.equalTo(logoImageView.snp.width).multipliedBy(0.5)
