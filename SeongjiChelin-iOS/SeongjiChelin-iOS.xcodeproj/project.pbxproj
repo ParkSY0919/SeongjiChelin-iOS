@@ -79,13 +79,14 @@
 		9E7F116C2DA286F600693A4E /* RxCombine in Frameworks */ = {isa = PBXBuildFile; productRef = 9E7F116B2DA286F600693A4E /* RxCombine */; };
 		9E7F116E2DA2A74D00693A4E /* UIAlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E7F116D2DA2A74D00693A4E /* UIAlertManager.swift */; };
 		9E98C9BE2DE181940030B06F /* RestaurantBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E98C9BD2DE181940030B06F /* RestaurantBridge.swift */; };
-		9EBD54D92D9DEE62005F4B8A /* SideMenu in Frameworks */ = {isa = PBXBuildFile; productRef = 9EBD54D82D9DEE62005F4B8A /* SideMenu */; };
 		9EBD54FE2D9E769D005F4B8A /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EBD54FD2D9E769D005F4B8A /* MenuViewController.swift */; };
 		9EBD55022D9E7951005F4B8A /* MenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EBD55012D9E7951005F4B8A /* MenuViewModel.swift */; };
 		9EBD55042D9E7A5D005F4B8A /* UILabel+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EBD55032D9E7A5D005F4B8A /* UILabel+.swift */; };
 		9EC0C3FB2DA6646B0037545A /* HomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EC0C3FA2DA6646B0037545A /* HomeCollectionViewCell.swift */; };
 		9EC0C3FD2DA66BDF0037545A /* SJStoreInfoBaseLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EC0C3FC2DA66BDF0037545A /* SJStoreInfoBaseLabelView.swift */; };
 		9EC0C3FF2DA6EE5F0037545A /* SJWeeklyScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EC0C3FE2DA6EE5F0037545A /* SJWeeklyScheduleView.swift */; };
+		9EEFE24E2E97C069005D247D /* SJSideMenuTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EEFE24C2E97C069005D247D /* SJSideMenuTransition.swift */; };
+		9EEFE24F2E97C069005D247D /* SJSideMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EEFE24D2E97C069005D247D /* SJSideMenuViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -116,6 +117,8 @@
 		9E03BDFF2DB517050097AA7E /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		9E03BE012DB519EE0097AA7E /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		9E1EFD1F2DBB2D850021DE73 /* AppUpdateChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUpdateChecker.swift; sourceTree = "<group>"; };
+		9E412DE42E97CCFD0058A95A /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		9E412DE52E97CCFD0058A95A /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9E4728C02E4B3DA60000CF24 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9E4728C22E4B3DAD0000CF24 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9E4728CE2E4B5A560000CF24 /* Secret.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secret.xcconfig; sourceTree = "<group>"; };
@@ -171,6 +174,8 @@
 		9EC0C3FA2DA6646B0037545A /* HomeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewCell.swift; sourceTree = "<group>"; };
 		9EC0C3FC2DA66BDF0037545A /* SJStoreInfoBaseLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SJStoreInfoBaseLabelView.swift; sourceTree = "<group>"; };
 		9EC0C3FE2DA6EE5F0037545A /* SJWeeklyScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SJWeeklyScheduleView.swift; sourceTree = "<group>"; };
+		9EEFE24C2E97C069005D247D /* SJSideMenuTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SJSideMenuTransition.swift; sourceTree = "<group>"; };
+		9EEFE24D2E97C069005D247D /* SJSideMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SJSideMenuViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -191,7 +196,6 @@
 				9E7F115C2DA266E600693A4E /* GoogleMaps in Frameworks */,
 				9E6F7DDA2D97808E009F24FC /* SnapKit in Frameworks */,
 				9E4A57342D9EB73E00A538E3 /* GooglePlaces in Frameworks */,
-				9EBD54D92D9DEE62005F4B8A /* SideMenu in Frameworks */,
 				9E6F7DE22D9780AD009F24FC /* Then in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -438,6 +442,8 @@
 		9E6F7E192D979FD7009F24FC /* UIComponent */ = {
 			isa = PBXGroup;
 			children = (
+				9EEFE24C2E97C069005D247D /* SJSideMenuTransition.swift */,
+				9EEFE24D2E97C069005D247D /* SJSideMenuViewController.swift */,
 				9E4A57372D9F988000A538E3 /* SJStoreFilterButton.swift */,
 				9E4A57392D9FAD6D00A538E3 /* SJButton.swift */,
 				9E4A576C2DA253D800A538E3 /* SJCustomMarkerView.swift */,
@@ -502,7 +508,6 @@
 				9E6F7DE72D9780E9009F24FC /* Kingfisher */,
 				9E6F7DED2D97828F009F24FC /* Differentiator */,
 				9E6F7DEF2D97828F009F24FC /* RxDataSources */,
-				9EBD54D82D9DEE62005F4B8A /* SideMenu */,
 				9E4A57332D9EB73E00A538E3 /* GooglePlaces */,
 				9E4A573C2D9FB97100A538E3 /* Toast */,
 				9E7F115B2DA266E600693A4E /* GoogleMaps */,
@@ -538,6 +543,7 @@
 				en,
 				Base,
 				ko,
+				ja,
 			);
 			mainGroup = 9E6F7CE12D96D258009F24FC;
 			minimizedProjectReferenceProxies = 1;
@@ -547,7 +553,6 @@
 				9E6F7DE32D9780B9009F24FC /* XCRemoteSwiftPackageReference "Alamofire" */,
 				9E6F7DE62D9780E9009F24FC /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				9E6F7DEC2D97828F009F24FC /* XCRemoteSwiftPackageReference "RxDataSources" */,
-				9EBD54D72D9DEE62005F4B8A /* XCRemoteSwiftPackageReference "SideMenu" */,
 				9E4A57322D9EB73E00A538E3 /* XCRemoteSwiftPackageReference "ios-places-sdk" */,
 				9E4A573B2D9FB97100A538E3 /* XCRemoteSwiftPackageReference "Toast-Swift" */,
 				9E7F115A2DA266E600693A4E /* XCRemoteSwiftPackageReference "ios-maps-sdk" */,
@@ -603,6 +608,8 @@
 				9E6F7E242D97A04F009F24FC /* BaseCollectionViewCell.swift in Sources */,
 				9E6F7D9F2D96DA72009F24FC /* CustomFormaterManager.swift in Sources */,
 				9E4A576D2DA253D800A538E3 /* SJCustomMarkerView.swift in Sources */,
+				9EEFE24E2E97C069005D247D /* SJSideMenuTransition.swift in Sources */,
+				9EEFE24F2E97C069005D247D /* SJSideMenuViewController.swift in Sources */,
 				9E4A57382D9F988000A538E3 /* SJStoreFilterButton.swift in Sources */,
 				9EBD54FE2D9E769D005F4B8A /* MenuViewController.swift in Sources */,
 				9E7F116E2DA2A74D00693A4E /* UIAlertManager.swift in Sources */,
@@ -655,6 +662,7 @@
 			children = (
 				9E4728C02E4B3DA60000CF24 /* ko */,
 				9E4728C22E4B3DAD0000CF24 /* en */,
+				9E412DE52E97CCFD0058A95A /* ja */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -665,6 +673,7 @@
 				9E6F7D742D96D70B009F24FC /* Base */,
 				9E472B142E4B65C70000CF24 /* en */,
 				9E472B162E4B65C80000CF24 /* ko */,
+				9E412DE42E97CCFD0058A95A /* ja */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -799,6 +808,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -855,6 +865,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -979,14 +990,6 @@
 				minimumVersion = 2.0.1;
 			};
 		};
-		9EBD54D72D9DEE62005F4B8A /* XCRemoteSwiftPackageReference "SideMenu" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/jonkykong/SideMenu.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 6.5.0;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1059,11 +1062,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9E7F116A2DA286F600693A4E /* XCRemoteSwiftPackageReference "RxCombine" */;
 			productName = RxCombine;
-		};
-		9EBD54D82D9DEE62005F4B8A /* SideMenu */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 9EBD54D72D9DEE62005F4B8A /* XCRemoteSwiftPackageReference "SideMenu" */;
-			productName = SideMenu;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

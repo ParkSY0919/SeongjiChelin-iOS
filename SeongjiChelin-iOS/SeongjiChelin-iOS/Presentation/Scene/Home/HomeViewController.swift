@@ -10,7 +10,6 @@ import UIKit
 import GoogleMaps
 import RxCocoa
 import RxSwift
-import SideMenu
 import SnapKit
 import Then
 
@@ -52,11 +51,9 @@ final class HomeViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+
         print(#function)
         viewModel.willAppearTrigger.onNext(())
-        
-        SideMenuManager.default.addScreenEdgePanGesturesToPresent(toView: self.view, forMenu: .left)
     }
     
     override func viewDidLoad() {
@@ -206,13 +203,9 @@ final class HomeViewController: BaseViewController {
 }
 
 private extension HomeViewController {
-    
+
     func setupNavMenuBar() {
-        SideMenuManager.default.addScreenEdgePanGesturesToPresent(toView: self.view, forMenu: .left)
-        
-        if let sideMenuNav = SideMenuManager.default.leftMenuNavigationController {
-            sideMenuNav.sideMenuDelegate = self
-        }
+        // 커스텀 SideMenu는 HomeCoordinator에서 설정됨
     }
     
     func bind() {
@@ -594,24 +587,3 @@ extension HomeViewController: GMSMapViewDelegate {
     }
     
 }
-
-
-extension HomeViewController: SideMenuNavigationControllerDelegate {
-    
-    func sideMenuWillAppear(menu: SideMenuNavigationController, animated: Bool) {
-        print("사이드 메뉴가 나타날 예정입니다. (animated: \(animated))")
-        UIView.animate(withDuration: 0.3) { [weak self] in
-            self?.mapView.alpha = 0.6
-        }
-    }
-    
-    func sideMenuWillDisappear(menu: SideMenuNavigationController, animated: Bool) {
-        print("사이드 메뉴가 사라질 예정입니다. (animated: \(animated))")
-        UIView.animate(withDuration: 0.3) { [weak self] in
-            self?.mapView.alpha = 1.0
-        }
-    }
-    
-}
-
-

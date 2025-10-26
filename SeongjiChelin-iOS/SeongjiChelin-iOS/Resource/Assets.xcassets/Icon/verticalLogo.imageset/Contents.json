@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "성지슐랭세로Logo.png",
+      "filename" : "Logo_kor.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "성지슐랭세로Logo@2x.png",
+      "filename" : "Logo_kor@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "성지슐랭세로Logo@3x.png",
+      "filename" : "Logo_kor@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     },
@@ -31,6 +31,24 @@
       "filename" : "Logo_en@3x.png",
       "idiom" : "universal",
       "locale" : "en",
+      "scale" : "3x"
+    },
+    {
+      "filename" : "Logo_jp.png",
+      "idiom" : "universal",
+      "locale" : "ja",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "Logo_jp@2x.png",
+      "idiom" : "universal",
+      "locale" : "ja",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "Logo_jp@3x.png",
+      "idiom" : "universal",
+      "locale" : "ja",
       "scale" : "3x"
     }
   ],
