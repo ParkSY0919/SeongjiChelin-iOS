@@ -42,7 +42,7 @@ jobs:
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Create or Update Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           tag_name: data-${{ steps.version.outputs.version }}
           name: Restaurant Data ${{ steps.version.outputs.version }}
