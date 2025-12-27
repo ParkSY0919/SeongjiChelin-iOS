@@ -7,25 +7,41 @@
 
 const axios = require("axios");
 const config = require("../config");
+const { extractDistrict, normalizeName } = require("./utils");
 
 /**
  * Text Search로 장소 검색
  * @param {string} query - 검색 키워드
- * @returns {Promise<Object|null>} 검색 결과
+ * @param {Object} options - 검색 옵션
+ * @param {number} options.latitude - 위도
+ * @param {number} options.longitude - 경도
+ * @param {number} options.radius - 검색 반경 (미터, 최대 50000)
+ * @returns {Promise<Object[]|null>} 검색 결과 배열
  */
-async function textSearch(query) {
+async function textSearch(query, options = {}) {
   if (!config.google.apiKey) {
     console.warn("[Google] API 키가 설정되지 않았습니다.");
     return null;
   }
 
   try {
+    const params = {
+      query: query,
+      key: config.google.apiKey,
+      language: "ko",
+      region: "kr", // 한국 지역 우선
+    };
+
+    // 좌표 기반 검색 옵션 추가
+    if (options.latitude && options.longitude) {
+      params.location = `${options.latitude},${options.longitude}`;
+      if (options.radius) {
+        params.radius = options.radius;
+      }
+    }
+
     const response = await axios.get(`${config.google.baseUrl}/textsearch/json`, {
-      params: {
-        query: query,
-        key: config.google.apiKey,
-        language: "ko",
-      },
+      params: params,
     });
 
     const results = response.data.results;
@@ -33,11 +49,31 @@ async function textSearch(query) {
       return null;
     }
 
-    return results[0];
+    return results;
   } catch (error) {
     console.error(`[Google] Text Search 오류 (${query}):`, error.message);
     return null;
   }
+}
+
+/**
+ * 검색 결과 중 가장 적합한 항목 선택
+ * @param {Object[]} results - 검색 결과 배열
+ * @param {string} restaurantName - 원본 식당 이름
+ * @returns {Object|null} 가장 적합한 결과
+ */
+function findBestMatch(results, restaurantName) {
+  if (!results || results.length === 0) return null;
+
+  const normalizedTarget = normalizeName(restaurantName);
+
+  // 이름이 정확히 일치하거나 포함된 결과 우선
+  const exactMatch = results.find((r) => {
+    const normalizedResult = normalizeName(r.name);
+    return normalizedResult === normalizedTarget || normalizedResult.includes(normalizedTarget) || normalizedTarget.includes(normalizedResult);
+  });
+
+  return exactMatch || results[0];
 }
 
 /**
@@ -73,9 +109,35 @@ async function getPlaceDetails(placeId) {
  * @returns {Promise<Object>} 검증 결과
  */
 async function validateRestaurant(restaurant) {
-  const query = `${restaurant.name} ${restaurant.address}`;
+  let searchResult = null;
+  const district = extractDistrict(restaurant.address);
 
-  const searchResult = await textSearch(query);
+  // 1차 시도: 이름만 + 좌표 1km 반경
+  if (restaurant.latitude && restaurant.longitude) {
+    const results = await textSearch(restaurant.name, {
+      latitude: restaurant.latitude,
+      longitude: restaurant.longitude,
+      radius: 1000,
+    });
+    searchResult = findBestMatch(results, restaurant.name);
+  }
+
+  // 2차 시도: 이름 + 구/동 정보 + 좌표 5km 반경
+  if (!searchResult && district) {
+    const results = await textSearch(`${restaurant.name} ${district}`, {
+      latitude: restaurant.latitude,
+      longitude: restaurant.longitude,
+      radius: 5000,
+    });
+    searchResult = findBestMatch(results, restaurant.name);
+  }
+
+  // 3차 시도: 이름 + 전체 주소 (폴백)
+  if (!searchResult) {
+    const results = await textSearch(`${restaurant.name} ${restaurant.address}`);
+    searchResult = findBestMatch(results, restaurant.name);
+  }
+
   if (!searchResult) {
     return {
       platform: "google",
