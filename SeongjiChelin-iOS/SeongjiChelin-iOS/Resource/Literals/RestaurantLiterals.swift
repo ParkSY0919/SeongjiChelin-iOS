@@ -11,7 +11,7 @@ import RealmSwift
 
 // 개별 가게 정보를 담는 구조체
 // UUID를 쓸 이유가 없음. 이는 앱을 재시작할 때마다 새로 만들기에 realm 데이터 조회 시 사용 불가
-struct Restaurant {
+struct Restaurant: Codable, Equatable {
     let storeID: String
     let name: String
     let category: String // 한식, 양식 등
@@ -26,16 +26,80 @@ struct Restaurant {
     let longitude: Double // 경도
     let youtubeId: String?
     let psyReview: String?
+
+    // 새로 추가되는 필드 (Firebase에서 가져온 추가 정보)
+    let externalLinks: ExternalLinks?
+    let aggregatedRating: AggregatedRating?
+
+    // 기존 이니셜라이저 호환성 유지
+    init(
+        storeID: String,
+        name: String,
+        category: String,
+        number: String,
+        address: String,
+        menus: [String],
+        closedDays: String,
+        breakTime: String?,
+        businessHours: [String: String],
+        amenities: String,
+        latitude: Double,
+        longitude: Double,
+        youtubeId: String?,
+        psyReview: String?,
+        externalLinks: ExternalLinks? = nil,
+        aggregatedRating: AggregatedRating? = nil
+    ) {
+        self.storeID = storeID
+        self.name = name
+        self.category = category
+        self.number = number
+        self.address = address
+        self.menus = menus
+        self.closedDays = closedDays
+        self.breakTime = breakTime
+        self.businessHours = businessHours
+        self.amenities = amenities
+        self.latitude = latitude
+        self.longitude = longitude
+        self.youtubeId = youtubeId
+        self.psyReview = psyReview
+        self.externalLinks = externalLinks
+        self.aggregatedRating = aggregatedRating
+    }
 }
 
 // 테마별 가게 목록을 담는 구조체
-struct RestaurantTheme: Identifiable {
-    let id = UUID() // 고유 ID (선택사항)
+struct RestaurantTheme: Identifiable, Codable {
+    let id: UUID
     let themeType: RestaurantThemeType
     let restaurants: [Restaurant] // 해당 테마의 가게 목록
+
+    init(themeType: RestaurantThemeType, restaurants: [Restaurant]) {
+        self.id = UUID()
+        self.themeType = themeType
+        self.restaurants = restaurants
+    }
+
+    enum CodingKeys: String, CodingKey {
+        case themeType, restaurants
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.id = UUID()
+        self.themeType = try container.decode(RestaurantThemeType.self, forKey: .themeType)
+        self.restaurants = try container.decode([Restaurant].self, forKey: .restaurants)
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(themeType, forKey: .themeType)
+        try container.encode(restaurants, forKey: .restaurants)
+    }
 }
 
-enum RestaurantThemeType: String, CaseIterable {
+enum RestaurantThemeType: String, CaseIterable, Codable {
     case psyTheme = "주인장 Pick"
     case sungSiKyungTheme = "성시경의 먹을텐데"
     case ttoGanJibTheme = "풍자의 또간집"

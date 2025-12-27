@@ -102,6 +102,19 @@ struct StringLiterals {
     let bridgeInitFailed = String(localized: "브릿지 초기화 실패")
     let appDataInitComplete = String(localized: "앱 데이터 초기화 완료")
     let formatParsingFailed = String(localized: "실패")
+
+    // MARK: - Data Patch
+    let checkingForUpdates = String(localized: "업데이트 확인 중...")
+    let downloadingData = String(localized: "데이터 다운로드 중...")
+    let updateComplete = String(localized: "업데이트 완료!")
+    let alreadyUpToDate = String(localized: "최신 상태입니다")
+    let updateFailed = String(localized: "업데이트 실패")
+    let offlineMode = String(localized: "오프라인 모드로 진행합니다")
+    let networkUnavailable = String(localized: "네트워크 연결을 확인해주세요")
+    let versionCheckFailed = String(localized: "버전 확인에 실패했습니다")
+    let downloadFailed = String(localized: "다운로드에 실패했습니다")
+    let dataProcessingFailed = String(localized: "데이터 처리에 실패했습니다")
+    let unknownError = String(localized: "알 수 없는 오류가 발생했습니다")
     
     // MARK: - Singleton
     static let shared = StringLiterals()
