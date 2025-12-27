@@ -53,8 +53,8 @@ final class SJButton: UIButton {
         buttonConfiguration.background.cornerRadius = type.cornerRadius
         self.configuration = buttonConfiguration
         
-        let footImage = ImageLiterals.foot.resized(to: CGSize(width: 26, height: 26))
-        let footFillImage = ImageLiterals.footFill.withRenderingMode(.alwaysTemplate).resized(to: CGSize(width: 26, height: 26))
+        let footImage = ImageLiterals.foot.resized(to: 26)
+        let footFillImage = ImageLiterals.footFill.withRenderingMode(.alwaysTemplate).resized(to: 26)
         
         let buttonStateHandler: UIButton.ConfigurationUpdateHandler = { button in
             switch button.state {

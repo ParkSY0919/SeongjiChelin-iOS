@@ -60,5 +60,11 @@ struct ImageLiterals {
     static let footFill = UIImage(resource: .footFill)
     static let verticalLogo = UIImage(resource: .verticalLogo)
     static let horizentalLogo = UIImage(resource: .horizentalLogo)
+    
+    // Theme Image
+    static let sikyungLogo = UIImage(resource: .mugeultende)
+    static let choijaLogo = UIImage(resource: .choijaroad)
+    static let pungjaLogo = UIImage(resource: .ttoganjipLogo)
+    static let hongleeLogo = UIImage(resource: .honglee)
 }
 

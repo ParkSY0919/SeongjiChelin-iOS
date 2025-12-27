@@ -60,26 +60,27 @@ enum RestaurantThemeType: String, CaseIterable {
         }
     }
     
-    var madeImage: UIImage {
+//    var madeImage: UIImage {
+//        switch self {
+//        case .psyTheme: .riceImage()
+//        case .sungSiKyungTheme: ImageLiterals.sikyungLogo.resized(to: 10)!
+//        case .ttoGanJibTheme: ImageLiterals.pungjaLogo.resized(to: 100, renderingMode: .alwaysOriginal)!
+//        case .choizaLoadTheme: .roadImage()
+//        case .hongSeokCheonTheme: .person2Image()
+//        case .baekJongWonTheme: .cartImage()
+//        }
+//    }
+    
+    var image: UIImage? {
         switch self {
         case .psyTheme: .riceImage()
-        case .sungSiKyungTheme: .eyeglassesImage()
-        case .ttoGanJibTheme: .walkImage()
+        case .sungSiKyungTheme: ImageLiterals.sikyungLogo.resized(to: 10)!
+        case .ttoGanJibTheme: ImageLiterals.pungjaLogo.resized(to: 100, renderingMode: .alwaysOriginal)!
         case .choizaLoadTheme: .roadImage()
         case .hongSeokCheonTheme: .person2Image()
         case .baekJongWonTheme: .cartImage()
         }
-    }
-    
-    var image: UIImage? {
-        switch self {
-        case .psyTheme: ImageLiterals.riceBowl.withRenderingMode(.alwaysTemplate)
-        case .sungSiKyungTheme: ImageLiterals.eyeglasses
-        case .ttoGanJibTheme: ImageLiterals.figureWalk
-        case .choizaLoadTheme: ImageLiterals.roadLanes
-        case .hongSeokCheonTheme: ImageLiterals.person2Fill
-        case .baekJongWonTheme: ImageLiterals.cart
-        }
+
     }
     
     var color: UIColor {

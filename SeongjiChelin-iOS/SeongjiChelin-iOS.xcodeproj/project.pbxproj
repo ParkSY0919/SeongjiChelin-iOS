@@ -126,7 +126,7 @@
 		9E472B162E4B65C80000CF24 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		9E4A572A2D9E98E700A538E3 /* MenuTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTableViewCell.swift; sourceTree = "<group>"; };
 		9E4A572D2D9EA47300A538E3 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
-		9E4A57352D9F8DDB00A538E3 /* RestaurantLiterals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantLiterals.swift; sourceTree = "<group>"; };
+		9E4A57352D9F8DDB00A538E3 /* RestaurantLiterals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantLiterals.swift; sourceTree = "<group>"; wrapsLines = 0; };
 		9E4A57372D9F988000A538E3 /* SJStoreFilterButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SJStoreFilterButton.swift; sourceTree = "<group>"; };
 		9E4A57392D9FAD6D00A538E3 /* SJButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SJButton.swift; sourceTree = "<group>"; };
 		9E4A576C2DA253D800A538E3 /* SJCustomMarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SJCustomMarkerView.swift; sourceTree = "<group>"; };
