@@ -87,6 +87,7 @@
 		9EC0C3FF2DA6EE5F0037545A /* SJWeeklyScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EC0C3FE2DA6EE5F0037545A /* SJWeeklyScheduleView.swift */; };
 		9EEFE24E2E97C069005D247D /* SJSideMenuTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EEFE24C2E97C069005D247D /* SJSideMenuTransition.swift */; };
 		9EEFE24F2E97C069005D247D /* SJSideMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EEFE24D2E97C069005D247D /* SJSideMenuViewController.swift */; };
+		9EF727D72EFF98C600C12D78 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 9EF727D62EFF98C600C12D78 /* FirebaseStorage */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -126,7 +127,7 @@
 		9E472B162E4B65C80000CF24 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		9E4A572A2D9E98E700A538E3 /* MenuTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTableViewCell.swift; sourceTree = "<group>"; };
 		9E4A572D2D9EA47300A538E3 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
-		9E4A57352D9F8DDB00A538E3 /* RestaurantLiterals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantLiterals.swift; sourceTree = "<group>"; };
+		9E4A57352D9F8DDB00A538E3 /* RestaurantLiterals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantLiterals.swift; sourceTree = "<group>"; wrapsLines = 0; };
 		9E4A57372D9F988000A538E3 /* SJStoreFilterButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SJStoreFilterButton.swift; sourceTree = "<group>"; };
 		9E4A57392D9FAD6D00A538E3 /* SJButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SJButton.swift; sourceTree = "<group>"; };
 		9E4A576C2DA253D800A538E3 /* SJCustomMarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SJCustomMarkerView.swift; sourceTree = "<group>"; };
@@ -191,6 +192,7 @@
 				9E4A573D2D9FB97100A538E3 /* Toast in Frameworks */,
 				9E6F7DE52D9780B9009F24FC /* Alamofire in Frameworks */,
 				9E7F11692DA286E800693A4E /* RxSwift in Frameworks */,
+				9EF727D72EFF98C600C12D78 /* FirebaseStorage in Frameworks */,
 				9E6F7DEE2D97828F009F24FC /* Differentiator in Frameworks */,
 				9E6F7DF02D97828F009F24FC /* RxDataSources in Frameworks */,
 				9E7F115C2DA266E600693A4E /* GoogleMaps in Frameworks */,
@@ -516,6 +518,7 @@
 				9E7F11682DA286E800693A4E /* RxSwift */,
 				9E7F116B2DA286F600693A4E /* RxCombine */,
 				9E03BCDB2DA8F7A30097AA7E /* RealmSwift */,
+				9EF727D62EFF98C600C12D78 /* FirebaseStorage */,
 			);
 			productName = "SeongjiChelin-iOS";
 			productReference = 9E6F7CEA2D96D258009F24FC /* SeongjiChelin-iOS.app */;
@@ -560,6 +563,7 @@
 				9E7F11652DA286E800693A4E /* XCRemoteSwiftPackageReference "RxSwift" */,
 				9E7F116A2DA286F600693A4E /* XCRemoteSwiftPackageReference "RxCombine" */,
 				9E03BCDA2DA8F7A30097AA7E /* XCRemoteSwiftPackageReference "realm-swift" */,
+				9EF727D52EFF98C600C12D78 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 9E6F7CEB2D96D258009F24FC /* Products */;
@@ -990,6 +994,14 @@
 				minimumVersion = 2.0.1;
 			};
 		};
+		9EF727D52EFF98C600C12D78 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.7.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1062,6 +1074,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9E7F116A2DA286F600693A4E /* XCRemoteSwiftPackageReference "RxCombine" */;
 			productName = RxCombine;
+		};
+		9EF727D62EFF98C600C12D78 /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9EF727D52EFF98C600C12D78 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

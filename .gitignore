@@ -119,3 +119,19 @@ xcuserdata
 **/xcshareddata/WorkspaceSettings.xcsettings
 
 # End of https://www.toptal.com/developers/gitignore/api/swift,swiftpackagemanager,cocoapods,xcode
+
+# Firebase
+GoogleService-Info.plist
+
+# Scripts output (generated files)
+scripts/output/
+
+# Node modules
+node_modules/
+
+# Environment files
+.env
+.env.local
+
+# Claude Code
+.claude/

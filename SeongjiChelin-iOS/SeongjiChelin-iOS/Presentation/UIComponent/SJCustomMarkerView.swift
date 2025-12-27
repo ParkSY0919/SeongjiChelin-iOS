@@ -14,6 +14,7 @@ final class CustomMarkerView: UIView {
     private let themeType: RestaurantThemeType
     private let iconImageView = UIImageView()
 
+    private let logoSize = 60
     private var isScaledUp = false
     private let animationDuration: TimeInterval = 0.2
     private let scaleFactor: CGFloat = 1.3
@@ -21,7 +22,7 @@ final class CustomMarkerView: UIView {
     init(themeType: RestaurantThemeType) {
         self.themeType = themeType
         
-        let defaultFrame = CGRect(x: 0, y: 0, width: 32, height: 32)
+        let defaultFrame = CGRect(x: 0, y: 0, width: logoSize, height: logoSize)
         super.init(frame: defaultFrame)
 
         setupViews()
@@ -36,7 +37,7 @@ final class CustomMarkerView: UIView {
         iconImageView.do {
             $0.contentMode = .scaleAspectFill
             $0.tintColor = .bg100
-            $0.image = themeType.madeImage
+            $0.image = themeType.image
         }
 
         self.do {
@@ -60,7 +61,7 @@ final class CustomMarkerView: UIView {
         }
 
         self.snp.makeConstraints {
-            $0.size.equalTo(32)
+            $0.size.equalTo(logoSize)
         }
     }
 

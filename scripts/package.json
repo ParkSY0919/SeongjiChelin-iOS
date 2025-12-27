@@ -1,0 +1,21 @@
+{
+  "name": "seongjichelin-validation-scripts",
+  "version": "1.0.0",
+  "description": "Restaurant validation scripts for SeongjiChelin",
+  "main": "validate-restaurants.js",
+  "scripts": {
+    "validate": "node validate-restaurants.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "axios": "^1.6.2"
+  },
+  "keywords": [
+    "restaurant",
+    "validation"
+  ],
+  "author": "",
+  "license": "MIT"
+}

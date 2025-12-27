@@ -14,12 +14,12 @@ import Then
 
 final class SJStoreFilterButton: UIButton {
     
-    private let image: UIImage
+    private let image: UIImage?
     let themeType: RestaurantThemeType
     let tapSubject = PublishSubject<RestaurantThemeType?>()
     
     init(theme: RestaurantThemeType) {
-        self.image = theme.madeImage
+        self.image = theme.image
         self.themeType = theme
         
         super.init(frame: .zero)
