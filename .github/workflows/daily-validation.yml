@@ -11,7 +11,7 @@ jobs:
   validate-and-upload:
     runs-on: ubuntu-latest
     permissions:
-      contents: write  # Release 생성에 필요
+      contents: write  # Release 생성 및 Wiki 접근에 필요
 
     steps:
       - name: Checkout repository
@@ -35,6 +35,10 @@ jobs:
         run: node validate-restaurants.js
         working-directory: ./scripts
 
+      - name: Generate Wiki report
+        run: node generate-wiki-report.js
+        working-directory: ./scripts
+
       - name: Get version
         id: version
         run: |
@@ -51,9 +55,15 @@ jobs:
 
             - 버전: ${{ steps.version.outputs.version }}
             - 생성 시간: ${{ github.event.repository.updated_at }}
+
+            ## 첨부 파일
+            - `restaurants_latest.json` - 앱용 식당 데이터
+            - `validation_report.json` - 검증 결과 (JSON)
+            - `Validation-Report.md` - 검증 리포트 (마크다운)
           files: |
             scripts/output/restaurants_latest.json
             scripts/output/validation_report.json
+            scripts/output/Validation-Report.md
           make_latest: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
