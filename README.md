@@ -1,3 +1,5 @@
+> ⚠️ 현재 성지슐랭 v2를 개발 중입니다. → [SeongjiChelin v2 Repository](https://github.com/ParkSY0919/SeongjiChelin)
+
 # SeongjiChelin (iOS 15.0+) 🍚
 
 > 손안의 미식 여행 안내서
