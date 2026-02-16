@@ -1,39 +1,21 @@
-> ⚠️ 현재 성지슐랭 v2를 개발 중입니다. → [SeongjiChelin v2 Repository](https://github.com/ParkSY0919/SeongjiChelin)
+> 현재 성지슐랭 v2를 개발 중입니다. [SeongjiChelin v2 Repository](https://github.com/ParkSY0919/SeongjiChelin)
 
-# SeongjiChelin (iOS 15.0+) 🍚
+# SeongjiChelin (iOS 15.0+)
+> 손안에서 테마별 맛집을 탐색하고, 방문 기록과 리뷰를 함께 관리할 수 있는 iOS 맛집 큐레이션 앱입니다.
 
-> 손안의 미식 여행 안내서
-
-<br>
-
-## 🍚 소개
-
-> 💡 About 성지슐랭
->
-> - 서비스 소개
->   - 맛집 유튜버와 '성지슐랭' 개발자의 추천 맛집들을 둘러볼 수 있는 서비스 앱
-> - 개발 인원
->   - 1인 프로젝트
-> - 개발 기간
->   - 집중 기간: 2025.03 - 2025.04 (2주)
->   - 유지보수 기간: 2025.04 - 현재 (진행 중)
-
-<br>
-
-## 🍚 About Developer
-
-<div align=left>
-
-| <img width="200px" src="https://avatars.githubusercontent.com/u/114901417?v=4"/> |
-| :------------------------------------------------------------------------------: |
-|                     [박신영](https://github.com/ParkSY0919)                      |
-|                               기획 · 디자인 · iOS                                |
-
+<div align="center">
+  <img
+    width="100%"
+    alt="성지슐랭표지"
+    src="https://github.com/user-attachments/assets/927bec28-1860-4e28-9edc-75b3a541b9cd"
+    style="max-width: 900px; height: auto;"
+  />
 </div>
 
-<br>
 
-## 🍚 주요 화면
+---
+
+## 주요 화면
 
 |                                                   온보딩                                                   |                                                   사용법                                                   |                                                   홈(맵)                                                   |                                                 홈(리스트)                                                 |
 | :--------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------: |
@@ -45,52 +27,107 @@
 
 <br>
 
-## 🍚 주요 기능
 
-> ### 맛집 탐색 기능
->
-> - 구글 맵 기반 맛집 위치 표시 및 탐색
-> - 지도/리스트 뷰 전환으로 사용자 선호에 따른 탐색 지원
->
-> ### 맛집 관리 기능
->
-> - 맛집 방문 및 즐겨찾기 등록으로 개인화된 맛집 리스트 구성
-> - 온보딩을 통한 앱 사용법 안내 및 정보 수정 신고
->
-> ### 맛집 필터링 및 정보 기능
->
-> - 테마별 맛집 필터링 [psy(개발자), 성시경 등 6개 테마]
-> - 맛집 상베 정보 및 영업시간 확인과 유튜브 리뷰 영상 연동
+## 프로젝트 정보
+| 항목 | 내용 |
+|---|---|
+| 기간 | 집중 개발: 2025.03 ~ 2025.04, 유지보수: 2025.04 ~ 현재 |
+| 인원 | 1인 개발 (기획, 디자인, iOS 개발) |
+| 버전 | App Version 1.3.0, Deployment Target iOS 15.0 |
+| 기술 스택 | Swift 5, UIKit, MVVM, Coordinator Pattern, RxSwift/RxCocoa, Realm, Alamofire, GoogleMaps/GooglePlaces, SnapKit, Then, YouTubePlayerKit, Firebase Storage |
 
-<br>
+## 주요 기능
+| 기능 | 설명 |
+|---|---|
+| 테마 기반 맛집 탐색 | 6개 테마(주인장 Pick, 성시경, 또간집 등) 기준으로 30개 맛집을 빠르게 탐색할 수 있습니다. |
+| 지도/리스트 이중 탐색 모드 | 지도(Map)와 리스트(List)를 전환하면서 같은 필터 컨텍스트를 유지해 연속 탐색이 가능합니다. |
+| 상세 정보 + 영상 연동 | 영업시간, 편의정보, 메뉴와 함께 YouTubePlayerKit 기반 리뷰 영상을 상세 화면에서 확인할 수 있습니다. |
+| 나만의 맛집 관리 | 방문, 즐겨찾기, 평점/리뷰를 저장하고 조건별로 모아보는 개인화 관리 기능을 제공합니다. |
+| 통합 검색 | 이름, 카테고리, 주소를 대상으로 실시간 검색하며 디바운스(debounce) 기반으로 입력 품질을 안정화했습니다. |
+| 일일 데이터 패치 | GitHub Releases 기반 원격 데이터 패치를 1일 1회 수행하고, 실패 시 오프라인 폴백(fallback)으로 앱 진입을 보장합니다. |
 
-## 🍚 기술 스택
+## 아키텍처
+```mermaid
+flowchart LR
+    A[SceneDelegate] --> B[AppCoordinator]
+    B --> C[OnboardingCoordinator]
+    B --> D[HomeCoordinator]
 
-> Framework: `UIKit`, `CoreLocation`
->
-> Architecture: `MVVM`
->
-> Design Patterns: `API Router`, `DI/DIP`, `Repository`, `Input-Output`
->
-> Reactive Programming: `RxSwift`
->
-> Library: `Alamofire`, `GoogleMaps`, `RealmSwift`, `SideMenu`, `SnapKit`, `Then`, `YouTubePlayerKit`
+    D --> E[HomeViewController]
+    E <--> F[HomeViewModel]
 
-## 🍚 사용 기술 내용
+    F --> G[RestaurantRepository]
+    G --> H[(Realm: RestaurantTable / RestaurantBridge)]
 
-### 구조 관련 고려사항
+    I[RestaurantRemoteDataSource] --> J[RestaurantDataRepository]
+    J --> H
 
-- 지도/리스트 뷰 전환과 다중 필터 적용 시 발생하는 복잡한 상태 변화를 체계적으로 관리하기 위해 ViewModel과 Input/Output 패턴을 도입했고, 사용자 액션을 Input으로, UI 상태를 Output으로 명확히 분리하여 단방향 데이터 흐름을 구축함으로써 상태 예측 가능성과 디버깅 효율성을 향상시켰습니다.
-- 식당 마스터 데이터(Restaurant)와 사용자별 활동 데이터(RestaurantTable)를 분리하되, 효율적인 조인 연산을 위해 RestaurantBridge 중간 테이블을 도입했으며, LinkingObjects를 활용한 역방향 참조로 사용자별 데이터 접근을 최적화했고, 더불어 복합 필터링 쿼리에서 자주 사용되는 themePrefix와 category 필드에 인덱싱을 적용하여 복합 필터링 쿼리 성능을 향상시켰습니다.
-- 화면 전환 로직이 복잡해지면서 View Controller 간 의존성이 증가하는 문제를 해결하기 위해 Coordinator 패턴을 도입했고, 각 화면의 네비게이션 플로우를 전담하는 Coordinator 클래스(HomeCoordinator 등)를 구현하여 View Controller는 화면 표시에만 집중하고 화면 전환은 Coordinator가 관리하도록 책임을 명확히 분리했습니다. Child Coordinator 관리 시스템으로 메모리 누수를 방지하면서도, 새로운 화면 플로우 추가나 기존 플로우 수정 시 View Controller 코드 변경 없이 Coordinator만 수정하면 되는 유연한 구조를 구축했습니다.
+    E --> K[DetailViewController]
+    K <--> L[DetailViewModel]
+    L --> M[YouTubePlayerKit]
+```
 
-### 기능 관련 고려사항
+## 기술적 도전과 해결
+### 1. 정적 데이터와 사용자 상태를 분리해 조회 경로를 단순화했습니다 — 5개 필터 조건
+맛집 마스터 데이터와 사용자 활동 데이터를 같은 레벨에서 다루면 테마, 카테고리, 방문 여부, 즐겨찾기, 평점 여부 조합이 늘어날수록 조회 로직이 UI 계층으로 새어 나가 유지보수가 어려워졌습니다. 그래서 데이터 구조를 재정의하면서 조회 책임을 저장소 계층으로 모아야 했습니다.
 
-- 사용자의 탐색 패턴을 고려하여 지도 뷰에서는 위치 기반의 직관적 탐색을, 리스트 뷰에서는 상세 정보 기반의 체계적 탐색을 제공하도록 설계했으며, 두 뷰 간 전환 시 선택된 필터를 유지하여 컨텍스트가 끊기지 않는 매끄러운 사용자 경험을 구현했습니다.
-- 하단 시트가 마커를 가리는 UX 문제를 해결하기 위해 마커의 스크린 좌표와 시트 높이를 실시간으로 계산하는 adjustCameraForMarker 로직을 구현했고, GMSMapView의 animate(with:) 메서드와 GMSCameraUpdate를 활용해 자연스러운 카메라 이동을 구현함으로써 정보 가시성과 지도 조작의 연속성을 모두 확보했습니다.
-- YouTube 영상 재생 시 발생하는 다양한 상태(로딩, 재생, 일시정지, 에러)를 BehaviorRelay로 추적하고, 이를 Driver로 변환하여 UI 업데이트의 안정성을 보장했으며, 네트워크 불안정 상황에서의 에러 핸들링과 재시도 로직을 구현하여 끊김 없는 영상 시청 경험을 제공했습니다.
+**해결 방향:**
+- `RestaurantBridge`를 도입해 정적 식당 정보 키(`storeID`)를 중심으로 마스터 데이터를 정규화했습니다.
+- `RestaurantTable`과 `RestaurantBridge`를 `LinkingObjects`로 연결해 사용자 상태를 역참조(Reverse Lookup)할 수 있게 했습니다.
+- `themePrefix`, `category`, `isVisited`, `isFavorite`, `hasRating`에 인덱스(Index)를 적용하고 `fetchBridgesByComplexFilter`로 복합 조건 조회를 일원화했습니다.
 
-### 기타 고려사항
+| 구분 | 기존 | 개선 |
+|---|---|---|
+| 데이터 결합 방식 | 화면 단에서 `storeID` 수동 매칭 | Repository 단에서 Bridge 기반 조합 |
+| 조건 확장성 | 조건 추가 시 분기 증가 | 조건 추가 시 쿼리 파라미터 확장 |
+| 조회 책임 | ViewModel/VC 분산 | Repository 집중 |
 
-- 성지슐랭의 아이덴티티 구현을 위해 테마별 고유한 색상과 아이콘을 일관되게 적용하고자 커스텀 컴포넌트를 설계했고, CustomMarkerView에서는 선택 시 1.3배 스케일 애니메이션과 그림자 효과를 적용하여 시각적 계층구조를 명확히 표시했으며, SJStoreFilterButton에서는 ConfigurationUpdateHandler를 활용해 선택 상태에 따른 테마 컬러 전환과 isUserInteractionEnabled 제어를 통한 중복 탭 방지 로직을 구현함으로써 앱 전체에서 통일된 브랜드 경험을 제공하면서도 안정적인 인터랙션을 보장했습니다.
-  <br>
+> 결과 수치: 테마/카테고리/방문/즐겨찾기/평점 조건을 저장소 계층의 단일 조회 함수로 처리하도록 정리했습니다.
+
+### 2. 바텀 시트와 지도 마커 충돌을 카메라 보정으로 해결했습니다 — 최소 50pt 가시 여백
+상세 바텀 시트(bottom sheet)를 띄운 상태에서 마커를 탭하면 마커가 시트 아래로 가려져 위치 맥락이 끊기는 문제가 발생했기 때문에, 화면 좌표계를 통일해 마커 가시 영역을 유지해야 했습니다.
+
+**해결 방향:**
+- 시트 프레임과 마커 포인트를 모두 윈도우 좌표계(window coordinates)로 변환해 비교했습니다.
+- `desiredMarkerVisiblePadding`을 50pt로 두고 가려지는 경우에만 `GMSCameraUpdate.scrollBy`를 적용했습니다.
+- 동일 계산 로직을 `adjustCameraForMarker`로 분리해 신규 시트 표시와 기존 시트 업데이트 경로에서 재사용했습니다.
+
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant M as MapView
+    participant S as DetailSheet
+    participant C as Camera
+
+    U->>M: Marker Tap
+    M->>S: Present / Update Sheet
+    M->>M: Convert marker & sheet to window coordinates
+    alt Marker hidden by sheet
+        M->>C: scrollBy(y: overlap + 50pt)
+        C-->>M: Animate complete
+    else Marker visible
+        M-->>M: Keep current camera
+    end
+```
+
+> 결과 수치: 마커 선택 시 시트와 겹치는 상황에서도 최소 50pt 상단 여백을 확보해 위치 인지가 끊기지 않도록 개선했습니다.
+
+### 3. 검색 입력의 연산 폭주를 제어해 탐색 흐름을 안정화했습니다 — 300ms 디바운스
+검색창 입력마다 즉시 필터링을 수행하면 빠른 타이핑 구간에서 동일 의미의 연산이 반복되어 리스트 갱신이 과도해지고 스크롤 위치가 불안정해질 수 있어서, 사용자 체감 반응성과 연산 비용 사이 균형이 필요했습니다.
+
+**해결 방향:**
+- `searchTextFieldText`에 `debounce(.milliseconds(300))`와 `distinctUntilChanged()`를 적용해 불필요한 재연산을 줄였습니다.
+- 이름, 카테고리, 주소를 동시에 검사하는 다중 필드 검색으로 입력 의도를 한 번에 반영했습니다.
+- 필터 완료 시 `scrollTopTrigger`를 발행해 결과 리스트 탐색 시작점을 일관되게 맞췄습니다.
+
+> 결과 수치: 300ms 기준으로 입력 이벤트를 정규화하면서도 다중 필드 검색 즉시성을 유지해 탐색 안정성을 확보했습니다.
+
+
+## 프로젝트 구조
+```text
+SeongjiChelin-iOS/
+├─ SeongjiChelin-iOS/ (App, Data, Presentation, Resource, Utility)
+├─ scripts/ (맛집 데이터 검증 및 리포트 생성)
+└─ .github/ (CI workflow)
+```
+
