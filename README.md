@@ -1,4 +1,4 @@
-> 현재 성지슐랭 v2를 개발 중입니다. [SeongjiChelin v2 Repository](https://github.com/ParkSY0919/SeongjiChelin)
+> ⚠️ 현재 성지슐랭 v2를 개발 중입니다. [SeongjiChelin v2 Repository](https://github.com/ParkSY0919/SeongjiChelin)
 
 # SeongjiChelin (iOS 15.0+)
 > 손안에서 테마별 맛집을 탐색하고, 방문 기록과 리뷰를 함께 관리할 수 있는 iOS 맛집 큐레이션 앱입니다.
